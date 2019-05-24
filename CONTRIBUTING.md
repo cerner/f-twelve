@@ -27,7 +27,7 @@ Thanks.
 * Open a [pull request][5].
 * The pull request will be reviewed by the community and merged by the project committers.
 
-[1]: https://github.cerner.com/application-services-development/f-twelve/issues
+[1]: https://github.com/cerner/f-twelve/issues
 [2]: http://gun.io/blog/how-to-github-fork-branch-and-pull-request
 [3]: https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53
 [4]: ./LICENSE.txt
