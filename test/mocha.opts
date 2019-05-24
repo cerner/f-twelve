@@ -1,0 +1,4 @@
+--file test/setup.js
+--recursive
+--reporter list
+--require @babel/register

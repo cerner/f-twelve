@@ -1,0 +1,15 @@
+# Editor Files
+*.iml
+.idea/*
+.vscode/
+.project
+.settings/*
+
+# Config Files
+*.env
+
+# MacOS Files
+.DS_Store
+
+# Dependencies
+node_modules/*

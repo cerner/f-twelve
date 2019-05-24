@@ -1,0 +1,36 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "mocha": true
+  },
+  "parser": "babel-eslint",
+  "globals": {
+    "__dirname": true
+  },
+  "extends": [
+    "standard"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    // Allow dangling commas,
+    "comma-dangle": "off",
+    // Require semicolons
+    "semi": [
+      "error",
+      "always"
+    ],
+    // Use `myFunction()` instead of `myFunction ()`
+    "space-before-function-paren": [
+      "error",
+      "never"
+    ]
+  }
+}
