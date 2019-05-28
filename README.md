@@ -10,7 +10,7 @@ Render console output to the DOM and provide an input console for troubleshootin
 
 ## Usage
 
-Include `dist/f-twelve.umd.js`. and `dist/f-twelve.css` in your web application and it will enable F-Twelve. To view the tool, call `FTwelve.show()` or press and hold `F`+`1`+`2` in that order. A demo page with examples of the API can be found in `demo/demo.html`. It is a static file and does not need to be served, just double click to view. 
+Include `dist/f-twelve.umd.js`. and `dist/f-twelve.css` in your web application and it will enable F-Twelve. To view the tool, call `FTwelve.show()` or press and hold `F`+`1`+`2` in that order. A demo page with examples of the API can be found in `demo/index.html`. See it live at [https://engineering.cerner.com/f-twelve/demo/](https://engineering.cerner.com/f-twelve/demo/).
 
 The **Global Require** steps will work anywhere but ES6 import steps are also below. Add the following to package.json to add the project to NPM dependencies, note the release version can be specified: 
 
