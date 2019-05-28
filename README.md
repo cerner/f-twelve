@@ -44,37 +44,4 @@ import "f-twelve/dist/f-twelve.css";
 ### Initialization
 Once the JS script is included, no further configuration is required. It will be hidden and waiting for the `F`+`1`+`2` keyboard shortcut. There is also a global `FTwelve` object object with an API.  
 
-### API 
-Show the tool
-```js
-FTwelve.show();
-```
-
-Hide the tool
-```js
-FTwelve.hide();
-```
-
-Completely disable the tool including the keyboard shortcut and `show` method
-```js
-FTwelve.disable();
-```
-
-Enable the tool, this will also display it unless `show` is false
-```js
-FTwelve.enable(show = true);
-```
-
-Set a callback when showing the tool. Useful, for example, to use F-Twelve's "debug hotkey" to enable additional "debug mode" features in the consuming application. 
-```js
-FTwelve.onShow(() => {
-    alert("Showing F-Twelve");
-});
-```
-
-Set a callback when removing from the DOM. Similarly as `onShow`, this can be used to disable the consuming application's "debug mode" via keyboard shortcut. 
-```js
-FTwelve.onHide(() => {
-    alert("Hiding F-Twelve");
-})
-```
+See [Demo Page](https://engineering.cerner.com/f-twelve/demo/) for demo and full API. 

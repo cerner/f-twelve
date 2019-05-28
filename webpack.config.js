@@ -13,9 +13,14 @@ module.exports = (env, argv) => {
     entry: path.join(__dirname, 'src', 'js', 'main.js'),
     devtool: production ? 'source-map' : 'inline-source-map',
     devServer: {
-      publicPath: '/dist/',
       open: true,
-      openPage: 'demo/demo.html'
+      openPage: 'demo/index.html',
+      proxy: {
+        '/f-twelve': {
+          target: 'http://localhost:8080',
+          pathRewrite: { '^/f-twelve': '' }
+        }
+      }
     },
     output: {
       path: path.join(__dirname, 'dist'),
