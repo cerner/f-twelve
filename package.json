@@ -17,6 +17,7 @@
     "url": "git+https://github.com/cerner/f-twelve.git"
   },
   "keywords": [
+    "Cerner",
     "f12",
     "debug",
     "devtools",
@@ -26,6 +27,8 @@
     "dev"
   ],
   "author": "Cerner Corporation",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/cerner/f-twelve#readme",
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.0.0",
