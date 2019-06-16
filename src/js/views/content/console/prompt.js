@@ -1,3 +1,5 @@
+import styles from 'src/css/views/console.css';
+
 /**
  * Console tab input
  */
@@ -11,18 +13,18 @@ class Prompt {
 
   render() {
     const promptChar = document.createElement('div');
-    promptChar.id = 'f-twelve-console-prompt-char';
+    promptChar.className = styles.promptChar;
     promptChar.innerHTML = '&#8250;';
     this.el.appendChild(promptChar);
 
     this.promptInput = document.createElement('input');
-    this.promptInput.id = 'f-twelve-console-prompt-input';
+    this.promptInput.className = styles.promptInput;
     this.promptInput.onkeydown = this.onKeyDown.bind(this);
     this.promptInput.onchange = this.onChange.bind(this);
     this.promptInput.onpaste = this.onChange.bind(this);
     this.promptInput.oninput = this.onChange.bind(this);
     this.el.appendChild(this.promptInput);
-    this.el.id = 'f-twelve-console-prompt';
+    this.el.className = styles.prompt;
     return this.el;
   }
 

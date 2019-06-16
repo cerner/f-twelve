@@ -13,6 +13,7 @@ module.exports = (env, argv) => {
     entry: path.join(__dirname, 'src', 'js', 'main.js'),
     devtool: production ? 'source-map' : 'inline-source-map',
     devServer: {
+      publicPath: '/dist/',
       open: true,
       openPage: 'demo/index.html',
       proxy: {
@@ -49,7 +50,14 @@ module.exports = (env, argv) => {
             {
               loader: MiniCssExtractPlugin.loader
             },
-            'css-loader'
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: production ? '[hash:base64:5]' : '[path][name]__[local]__[hash:base64:5]',
+                context: path.resolve(__dirname, 'src', 'css')
+              },
+            }
           ]
         },
       ]
@@ -58,10 +66,6 @@ module.exports = (env, argv) => {
       new MiniCssExtractPlugin({
         filename: `${packageName}.css`,
       }),
-    ],
-    resolve: {
-      modules: [path.join(__dirname, 'node_modules'), path.join(__dirname, 'src')],
-      extensions: ['.json', '.js']
-    }
+    ]
   };
 };
