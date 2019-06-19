@@ -48,13 +48,13 @@ module.exports = (env, argv) => {
           test: /\.css$/,
           use: [
             {
-              loader: MiniCssExtractPlugin.loader
+              loader: production ? MiniCssExtractPlugin.loader : 'style-loader'
             },
             {
               loader: 'css-loader',
               options: {
                 modules: true,
-                localIdentName: production ? '[hash:base64:5]' : '[path][name]__[local]__[hash:base64:5]',
+                localIdentName: production ? '[hash:base64:5]' : '[path][name]_[local]',
                 context: path.resolve(__dirname, 'src', 'css')
               },
             }
