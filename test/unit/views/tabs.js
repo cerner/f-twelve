@@ -21,10 +21,10 @@ describe('Tabs', function() {
         assert.strictEqual(testVar, 'new', 'Tab missing onClick: ' + tab.label);
       });
     });
-    it("should only contain content elements with className 'f-twelve-content'", function() {
+    it("should only contain content elements with className 'content'", function() {
       const tabs = this.tabs.getTabs();
       tabs.forEach((tab) => {
-        assert.strictEqual(tab.content.render().className, 'f-twelve-content', 'Tab has bad content: ' + tab.label);
+        assert.strictEqual(tab.content.render().className, 'content', 'Tab has bad content: ' + tab.label);
       });
     });
   });

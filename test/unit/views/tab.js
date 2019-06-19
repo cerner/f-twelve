@@ -15,7 +15,7 @@ describe('Tab', function() {
   describe('#render()', function() {
     it('should set el correctly', function() {
       const el = this.tab.render();
-      assert.strictEqual(el.className, 'f-twelve-tab');
+      assert.strictEqual(el.className, 'tab');
       assert.strictEqual(el.innerText, 'Test');
     });
     it('should send content on click', function() {

@@ -10,9 +10,9 @@ describe('Output', function() {
       const args = ['string1', 'string2', 'has a\nnewline', '👍'];
       this.output.el.innerHTML = '';
       this.output.append({ verb: verb, args: args });
-      const logs = this.output.el.getElementsByClassName(`f-twelve-${verb}`);
+      const logs = this.output.el.getElementsByClassName(verb);
       assert.strictEqual(logs.length, 1);
-      const texts = logs[0].getElementsByClassName('f-twelve-console-output-text');
+      const texts = logs[0].getElementsByClassName('outputText');
       assert.strictEqual(texts.length, args.length);
       let idx = 0;
       for (const text of texts) {
@@ -25,9 +25,9 @@ describe('Output', function() {
       const args = [{ key: 'value' }, [1, '2', 'three'], circular, { undefined: undefined }];
       this.output.el.innerHTML = '';
       this.output.append({ verb: verb, args: args });
-      const logs = this.output.el.getElementsByClassName(`f-twelve-${verb}`);
+      const logs = this.output.el.getElementsByClassName(verb);
       assert.strictEqual(logs.length, 1);
-      const texts = logs[0].getElementsByClassName('f-twelve-console-output-text');
+      const texts = logs[0].getElementsByClassName('outputText');
       assert.strictEqual(texts.length, args.length);
       let idx = 0;
       for (const text of texts) {
@@ -62,24 +62,24 @@ describe('Output', function() {
     it('should expand output block on click', function() {
       this.output.el.innerHTML = '';
       this.output.append({ args: [{ key: 'value' }] });
-      const textBlocks = this.output.el.getElementsByClassName('f-twelve-block');
+      const textBlocks = this.output.el.getElementsByClassName('block');
       assert.strictEqual(textBlocks.length, 1, this.setupError);
       const textBlock = textBlocks[0];
-      assert(!textBlock.classList.contains('f-twelve-open'));
+      assert(!textBlock.classList.contains('open'));
       textBlock.click();
-      assert(textBlock.classList.contains('f-twelve-open'));
+      assert(textBlock.classList.contains('open'));
     });
     it('should collapse expanded output block on click', function() {
       this.output.el.innerHTML = '';
       this.output.append({ args: [{ key: 'value' }] });
-      const textBlocks = this.output.el.getElementsByClassName('f-twelve-block');
+      const textBlocks = this.output.el.getElementsByClassName('block');
       assert.strictEqual(textBlocks.length, 1, this.setupError);
       const textBlock = textBlocks[0];
-      assert(!textBlock.classList.contains('f-twelve-open'), this.setupError);
+      assert(!textBlock.classList.contains('open'), this.setupError);
       textBlock.click();
-      assert(textBlock.classList.contains('f-twelve-open'), this.setupError);
+      assert(textBlock.classList.contains('open'), this.setupError);
       textBlock.click();
-      assert(!textBlock.classList.contains('f-twelve-open'));
+      assert(!textBlock.classList.contains('open'));
     });
   });
 });
