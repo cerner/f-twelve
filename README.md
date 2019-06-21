@@ -1,4 +1,11 @@
-# F-Twelve
+<p align="center">
+  <img src="icon/F-Twelve%20100.png">
+</p>
+
+<h1 align="center">
+  F-Twelve
+</h1>
+
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 
