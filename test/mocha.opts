@@ -2,3 +2,4 @@
 --recursive
 --reporter list
 --require @babel/register
+--require mock-css-modules

@@ -1,3 +1,4 @@
+import styles from 'src/css/views/console.css';
 const prune = require('json-prune');
 
 /**
@@ -9,18 +10,18 @@ class Output {
   }
 
   render() {
-    this.el.id = 'f-twelve-console-output';
+    this.el.className = styles.output;
     return this.el;
   }
 
   append({ verb = 'log', args }) {
     const newEntry = document.createElement('div');
-    newEntry.className = `f-twelve-${verb}`;
+    newEntry.className = `${styles.row} ${styles[verb]}`;
 
     // Add timestamp
     const timestamp = document.createElement('span');
     const tzOffset = (new Date()).getTimezoneOffset() * 60000;
-    timestamp.className = 'f-twelve-console-output-timestamp';
+    timestamp.className = styles.timestamp;
     timestamp.textContent = (new Date(Date.now() - tzOffset)).toISOString().slice(11, 23);
     newEntry.appendChild(timestamp);
 
@@ -29,7 +30,7 @@ class Output {
 
       // Output text
       const outputText = document.createElement('span');
-      outputText.className = 'f-twelve-console-output-text';
+      outputText.className = styles.outputText;
       if (typeof arg === 'object') {
         outputText.innerHTML = arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1
           ? arg.stack : JSON.stringify(JSON.parse(prune(arg, Output.pruneOptions)), null, 2);
@@ -39,7 +40,7 @@ class Output {
 
       // Expand icon
       if (outputText.textContent.indexOf('\n') > -1) {
-        outputText.classList.add('f-twelve-block');
+        outputText.classList.add(styles.block);
         outputText.onclick = Output.onClickExpandIcon.bind(this, outputText);
       }
 
@@ -53,10 +54,10 @@ class Output {
   }
 
   static onClickExpandIcon(outputEntry) {
-    if (outputEntry.classList.contains('f-twelve-open')) {
-      outputEntry.classList.remove('f-twelve-open');
+    if (outputEntry.classList.contains(styles.open)) {
+      outputEntry.classList.remove(styles.open);
     } else {
-      outputEntry.classList.add('f-twelve-open');
+      outputEntry.classList.add(styles.open);
     }
   }
 }

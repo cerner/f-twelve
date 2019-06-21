@@ -1,3 +1,4 @@
+import styles from 'src/css/f-twelve.css';
 import Tabs from './tabs';
 
 /**
@@ -16,8 +17,8 @@ class FTwelve {
 
   render() {
     this.el.id = 'f-twelve';
+    this.el.className = styles.fTwelve;
     this.contentWrapper = document.createElement('div');
-    this.contentWrapper.id = 'f-twelve-content-wrapper';
     this.el.appendChild(new Tabs({ setContent: this.setContent.bind(this) }).render());
     this.el.appendChild(this.contentWrapper);
     return this.el;

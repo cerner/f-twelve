@@ -1,4 +1,3 @@
-import './../css/f-twelve.css';
 import FTwelve from './views/f-twelve';
 
 /**

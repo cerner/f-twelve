@@ -11,7 +11,6 @@ class Tabs {
   }
 
   render() {
-    this.el.id = 'f-twelve-tabs';
     const tabs = this.getTabs();
     tabs.forEach((tab) => {
       this.el.appendChild(tab.render());

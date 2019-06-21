@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import styles from 'src/css/f-twelve.css';
 import Output from './output';
 import Prompt from './prompt';
 
@@ -18,8 +19,7 @@ class Console {
   }
 
   render() {
-    this.el.id = 'f-twelve-console';
-    this.el.className = 'f-twelve-content';
+    this.el.className = styles.content;
     this.el.appendChild(this.output.render());
     this.el.appendChild(this.prompt.render());
     return this.el;
