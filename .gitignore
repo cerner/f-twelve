@@ -13,3 +13,6 @@
 
 # Dependencies
 node_modules/*
+
+# Temp files
+.nyc_output/*

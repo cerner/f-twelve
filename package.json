@@ -7,10 +7,15 @@
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
+    "coverage": "nyc npm run test",
     "dev": "webpack-dev-server --mode development",
     "eslint": "cd src/js && eslint --ext .js . && cd ../../test && eslint --ext .js .",
     "test": "mocha",
     "watch": "webpack --mode production --watch"
+  },
+  "nyc": {
+    "check-coverage ": true,
+    "lines": 100
   },
   "repository": {
     "type": "git",
@@ -51,6 +56,7 @@
     "mini-css-extract-plugin": "^0.5.0",
     "mocha": "^6.1.4",
     "mock-css-modules": "^1.0.0",
+    "nyc": "^14.1.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.3",
