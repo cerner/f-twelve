@@ -6,7 +6,7 @@
   F-Twelve
 </h1>
 
-![Build Status](https://travis-ci.com/cerner/f-twelve.svg?branch=master)
+[![Build Status](https://travis-ci.com/cerner/f-twelve.svg?branch=master)](https://travis-ci.com/cerner/f-twelve)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 
