@@ -70,9 +70,9 @@ describe('Console', function() {
       this.console.overrideWindowOnError();
       window.onerror();
       assert.deepStrictEqual(testVar, [1, 1]);
+      window.onerror = null;
     });
     it('should write the error to stderr', function() {
-      window.onerror = null;
       this.console.overrideWindowOnError();
       stderr.inspectSync((output) => {
         window.onerror('', '', 0, 0, 'string');
@@ -104,6 +104,14 @@ describe('Console', function() {
       window.testFn = () => (testVar = 'new');
       this.console.exec('window.testFn()');
       assert.strictEqual(testVar, 'old');
+    });
+    it('should catch errors and console.error it out', function() {
+      stderr.inspectSync((output) => {
+        assert.deepStrictEqual(output.length, 0, this.setupError);
+        const notAString = 123;
+        this.console.exec(notAString);
+        assert.deepStrictEqual(output.length, 1);
+      });
     });
   });
 

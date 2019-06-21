@@ -22,7 +22,8 @@ describe('Output', function() {
     this.testAppendObjects = (verb) => {
       const circular = { circular: undefined };
       circular.circular = circular;
-      const args = [{ key: 'value' }, [1, '2', 'three'], circular, { undefined: undefined }];
+      const largeArray = new Array(51).fill(0);
+      const args = [{ key: 'value' }, [1, '2', 'three'], largeArray, circular, { undefined: undefined }];
       this.output.el.innerHTML = '';
       this.output.append({ verb: verb, args: args });
       const logs = this.output.el.getElementsByClassName(verb);

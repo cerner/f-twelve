@@ -68,6 +68,7 @@ Output.pruneOptions = {
     if (circular) return `"-circular-"`;
     if (value === undefined) return `"-undefined-"`;
     if (Array.isArray(value)) return `"-array(` + value.length + `)-"`;
+    /* istanbul ignore next */
     return defaultValue;
   }
 };
