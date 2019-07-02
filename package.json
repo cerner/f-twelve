@@ -7,10 +7,9 @@
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
-    "coverage": "nyc npm run test",
     "dev": "webpack-dev-server --mode development",
     "eslint": "cd src/js && eslint --ext .js . && cd ../../test && eslint --ext .js .",
-    "test": "mocha",
+    "test": "nyc mocha",
     "watch": "webpack --mode production --watch"
   },
   "nyc": {

@@ -7,7 +7,8 @@
 </h1>
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
+[![js-standard-style](https://img.shields.io/badge/Code%20Style-Standard-brightgreen.svg)](http://standardjs.com)
+[![Framework](https://img.shields.io/badge/Framework-Vanilla%20JS-yellow.svg)](http://vanilla-js.com/)
 
 Render console output to the DOM and provide an input console for troubleshooting environments that do not have the usual F12 dev console. The tool is designed to be included in Production code. Features include: 
 
