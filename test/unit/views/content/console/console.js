@@ -94,10 +94,10 @@ describe('Console', function() {
         ]);
       });
     });
-    it('should not assign variables', function() {
-      window.testString = undefined;
-      this.console.exec('window.testString = "value"');
-      assert.strictEqual(window.testString, undefined);
+    it('should assign variables', function() {
+      window.testString = 'old';
+      this.console.exec('window.testString = "new"');
+      assert.strictEqual(window.testString, 'new');
     });
     it('should not execute functions', function() {
       let testVar = 'old';
@@ -115,24 +115,24 @@ describe('Console', function() {
     });
   });
 
-  describe('#evaluateObjectReference()', function() {
+  describe('#parseCommand()', function() {
     before(function() {
-      this.testEvaluateObjectReference = (referenceString) => {
+      this.testParseCommand = (command) => {
         assert.strictEqual(
-          this.console.evaluateObjectReference(referenceString),
-          new Function(`return ${referenceString}`)() // eslint-disable-line no-new-func
+          this.console.parseCommand(command),
+          new Function(`return ${command}`)() // eslint-disable-line no-new-func
         );
       };
     });
     it('should evaluate valid global objects using dot notation', function() {
       window.testString = 'value';
-      this.testEvaluateObjectReference('window.location.href');
-      this.testEvaluateObjectReference('window.testString');
+      this.testParseCommand('window.location.href');
+      this.testParseCommand('window.testString');
     });
     it('should evaluate valid global objects using bracket notation', function() {
       window.testArray = ['value'];
-      this.testEvaluateObjectReference("window['location']['href']");
-      this.testEvaluateObjectReference("window['testArray'][0]");
+      this.testParseCommand("window['location']['href']");
+      this.testParseCommand("window['testArray'][0]");
     });
     it('should evaluate valid global objects using dot and bracket notation', function() {
       window.testObj = {
@@ -152,12 +152,33 @@ describe('Console', function() {
           one: 1
         }]
       };
-      this.testEvaluateObjectReference('window.testObj.arrayOfObjs[0]');
-      this.testEvaluateObjectReference("window.testObj['arrayOfObjs'][1].key2");
-      this.testEvaluateObjectReference('window.testObj.stringkey');
-      this.testEvaluateObjectReference('window.testObj.nestedArray[0][0][0]');
-      this.testEvaluateObjectReference("window.testObj['nestedArray'][1][0][2]");
-      this.testEvaluateObjectReference("window.testObj.nestedArray[2]['one']");
+      this.testParseCommand('window.testObj.arrayOfObjs[0]');
+      this.testParseCommand("window.testObj['arrayOfObjs'][1].key2");
+      this.testParseCommand('window.testObj.stringkey');
+      this.testParseCommand('window.testObj.nestedArray[0][0][0]');
+      this.testParseCommand("window.testObj['nestedArray'][1][0][2]");
+      this.testParseCommand("window.testObj.nestedArray[2]['one']");
+    });
+    it('should evaluate strings', function() {
+      this.testParseCommand("'single quotes'");
+      this.testParseCommand('"double quotes"');
+    });
+    it('should handle assignments', function() {
+      window.testValue = 'old';
+      this.testParseCommand('window.testValue = "new"');
+      assert.strictEqual(window.testValue, 'new');
+    });
+    it('should handle multiple assignments', function() {
+      window.testValue1 = 'old1';
+      window.testValue2 = 'old2';
+      this.testParseCommand('window.testValue1 = window.testValue2 = "new"');
+      assert.strictEqual(window.testValue1, 'new');
+      assert.strictEqual(window.testValue2, 'new');
+    });
+    it('should handle nested assignments', function() {
+      window.testObject = { key1: { key2: 'old' } };
+      this.testParseCommand("window.testObject.key1.key2 = 'new'");
+      assert.strictEqual(window.testObject.key1.key2, 'new');
     });
   });
 });
