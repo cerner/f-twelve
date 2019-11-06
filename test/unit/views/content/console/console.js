@@ -63,6 +63,10 @@ describe('Console', function() {
       assert.deepStrictEqual(parsed[0].lineNumber, '123');
       assert.deepStrictEqual(parsed[0].columnNumber, '45');
     });
+    it('should handle unexpected input', function() {
+      const parsed = this.console.parseStack('\n\n something that does not look like a stack');
+      assert.deepStrictEqual(parsed, []);
+    });
   });
 
   describe('#overrideWindowConsole()', function() {

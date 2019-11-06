@@ -15,7 +15,7 @@ class Output {
     return this.el;
   }
 
-  append({ verb = 'log', args, stack }) {
+  append({ verb = 'log', args, stack = [] }) {
     const newEntry = document.createElement('div');
     newEntry.className = `${styles.row} ${styles[verb]}`;
 
@@ -27,11 +27,12 @@ class Output {
     newEntry.appendChild(timestamp);
 
     // Add file name
+    const frame = (stack && stack[0]) || {};
     const fileName = document.createElement('a');
     fileName.className = styles.fileName;
-    fileName.textContent = `${stack[0].fileName}:${stack[0].lineNumber}`;
+    fileName.textContent = `${frame.fileName}:${frame.lineNumber}`;
     fileName.title = stack.map(frame => frame.path).join('\n');
-    fileName.href = stack[0].url;
+    fileName.href = frame.url;
     newEntry.appendChild(fileName);
 
     Object.keys(args).forEach((key) => {
