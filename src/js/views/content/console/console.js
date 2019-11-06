@@ -39,12 +39,23 @@ class Console {
     }
   }
 
+  parseStack(stack) {
+    return stack.split('\n').splice(2).map((line) => ({
+      path: line.match(/(at )(.*)/)[2],
+      url: (line.match(/(http:\/\/.*?):\d+:\d+/) || [null])[1],
+      fileName: line.match(/.+[\\/(](.*?\.\w+)/)[1],
+      lineNumber: line.split(':').slice(-2, -1)[0],
+      columnNumber: line.split(':').slice(-1)[0].match(/\d+/)[0],
+    }));
+  }
+
   overrideWindowConsole() {
     const verbs = ['log', 'warn', 'error', 'info'];
     verbs.forEach((verb) => {
       const oldVerb = window.console[verb];
       window.console[verb] = (...args) => {
-        this.output.append({ verb: verb, args: args });
+        const stack = this.parseStack(Error().stack);
+        this.output.append({ verb, args, stack });
         return oldVerb.apply(window.console, args);
       };
     });

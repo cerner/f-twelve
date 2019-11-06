@@ -64,6 +64,14 @@
     background-color: #f1ffff88;
 }
 
+.fileName {
+    position: absolute;
+    right: 0;
+    background-color: inherit;
+    padding: 0 5px;
+    color: #808080;
+}
+
 .prompt {
     display: block;
     bottom: 0;
