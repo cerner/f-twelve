@@ -38,6 +38,37 @@ describe('Console', function() {
     });
   });
 
+  describe('#parseStack()', function() {
+    it('should parse stack with backslashes', function() {
+      const parsed = this.console.parseStack('\n\n  at fn (C:\\path\\file.js:123:45)');
+      assert.deepStrictEqual(parsed[0].path, 'fn (C:\\path\\file.js:123:45)');
+      assert.deepStrictEqual(parsed[0].url, undefined);
+      assert.deepStrictEqual(parsed[0].fileName, 'file.js');
+      assert.deepStrictEqual(parsed[0].lineNumber, '123');
+      assert.deepStrictEqual(parsed[0].columnNumber, '45');
+    });
+    it('should parse stack with forwardslashes', function() {
+      const parsed = this.console.parseStack('\n\n  at fn (http://path/file.js:123:45)');
+      assert.deepStrictEqual(parsed[0].path, 'fn (http://path/file.js:123:45)');
+      assert.deepStrictEqual(parsed[0].url, 'http://path/file.js');
+      assert.deepStrictEqual(parsed[0].fileName, 'file.js');
+      assert.deepStrictEqual(parsed[0].lineNumber, '123');
+      assert.deepStrictEqual(parsed[0].columnNumber, '45');
+    });
+    it('should parse stack with no parenthesis', function() {
+      const parsed = this.console.parseStack('\n\n  at C:/path/file.js:123:45');
+      assert.deepStrictEqual(parsed[0].path, 'C:/path/file.js:123:45');
+      assert.deepStrictEqual(parsed[0].url, undefined);
+      assert.deepStrictEqual(parsed[0].fileName, 'file.js');
+      assert.deepStrictEqual(parsed[0].lineNumber, '123');
+      assert.deepStrictEqual(parsed[0].columnNumber, '45');
+    });
+    it('should handle unexpected input', function() {
+      const parsed = this.console.parseStack('\n\n something that does not look like a stack');
+      assert.deepStrictEqual(parsed, []);
+    });
+  });
+
   describe('#overrideWindowConsole()', function() {
     it('should create a new function for the 4 verb methods', function() {
       this.console.overrideWindowConsole();
@@ -58,7 +89,7 @@ describe('Console', function() {
   });
 
   describe('#overrideWindowOnError()', function() {
-    it('should create a new function for window.onerroro', function() {
+    it('should create a new function for window.onerror', function() {
       this.console.overrideWindowOnError();
       assert.notDeepStrictEqual(this.oldWindowOnError, window.oldWindowOnError);
     });

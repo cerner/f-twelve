@@ -1,4 +1,5 @@
 import styles from 'src/css/views/console.css';
+
 const prune = require('json-prune');
 
 /**
@@ -14,7 +15,7 @@ class Output {
     return this.el;
   }
 
-  append({ verb = 'log', args }) {
+  append({ verb = 'log', args, stack = [] }) {
     const newEntry = document.createElement('div');
     newEntry.className = `${styles.row} ${styles[verb]}`;
 
@@ -24,6 +25,15 @@ class Output {
     timestamp.className = styles.timestamp;
     timestamp.textContent = (new Date(Date.now() - tzOffset)).toISOString().slice(11, 23);
     newEntry.appendChild(timestamp);
+
+    // Add file name
+    const frame = (stack && stack[0]) || {};
+    const fileName = document.createElement('a');
+    fileName.className = styles.fileName;
+    fileName.textContent = `${frame.fileName}:${frame.lineNumber}`;
+    fileName.title = stack.map(frame => frame.path).join('\n');
+    fileName.href = frame.url;
+    newEntry.appendChild(fileName);
 
     Object.keys(args).forEach((key) => {
       const arg = args[key];
