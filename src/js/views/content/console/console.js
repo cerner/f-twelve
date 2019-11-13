@@ -5,6 +5,9 @@ import Prompt from './prompt';
 
 const historyKey = 'fTwelve.history';
 
+const originalConsole = { ...window.console };
+const originalOnError = window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null;
+
 /**
  * The content of the Console tab
  */
@@ -14,8 +17,6 @@ class Console {
     this.execHistory = this.getHistory();
     this.output = new Output();
     this.prompt = new Prompt({ console: this });
-    this.overrideWindowConsole();
-    this.overrideWindowOnError();
   }
 
   render() {
@@ -40,7 +41,7 @@ class Console {
   }
 
   parseStack(stack) {
-    return stack.split('\n').splice(2).map((line) => ({
+    return stack.split('\n').map((line) => ({
       path: (line.match(/^( *at )(.*)/) || [])[2],
       url: (line.match(/(http:\/\/.*?):\d+:\d+/) || [])[1],
       fileName: (line.match(/.+[\\/(](.*?\.\w+)/) || [])[1],
@@ -52,24 +53,32 @@ class Console {
   overrideWindowConsole() {
     const verbs = ['log', 'warn', 'error', 'info'];
     verbs.forEach((verb) => {
-      const oldVerb = window.console[verb];
       window.console[verb] = (...args) => {
-        const stack = this.parseStack(Error().stack);
+        const isError = args.length === 1 && args[0] instanceof Error;
+        const stackPreFtwelve = Error().stack.split('\n').splice(2).join('\n');
+        const stack = this.parseStack(isError ? args[0].stack : stackPreFtwelve);
         this.output.append({ verb, args, stack });
-        return oldVerb.apply(window.console, args);
+        return originalConsole[verb].apply(window.console, args);
       };
     });
   }
 
+  restoreWindowConsole() {
+    window.console = { ...originalConsole };
+  }
+
   overrideWindowOnError() {
-    const oldOnError = window.onerror;
     window.onerror = (message, source, lineNo, colNo, error) => {
-      if (oldOnError && typeof oldOnError === 'function') {
-        oldOnError.call(this, message, source, lineNo, colNo, error);
+      if (originalOnError && typeof originalOnError === 'function') {
+        originalOnError.call(this, message, source, lineNo, colNo, error);
       }
       console.error(error);
       return true;
     };
+  }
+
+  restoreWindowOnError() {
+    window.onerror = originalOnError ? originalOnError.bind({}) : null;
   }
 
   exec(command) {

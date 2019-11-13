@@ -1,5 +1,6 @@
 import styles from 'src/css/f-twelve.css';
 import Tabs from './tabs';
+import Console from './content/console/console';
 
 /**
  * F-Twelve entrypoint
@@ -7,6 +8,7 @@ import Tabs from './tabs';
 class FTwelve {
   constructor() {
     this.el = document.createElement('div');
+    this.console = new Console();
     this.onAttach = undefined;
     this.onDetach = undefined;
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -19,7 +21,10 @@ class FTwelve {
     this.el.id = 'f-twelve';
     this.el.className = styles.fTwelve;
     this.contentWrapper = document.createElement('div');
-    this.el.appendChild(new Tabs({ setContent: this.setContent.bind(this) }).render());
+    this.el.appendChild(new Tabs({
+      console: this.console,
+      setContent: this.setContent.bind(this)
+    }).render());
     this.el.appendChild(this.contentWrapper);
     return this.el;
   }
@@ -42,12 +47,16 @@ class FTwelve {
       this.attach();
     }
     this.enableKeyboardTrigger();
+    this.console.overrideWindowConsole();
+    this.console.overrideWindowOnError();
   }
 
   disable() {
     this.active = false;
     this.detach();
     this.disableKeyboardTrigger();
+    this.console.restoreWindowConsole();
+    this.console.restoreWindowOnError();
   }
 
   attach() {
