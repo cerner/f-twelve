@@ -1,6 +1,6 @@
 --file test/setup.js
---file test/setOnError.js
 --recursive
 --reporter list
 --require @babel/register
 --require mock-css-modules
+--require test/preSetup.js
