@@ -97,6 +97,10 @@ describe('FTwelve', function() {
       this.dispatchKeyboardEvent('keydown', '2');
       assert(!this.fTwelveAttached());
     });
+    it('should not attach on keypress of single F12 key', function() {
+      this.dispatchKeyboardEvent('keydown', 'F12');
+      assert(!this.fTwelveAttached());
+    });
   });
 
   describe('#onKeyUp()', function() {

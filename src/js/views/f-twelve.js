@@ -76,7 +76,7 @@ class FTwelve {
 
   onKeyDown(event) {
     this.keyDownStack += event.key;
-    if (this.keyDownStack.toUpperCase() !== 'F12') {
+    if (event.key === 'F12' || this.keyDownStack.toUpperCase() !== 'F12') {
       return;
     }
     if (this.attached) {
