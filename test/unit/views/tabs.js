@@ -1,11 +1,15 @@
 import assert from 'assert';
 import Tabs from '../../../src/js/views/tabs';
+import Console from '../../../src/js/views/content/console/console';
 
 describe('Tabs', function() {
   let testVar = 'old';
 
   before(function() {
-    this.tabs = new Tabs({ setContent: () => (testVar = 'new') });
+    this.tabs = new Tabs({
+      console: new Console(),
+      setContent: () => (testVar = 'new')
+    });
   });
 
   describe('#getTabs()', function() {

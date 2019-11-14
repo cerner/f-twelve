@@ -3,3 +3,4 @@
 --reporter list
 --require @babel/register
 --require mock-css-modules
+--require test/preSetup.js

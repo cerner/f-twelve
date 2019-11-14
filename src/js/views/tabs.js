@@ -1,13 +1,13 @@
 import Tab from './tab';
-import Console from '../views/content/console/console';
 
 /**
  * Tab bar with content
  */
 class Tabs {
-  constructor({ setContent }) {
+  constructor({ setContent, console }) {
     this.el = document.createElement('div');
     this.setContent = setContent;
+    this.console = console;
   }
 
   render() {
@@ -24,7 +24,7 @@ class Tabs {
       new Tab({
         onClick: onClick,
         label: 'Console',
-        content: new Console()
+        content: this.console
       })
     ];
   }

@@ -4,8 +4,8 @@ import { stdout, stderr } from 'test-console';
 
 describe('Console', function() {
   before(function() {
-    this.oldWindowOnError = Object.assign({}, window.onerror);
-    this.oldWindowConsole = Object.assign({}, window.console);
+    this.oldWindowOnError = window.onerror && window.onerror.bind({});
+    this.oldWindowConsole = { ...window.console };
     this.console = new Console();
   });
 
@@ -90,20 +90,19 @@ describe('Console', function() {
 
   describe('#overrideWindowOnError()', function() {
     it('should create a new function for window.onerror', function() {
+      this.console.restoreWindowOnError();
       this.console.overrideWindowOnError();
       assert.notDeepStrictEqual(this.oldWindowOnError, window.oldWindowOnError);
     });
     it('should not break the existing window.onerror', function() {
-      const testVar = [];
-      window.onerror = () => testVar.push(1);
-      window.onerror();
-      assert.deepStrictEqual(testVar, [1], this.setupError);
+      this.console.restoreWindowOnError();
+      const initialCallCount = window.onErrorCallCount;
       this.console.overrideWindowOnError();
       window.onerror();
-      assert.deepStrictEqual(testVar, [1, 1]);
-      window.onerror = null;
+      assert.deepStrictEqual(window.onErrorCallCount, initialCallCount + 1);
     });
     it('should write the error to stderr', function() {
+      this.console.restoreWindowOnError();
       this.console.overrideWindowOnError();
       stderr.inspectSync((output) => {
         window.onerror('', '', 0, 0, 'string');
