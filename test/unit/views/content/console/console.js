@@ -71,14 +71,14 @@ describe('Console', function() {
 
   describe('#overrideWindowConsole()', function() {
     it('should create a new function for the 4 verb methods', function() {
-      this.console.overrideWindowConsole(this.oldWindowConsole);
+      this.console.overrideWindowConsole();
       assert.notDeepStrictEqual(this.oldWindowConsole.error, window.console.error);
       assert.notDeepStrictEqual(this.oldWindowConsole.info, window.console.info);
       assert.notDeepStrictEqual(this.oldWindowConsole.log, window.console.log);
       assert.notDeepStrictEqual(this.oldWindowConsole.warn, window.console.warn);
     });
     it('should not break the standard console', function() {
-      this.console.overrideWindowConsole(this.oldWindowConsole);
+      this.console.overrideWindowConsole();
       stdout.inspectSync((output) => {
         window.console.log('string');
         window.console.log([1, 2, 3]);
@@ -110,7 +110,6 @@ describe('Console', function() {
         window.onerror('', '', 0, 0, { key: 'value' });
         assert.deepStrictEqual(output, ['string\n', '[ 1, 2, 3 ]\n', "{ key: 'value' }\n"]);
       });
-      this.console.restoreWindowOnError();
     });
   });
 
