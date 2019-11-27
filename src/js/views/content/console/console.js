@@ -5,14 +5,16 @@ import Prompt from './prompt';
 
 const historyKey = 'fTwelve.history';
 
-const originalConsole = Object.assign({}, window.console);
-const originalOnError = window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null;
+let originalConsole;
+let originalOnError;
 
 /**
  * The content of the Console tab
  */
 class Console {
   constructor() {
+    originalConsole = originalConsole || Object.assign({}, window.console);
+    originalOnError = originalOnError || (window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null);
     this.el = document.createElement('div');
     this.execHistory = this.getHistory();
     this.output = new Output();
