@@ -55,7 +55,7 @@ class Console {
     verbs.forEach((verb) => {
       window.console[verb] = (...args) => {
         const isError = args.length === 1 && args[0] instanceof Error;
-        const stackPreFtwelve = Error().stack.split('\n').splice(2).join('\n');
+        const stackPreFtwelve = (Error().stack || '').split('\n').splice(2).join('\n');
         const stack = this.parseStack(isError ? args[0].stack : stackPreFtwelve);
         this.output.append({ verb, args, stack });
         return originalConsole[verb].apply(window.console, args);

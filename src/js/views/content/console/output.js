@@ -30,7 +30,9 @@ class Output {
     const frame = (stack && stack[0]) || {};
     const fileName = document.createElement('a');
     fileName.className = styles.fileName;
-    fileName.textContent = `${frame.fileName}:${frame.lineNumber}`;
+    fileName.textContent = frame.fileName && frame.lineNumber
+      ? `${frame.fileName}:${frame.lineNumber}`
+      : frame.fileName || '';
     fileName.title = stack.map(frame => frame.path).join('\n');
     fileName.href = frame.url;
     newEntry.appendChild(fileName);
