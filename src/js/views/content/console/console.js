@@ -58,7 +58,8 @@ class Console {
         const stackPreFtwelve = (Error().stack || '').split('\n').splice(2).join('\n');
         const stack = this.parseStack(isError ? args[0].stack : stackPreFtwelve);
         this.output.append({ verb, args, stack });
-        alert(originalConsole.toString() + verb); // Testing
+        alert(JSON.stringify(originalConsole) + verb); // Testing
+        alert(originalConsole[verb]); // Testing
         return originalConsole[verb].apply(window.console, args);
       };
     });
