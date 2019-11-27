@@ -5,16 +5,14 @@ import Prompt from './prompt';
 
 const historyKey = 'fTwelve.history';
 
-let originalConsole;
-let originalOnError;
+const originalConsole = Object.assign({}, window.console);
+const originalOnError = window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null;
 
 /**
  * The content of the Console tab
  */
 class Console {
   constructor() {
-    originalConsole = originalConsole || Object.assign({}, window.console);
-    originalOnError = originalOnError || (window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null);
     this.el = document.createElement('div');
     this.execHistory = this.getHistory();
     this.output = new Output();
@@ -60,9 +58,7 @@ class Console {
         const stackPreFtwelve = (Error().stack || '').split('\n').splice(2).join('\n');
         const stack = this.parseStack(isError ? args[0].stack : stackPreFtwelve);
         this.output.append({ verb, args, stack });
-        alert(JSON.stringify(originalConsole) + verb); // Testing
-        alert(originalConsole[verb]); // Testing
-        return originalConsole[verb].apply(window.console, args);
+        return originalConsole[verb] && originalConsole[verb].apply(window.console, args);
       };
     });
   }
