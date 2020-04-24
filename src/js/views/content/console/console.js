@@ -5,7 +5,7 @@ import Prompt from './prompt';
 
 const historyKey = 'fTwelve.history';
 
-const originalConsole = JSON.parse(JSON.stringify(window.console))
+const originalConsole = JSON.parse(JSON.stringify(window.console));
 const originalOnError = window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null;
 
 /**
@@ -64,7 +64,7 @@ class Console {
   }
 
   restoreWindowConsole() {
-    window.console = Object.assign({}, originalConsole);
+    window.console = JSON.parse(JSON.stringify(window.originalConsole));
   }
 
   overrideWindowOnError() {
