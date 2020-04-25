@@ -1,13 +1,12 @@
 {
+  "presets": ["@babel/preset-env"],
   "plugins": [
-    [
-      "module-resolver",
+    ["@babel/transform-runtime"],
+    ["module-resolver",
       {
         "root": "."
       }
     ]
-  ],
-  "presets": [
-    "@babel/preset-env"
-  ]
+   ],
+  "retainLines": true
 }

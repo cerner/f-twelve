@@ -10,7 +10,7 @@ module.exports = (env, argv) => {
   const production = argv.mode === 'production';
   return {
     mode: argv.mode,
-    entry: path.join(__dirname, 'src', 'js', 'main.js'),
+    entry: ['core-js/stable/object/assign', 'core-js/stable/string/ends-with', 'core-js/stable/string/starts-with', 'regenerator-runtime/runtime'].concat(path.join(__dirname, 'src', 'js', 'main.js')),
     devtool: production ? 'source-map' : 'inline-source-map',
     devServer: {
       publicPath: '/dist/',
