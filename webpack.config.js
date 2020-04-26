@@ -10,7 +10,10 @@ module.exports = (env, argv) => {
   const production = argv.mode === 'production';
   return {
     mode: argv.mode,
-    entry: path.join(__dirname, 'src', 'js', 'main.js'),
+    entry: [
+      path.join(__dirname, 'src', 'js', 'polyfills', 'object.assign.js'),
+      path.join(__dirname, 'src', 'js', 'main.js'),
+    ],
     devtool: production ? 'source-map' : 'inline-source-map',
     devServer: {
       publicPath: '/dist/',
