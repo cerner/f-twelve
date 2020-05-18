@@ -35,7 +35,7 @@ import "f-twelve";
 
 **CSS**
 ```js
-import "f-twelve/dist/f-twelve.css";
+import FTwelve.module.css;
 ```
 
 ### HTML Tag

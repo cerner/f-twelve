@@ -1,6 +1,6 @@
 import assert from 'assert';
-import Tabs from '../../../src/js/views/tabs';
-import Console from '../../../src/js/views/content/console/console';
+import Tabs from './tabs';
+import Console from './content/console/console';
 
 describe('Tabs', function() {
   let testVar = 'old';

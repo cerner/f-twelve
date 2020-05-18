@@ -1,5 +1,5 @@
 import assert from 'assert';
-import Tab from '../../../src/js/views/tab';
+import Tab from './tab';
 
 describe('Tab', function() {
   let testVar = 'old';

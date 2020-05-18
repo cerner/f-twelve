@@ -1,4 +1,4 @@
-import styles from 'src/css/f-twelve.css';
+import styles from './App.module.css';
 
 /**
  * Single tab for the tab bar

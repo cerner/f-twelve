@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import styles from 'src/css/f-twelve.css';
+import styles from '../../App.module.css';
 import Output from './output';
 import Prompt from './prompt';
 

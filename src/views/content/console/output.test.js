@@ -1,5 +1,5 @@
 import assert from 'assert';
-import Output from '../../../../../src/js/views/content/console/output';
+import Output from './output';
 
 const prune = require('json-prune');
 

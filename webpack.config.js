@@ -22,7 +22,7 @@ module.exports = (env, argv) => {
         }
       }
     },
-    entry: path.join(__dirname, 'src', 'js', 'main.js'),
+    entry: path.join(__dirname, 'src', 'main.js'),
     output: {
       path: path.join(__dirname, 'dist'),
       filename: `${packageName}.js`,
@@ -57,7 +57,7 @@ module.exports = (env, argv) => {
               options: {
                 modules: true,
                 localIdentName: production ? '[hash:base64:5]' : '[path][name]_[local]',
-                context: path.resolve(__dirname, 'src', 'css')
+                context: path.resolve(__dirname, 'src')
               },
             }
           ]

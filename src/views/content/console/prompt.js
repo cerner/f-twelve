@@ -1,4 +1,4 @@
-import styles from 'src/css/views/console.css';
+import styles from './console.css';
 
 /**
  * Console tab input

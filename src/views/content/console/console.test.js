@@ -1,5 +1,5 @@
 import assert from 'assert';
-import Console from '../../../../../src/js/views/content/console/console';
+import Console from './console';
 import { stdout, stderr } from 'test-console';
 
 describe('Console', function() {
