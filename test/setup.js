@@ -1,11 +1,11 @@
-import Api from '../src/Api';
+import App from '../src/views/App';
 import { Element } from 'jsdom/lib/jsdom/living';
 
 // Setup environment
 before(function() {
   process.env.NODE_DISABLE_COLORS = true;
   Element.prototype.scrollIntoView = () => null;
-  this.fTwelve = new Api();
+  this.fTwelve = new App();
   this.isAttached = (el) => document.body.contains(el);
   this.setupError = 'Unable to complete test, prerequisite condition failed';
   this.dispatchKeyboardEvent = (type, key, target) => {

@@ -1,9 +1,8 @@
 import './polyfills/index';
-import Api from './Api';
+import api from './api';
 
 /**
- * Return public API instance
+ * Enable FTwelve and return public API
  */
-const fTwelve = new Api();
-fTwelve.enable(false);
-export default fTwelve;
+api.enable({ show: false });
+export default api;
