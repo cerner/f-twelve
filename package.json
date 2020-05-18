@@ -11,12 +11,13 @@
     "eslint": "cd src/js && eslint --ext .js . && cd ../../test && eslint --ext .js .",
     "pack": "webpack --mode production",
     "pack:dev": "webpack --mode development",
-    "test": "nyc mocha",
+    "test": "nyc mocha ./src --recursive",
     "watch": "webpack --mode production --watch"
   },
   "nyc": {
     "check-coverage ": true,
-    "lines": 100
+    "lines": 100,
+    "exclude": "src/polyfills/**/*"
   },
   "repository": {
     "type": "git",

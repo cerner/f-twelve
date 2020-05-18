@@ -7,7 +7,7 @@ import App, { console } from './views/App';
 // Root DOM ID
 const id = 'f-twelve';
 
-let appEl;
+let el;
 let customOnAttach;
 let customOnDetach;
 let keyDownStack;
@@ -37,8 +37,8 @@ const attach = () => {
     return;
   }
   const body = document.getElementsByTagName('body')[0];
-  appEl = appEl || App({ id }); // Keep only 1 instance
-  body.appendChild(appEl);
+  el = el || App({ id }); // Keep only 1 instance
+  body.appendChild(el);
   attached = true;
   if (typeof customOnAttach === 'function') {
     customOnAttach();
@@ -89,6 +89,7 @@ const onAttach = callback => (customOnAttach = callback);
 const onDetach = callback => (customOnDetach = callback);
 
 export {
+  el,
   attach,
   detach,
   disable,
