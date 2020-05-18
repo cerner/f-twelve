@@ -35,6 +35,8 @@
   "homepage": "https://github.com/cerner/f-twelve#readme",
   "devDependencies": {
     "@babel/core": "^7.4.3",
+    "@babel/plugin-syntax-jsx": "^7.8.3",
+    "@babel/plugin-transform-react-jsx": "^7.9.4",
     "@babel/preset-env": "^7.0.0",
     "@babel/register": "^7.4.0",
     "babel-eslint": "^8.0.3",

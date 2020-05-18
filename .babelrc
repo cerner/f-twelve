@@ -5,6 +5,14 @@
       {
         "root": "."
       }
+    ],
+    "@babel/plugin-syntax-jsx",
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "dom",
+        "pragmaFrag": "'fragment'"
+      }
     ]
   ],
   "presets": [

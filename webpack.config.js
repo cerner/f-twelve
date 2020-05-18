@@ -43,7 +43,7 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          test: /(\.js)$/,
+          test: /(\.jsx?)$/,
           loader: 'babel-loader',
           exclude: /(node_modules)/,
         },
@@ -69,6 +69,9 @@ module.exports = (env, argv) => {
       new MiniCssExtractPlugin({
         filename: `${packageName}.css`,
       }),
-    ]
+    ],
+    resolve: {
+      extensions: ['.js', '.jsx']
+    }
   };
 };
