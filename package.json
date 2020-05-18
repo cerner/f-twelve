@@ -2,13 +2,15 @@
   "name": "f-twelve",
   "version": "1.1.3",
   "description": "Render console output to the DOM and provide an input console for troubleshooting environments that do not have the usual F12 dev console.",
-  "main": "src/js/main.js",
-  "module": "dist/f-twelve.umd.js",
+  "main": "dist/f-twelve.js",
+  "module": "lib/js/main.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "build:dev": "webpack --mode development",
+    "build": "compile && pack",
+    "compile": "babel src --out-dir lib --copy-files --delete-dir-on-start",
     "dev": "webpack-dev-server --mode development",
     "eslint": "cd src/js && eslint --ext .js . && cd ../../test && eslint --ext .js .",
+    "pack": "webpack --mode production",
+    "pack:dev": "webpack --mode development",
     "test": "nyc mocha",
     "watch": "webpack --mode production --watch"
   },
@@ -34,6 +36,7 @@
   "license": "Apache-2.0",
   "homepage": "https://github.com/cerner/f-twelve#readme",
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.4.3",
     "@babel/plugin-syntax-jsx": "^7.8.3",
     "@babel/plugin-transform-react-jsx": "^7.9.4",

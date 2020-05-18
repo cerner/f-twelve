@@ -10,10 +10,6 @@ module.exports = (env, argv) => {
   const production = argv.mode === 'production';
   return {
     mode: argv.mode,
-    entry: [
-      path.join(__dirname, 'src', 'js', 'polyfills', 'index.js'),
-      path.join(__dirname, 'src', 'js', 'main.js'),
-    ],
     devtool: production ? 'source-map' : 'inline-source-map',
     devServer: {
       publicPath: '/dist/',
@@ -26,9 +22,12 @@ module.exports = (env, argv) => {
         }
       }
     },
+    entry: path.join(__dirname, 'src', 'js', 'main.js'),
     output: {
       path: path.join(__dirname, 'dist'),
-      filename: `${packageName}.umd.js`
+      filename: `${packageName}.js`,
+      library: 'fTwelve',
+      libraryTarget: 'var',
     },
     optimization: {
       minimizer: [
