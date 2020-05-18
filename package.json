@@ -5,7 +5,7 @@
   "main": "dist/f-twelve.js",
   "module": "lib/js/main.js",
   "scripts": {
-    "build": "compile && pack",
+    "build": "npm run compile && npm run pack",
     "compile": "babel src --out-dir lib --copy-files --delete-dir-on-start",
     "dev": "webpack-dev-server --mode development",
     "eslint": "cd src/js && eslint --ext .js . && cd ../../test && eslint --ext .js .",
