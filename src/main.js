@@ -1,8 +1,15 @@
 import './polyfills/index';
-import api from './api';
+import { attach, detach, disable, enable, onAttach, onDetach } from './api';
 
 /**
  * Enable FTwelve and return public API
  */
-api.enable({ show: false });
-export default api;
+enable({ show: false });
+export default Object.freeze({
+  enable,
+  disable,
+  hide: detach,
+  show: attach,
+  onHide: onDetach,
+  onShow: onAttach,
+});

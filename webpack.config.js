@@ -27,6 +27,7 @@ module.exports = (env, argv) => {
       path: path.join(__dirname, 'dist'),
       filename: `${packageName}.js`,
       library: 'fTwelve',
+      libraryExport: 'default',
       libraryTarget: 'var',
     },
     optimization: {
