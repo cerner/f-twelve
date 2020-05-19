@@ -15,12 +15,10 @@ describe('Tabs', function() {
 
   describe('#getTabs()', function() {
     it('should contain an array of only Tab elements', function() {
-      const children = this.tabs.childNodes;
-      children.forEach(child => assert.strictEqual(child.className, 'tab'));
+      this.tabs.forEach(child => assert.strictEqual(child.className, 'tab'));
     });
     it('should assign setContent on click', function() {
-      const children = this.tabs.childNodes;
-      children.forEach(child => {
+      this.tabs.forEach(child => {
         testVar = 'old';
         child.click();
         assert.strictEqual(testVar, 'new', 'Tab missing onClick: ' + child.innerText);
@@ -29,8 +27,8 @@ describe('Tabs', function() {
 
     // TODO: this after converting ab and console (also is this the right place for this test? just saying)
     // it("should only contain content elements with className 'content'", function() {
-    //   const children = this.tabs.childNodes;
-    //   children.forEach(child => {
+    //   this.tabs.forEach(child => {
+
     //     assert.strictEqual(child.content.render().className, 'content', 'Tab has bad content: ' + child.innerText);
     //   });
     // });
