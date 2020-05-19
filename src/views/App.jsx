@@ -9,7 +9,7 @@ import Console from './content/console/console';
 
 const console = new Console();
 
-let contentWrapper = <div/>;
+let contentWrapper;
 let content;
 
 const setContent = (el) => {
@@ -32,6 +32,6 @@ export {
 export default ({ id }) => (
   <div id={id} className={styles.fTwelve}>
     {new Tabs({ console, setContent }).render()}
-    {contentWrapper}
+    <div ref={node => (contentWrapper = node)}/>
   </div>
 );

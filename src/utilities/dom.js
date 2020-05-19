@@ -21,5 +21,10 @@ export default function dom(tagName, attributes, ...children) {
     else element.append(child);
   });
 
+  // Provide the node via ref prop
+  if (typeof attributes.ref === 'function') {
+    attributes.ref(element);
+  }
+
   return element;
 }
