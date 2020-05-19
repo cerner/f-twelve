@@ -6,12 +6,11 @@ import Tab from './Tab';
  */
 export default ({ setContent, console }) => {
   return (
-    <div>
+    <>
       <Tab
-        setContent={setContent}
         label='Console'
-        content={console}
+        onclick={() => setContent(console)}
       />
-    </div>
+    </>
   );
 };

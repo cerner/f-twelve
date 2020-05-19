@@ -31,7 +31,7 @@ export default function dom(tagName, attributes, ...children) {
  */
 const append = (parent, child) => {
   if (Array.isArray(child)) {
-    child.forEach(grandChild => append(child, grandChild));
+    child.forEach(grandChild => append(parent, grandChild));
   } else if (typeof child === 'string') {
     parent.append(document.createTextNode(child));
   } else {

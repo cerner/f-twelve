@@ -8,8 +8,7 @@ describe('Tab', function() {
   before(function() {
     this.tab = <Tab
       label='Test'
-      content='new'
-      setContent={content => (testVar = content)}
+      onclick={() => (testVar = 'new')}
     />;
   });
 

@@ -4,12 +4,9 @@ import styles from './App.module.css';
 /**
  * Single tab for the tab bar
  */
-export default ({ setContent, label, content }) => {
+export default ({ label, onclick }) => {
   return (
-    <div
-      className={styles.tab}
-      onclick={() => setContent(content)}
-    >
+    <div className={styles.tab} onclick={onclick}>
       {label}
     </div>
   );
