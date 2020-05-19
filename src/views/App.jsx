@@ -31,7 +31,7 @@ export {
 
 export default ({ id }) => (
   <div id={id} className={styles.fTwelve}>
-    <Tabs console={console} setContent={setContent}/>
+    <Tabs console={console.render()} setContent={setContent}/>
     <div ref={el => (contentWrapper = el)}/>
   </div>
 );

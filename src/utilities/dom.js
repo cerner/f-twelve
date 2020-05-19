@@ -16,10 +16,7 @@ export default function dom(tagName, attributes, ...children) {
   Object.assign(element, attributes);
 
   // Append children
-  children.forEach(child => {
-    if (Array.isArray(child)) element.append(...child);
-    else element.append(child);
-  });
+  children.forEach(child => append(element, child));
 
   // Provide the node via ref prop
   if (attributes && typeof attributes.ref === 'function') {
@@ -28,3 +25,16 @@ export default function dom(tagName, attributes, ...children) {
 
   return element;
 }
+
+/**
+ * Handle arrays and text nodes
+ */
+const append = (parent, child) => {
+  if (Array.isArray(child)) {
+    child.forEach(grandChild => append(child, grandChild));
+  } else if (typeof child === 'string') {
+    parent.append(document.createTextNode(child));
+  } else {
+    parent.append(child);
+  }
+};
