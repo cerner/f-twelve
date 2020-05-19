@@ -1,33 +1,24 @@
+import dom from '../utilities/dom'; // eslint-disable-line no-unused-vars
 import Tab from './tab';
 
 /**
  * Tab bar with content
  */
-class Tabs {
-  constructor({ setContent, console }) {
-    this.el = document.createElement('div');
-    this.setContent = setContent;
-    this.console = console;
-  }
+export default ({ setContent, console }) => {
 
-  render() {
-    const tabs = this.getTabs();
-    tabs.forEach((tab) => {
-      this.el.appendChild(tab.render());
-    });
-    return this.el;
-  }
+  const onClick = setContent.bind(this);
+  const tabsObjs = [
+    new Tab({
+      onClick: onClick,
+      label: 'Console',
+      content: console
+    })
+  ];
 
-  getTabs() {
-    const onClick = this.setContent.bind(this);
-    return [
-      new Tab({
-        onClick: onClick,
-        label: 'Console',
-        content: this.console
-      })
-    ];
-  }
-}
-
-export default Tabs;
+  const tabs = tabsObjs.map(tab => tab.render());
+  return (
+    <div>
+      {tabs}
+    </div>
+  );
+};

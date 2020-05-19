@@ -1,6 +1,6 @@
 import dom from '../utilities/dom'; // eslint-disable-line no-unused-vars
 import styles from './App.module.css';
-import Tabs from './tabs';
+import Tabs from './Tabs';
 import Console from './content/console/console';
 
 /**
@@ -31,7 +31,7 @@ export {
 
 export default ({ id }) => (
   <div id={id} className={styles.fTwelve}>
-    {new Tabs({ console, setContent }).render()}
-    <div ref={node => (contentWrapper = node)}/>
+    <Tabs console={console} setContent={setContent}/>
+    <div ref={el => (contentWrapper = el)}/>
   </div>
 );

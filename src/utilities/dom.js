@@ -3,11 +3,11 @@
  * @returns {HTMLElement}
  */
 export default function dom(tagName, attributes, ...children) {
-  // Fragments are called `fragment`  pragmaFrag babel config
+  // Fragments are called `fragment` per pragmaFrag babel config
   if (tagName === 'fragment') return children;
 
   // Custom component was passed in
-  if (typeof tagName === 'function') return tagName();
+  if (typeof tagName === 'function') return tagName({ ...attributes });
 
   // Create Element
   const element = document.createElement(tagName);
@@ -22,7 +22,7 @@ export default function dom(tagName, attributes, ...children) {
   });
 
   // Provide the node via ref prop
-  if (typeof attributes.ref === 'function') {
+  if (attributes && typeof attributes.ref === 'function') {
     attributes.ref(element);
   }
 

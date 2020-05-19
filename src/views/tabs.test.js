@@ -1,35 +1,38 @@
+import dom from '../utilities/dom'; // eslint-disable-line no-unused-vars
 import assert from 'assert';
-import Tabs from './tabs';
+import Tabs from './Tabs';
 import Console from './content/console/console';
 
 describe('Tabs', function() {
   let testVar = 'old';
 
   before(function() {
-    this.tabs = new Tabs({
-      console: new Console(),
-      setContent: () => (testVar = 'new')
-    });
+    this.tabs = <Tabs
+      console={new Console()}
+      setContent={() => (testVar = 'new')}
+    />;
   });
 
   describe('#getTabs()', function() {
     it('should contain an array of only Tab elements', function() {
-      const tabs = this.tabs.getTabs();
-      tabs.forEach((tab) => assert.strictEqual(tab.constructor.name, 'Tab'));
+      const children = this.tabs.childNodes;
+      children.forEach(child => assert.strictEqual(child.className, 'tab'));
     });
     it('should assign setContent on click', function() {
-      const tabs = this.tabs.getTabs();
-      tabs.forEach((tab) => {
+      const children = this.tabs.childNodes;
+      children.forEach(child => {
         testVar = 'old';
-        tab.onClick();
-        assert.strictEqual(testVar, 'new', 'Tab missing onClick: ' + tab.label);
+        child.click();
+        assert.strictEqual(testVar, 'new', 'Tab missing onClick: ' + child.innerText);
       });
     });
-    it("should only contain content elements with className 'content'", function() {
-      const tabs = this.tabs.getTabs();
-      tabs.forEach((tab) => {
-        assert.strictEqual(tab.content.render().className, 'content', 'Tab has bad content: ' + tab.label);
-      });
-    });
+
+    // TODO: this after converting ab and console (also is this the right place for this test? just saying)
+    // it("should only contain content elements with className 'content'", function() {
+    //   const children = this.tabs.childNodes;
+    //   children.forEach(child => {
+    //     assert.strictEqual(child.content.render().className, 'content', 'Tab has bad content: ' + child.innerText);
+    //   });
+    // });
   });
 });
