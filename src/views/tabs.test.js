@@ -1,14 +1,14 @@
 import dom from '../utilities/dom'; // eslint-disable-line no-unused-vars
 import assert from 'assert';
 import Tabs from './Tabs';
-import Console from './content/console/console';
+import Console from './content/console/Console';
 
 describe('Tabs', function() {
   let testVar = 'old';
 
   before(function() {
     this.tabs = <Tabs
-      console={new Console()}
+      console={<Console/>}
       setContent={() => (testVar = 'new')}
     />;
   });

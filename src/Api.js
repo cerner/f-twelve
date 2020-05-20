@@ -1,4 +1,5 @@
-import App, { console } from './views/App';
+import App from './views/App';
+import * as console from './views/content/console/Console';
 
 /**
  * Main F-Twelve API

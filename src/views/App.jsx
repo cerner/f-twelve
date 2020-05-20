@@ -1,13 +1,10 @@
 import dom from '../utilities/dom'; // eslint-disable-line no-unused-vars
 import styles from './App.module.css';
 import Tabs from './Tabs';
-import Console from './content/console/console';
 
 /**
  * Root app view
  */
-
-const console = new Console();
 
 let contentWrapper;
 let content;
@@ -24,14 +21,9 @@ const setContent = (el) => {
   }
 };
 
-export {
-  setContent,
-  console
-};
-
 export default ({ id }) => (
   <div id={id} className={styles.fTwelve}>
-    <Tabs console={console.render()} setContent={setContent}/>
+    <Tabs setContent={setContent}/>
     <div ref={el => (contentWrapper = el)}/>
   </div>
 );

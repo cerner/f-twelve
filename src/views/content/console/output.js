@@ -1,4 +1,4 @@
-import styles from './console.css';
+import styles from './Console.module.css';
 
 const prune = require('json-prune');
 

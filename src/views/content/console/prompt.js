@@ -1,12 +1,12 @@
-import styles from './console.css';
+import styles from './Console.module.css';
+import * as console from './Console';
 
 /**
  * Console tab input
  */
 class Prompt {
-  constructor({ console }) {
+  constructor() {
     this.el = document.createElement('div');
-    this.console = console;
     this.historyPos = -1;
     this.currentInput = '';
   }
@@ -44,14 +44,14 @@ class Prompt {
   }
 
   executeCommand(command) {
-    this.console.exec(command);
+    console.exec(command);
     this.historyPos = -1;
     this.currentInput = '';
     this.promptInput.value = '';
   }
 
   retrieveHistory(reverse = false) {
-    const history = this.console.getHistory();
+    const history = console.getHistory();
     if (reverse) {
       this.historyPos = Math.max(--this.historyPos, -1);
     } else {
