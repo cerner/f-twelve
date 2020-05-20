@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import dom from '../../../utilities/dom'; // eslint-disable-line no-unused-vars
+import jsx from '../../../utilities/jsx';
 import styles from '../../App.module.css';
 import Output from './output';
 import Prompt from './prompt';

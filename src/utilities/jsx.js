@@ -2,7 +2,7 @@
  * JSX transpiler pragma
  * @returns {HTMLElement}
  */
-export default function dom(tagName, attributes, ...children) {
+export default function jsx(tagName, attributes, ...children) {
   // Fragments are called `fragment` per pragmaFrag babel config
   if (tagName === 'fragment') return children;
 

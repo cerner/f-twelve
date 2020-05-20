@@ -10,7 +10,7 @@
     [
       "@babel/plugin-transform-react-jsx",
       {
-        "pragma": "dom",
+        "pragma": "jsx",
         "pragmaFrag": "'fragment'"
       }
     ]

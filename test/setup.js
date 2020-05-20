@@ -1,4 +1,3 @@
-import App from '../src/views/App';
 import * as fTwelve from '../src/api';
 import { Element } from 'jsdom/lib/jsdom/living';
 

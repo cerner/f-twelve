@@ -1,4 +1,3 @@
-import dom from '../../../utilities/dom'; // eslint-disable-line no-unused-vars
 import assert from 'assert';
 import * as console from './Console';
 import { stdout, stderr } from 'test-console';

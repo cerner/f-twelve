@@ -1,10 +1,12 @@
-import dom from '../utilities/dom'; // eslint-disable-line no-unused-vars
+import jsx from '../utilities/jsx';
 import Tab from './Tab';
+import Console from './content/console/Console';
 
 /**
  * Tab bar with content
  */
-export default ({ setContent, console }) => {
+export default ({ setContent }) => {
+  const console = <Console/>;
   return (
     <>
       <Tab

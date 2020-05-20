@@ -16,7 +16,7 @@ describe('Prompt', function() {
       assert.deepStrictEqual(this.inputBox.value, '');
     });
     it('should append command to history on enter', function() {
-      console.setHistory(null, 0)
+      console.setHistory(null, 0);
       this.inputBox.value = "'enter1'";
       this.pressKey('Enter');
       assert.deepStrictEqual(console.getHistory(), ["'enter1'"]);

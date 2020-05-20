@@ -1,4 +1,4 @@
-import dom from '../utilities/dom'; // eslint-disable-line no-unused-vars
+import jsx from '../utilities/jsx';
 import assert from 'assert';
 import Tabs from './Tabs';
 import Console from './content/console/Console';
