@@ -25,6 +25,36 @@
   "rules": {
     // Allow dangling commas,
     "comma-dangle": "off",
+    "indent": [
+      "error",
+      2,
+      {
+        // Handle conflict with react/jsx-indent-props
+        "ignoredNodes": [
+          "JSXAttribute",
+          "JSXSpreadAttribute"
+        ],
+        // Indent `case` clauses in `switch` statements
+        "SwitchCase": 1
+      }
+    ],
+    // Props on multiple lines must be at the same indent as the first one
+    "react/jsx-indent-props": [
+      "error",
+      "first"
+    ],
+    // Props all go on 1 line or if it is too long then 1 per line
+    "react/jsx-max-props-per-line": [
+      "error",
+      {
+        "maximum": 1,
+        "when": "multiline"
+      }
+    ],
+    // Require jsx props be alphabetical order
+    "react/jsx-sort-props": [
+      "error"
+    ],
     // Prevents false no-unused-vars flag for jsx pragma
     "react/jsx-uses-react": "error",
     // Prevents false no-unused-vars flag for using component vars in jsx

@@ -1,10 +1,11 @@
+import jsx from '../../../utilities/jsx';
 import assert from 'assert';
 import * as console from './Console';
+import Prompt from './Prompt';
 
 describe('Prompt', function() {
   before(function() {
-    this.prompt = console.prompt;
-    this.inputBox = this.prompt.promptInput;
+    this.prompt = <Prompt inputRef={node => (this.inputBox = node)}/>;
     this.pressKey = (key) => this.dispatchKeyboardEvent('keydown', key, this.inputBox);
   });
 

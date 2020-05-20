@@ -2,7 +2,7 @@
 import jsx from '../../../utilities/jsx';
 import styles from '../../App.module.css';
 import Output from './output';
-import Prompt from './prompt';
+import Prompt from './Prompt';
 
 /**
  * The content of the Console tab
@@ -97,8 +97,6 @@ const parseCommand = (command) => {
 };
 
 const execHistory = getHistory();
-const output = new Output();
-const prompt = new Prompt();
 
 export {
   exec,
@@ -107,18 +105,17 @@ export {
   overrideWindowOnError,
   parseCommand,
   parseStack,
-  prompt,
-  output,
   restoreWindowConsole,
   restoreWindowOnError,
   setHistory,
 };
 
+const output = new Output();
 export default () => {
   return (
     <div className={styles.content}>
       {output.render()}
-      {prompt.render()}
+      <Prompt/>
     </div>
   );
 };

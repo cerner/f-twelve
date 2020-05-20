@@ -22,7 +22,7 @@ const setContent = (el) => {
 };
 
 export default ({ id }) => (
-  <div id={id} className={styles.fTwelve}>
+  <div className={styles.fTwelve} id={id}>
     <Tabs setContent={setContent}/>
     <div ref={el => (contentWrapper = el)}/>
   </div>
