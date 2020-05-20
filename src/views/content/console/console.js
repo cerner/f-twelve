@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import jsx from '../../../utilities/jsx';
 import styles from '../../App.module.css';
-import Output from './output';
+import Output, * as output from './Output';
 import Prompt from './Prompt';
 
 /**
@@ -110,11 +110,10 @@ export {
   setHistory,
 };
 
-const output = new Output();
 export default () => {
   return (
     <div className={styles.content}>
-      {output.render()}
+      <Output/>
       <Prompt/>
     </div>
   );
