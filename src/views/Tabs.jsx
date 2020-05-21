@@ -5,8 +5,8 @@ import Console from './content/console/Console';
 /**
  * Tab bar with content
  */
+const console = <Console/>;
 export default ({ setContent }) => {
-  const console = <Console/>;
   return (
     <>
       <Tab

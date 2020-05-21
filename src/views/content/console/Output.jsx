@@ -38,7 +38,7 @@ const append = ({ verb = 'log', args, stack = [] }) => {
     const outputText = document.createElement('span');
     outputText.className = styles.outputText;
     if (typeof arg === 'object') {
-      outputText.innerHTML = arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1
+      outputText.innerHTML = arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1
         ? arg.stack : JSON.stringify(JSON.parse(prune(arg, pruneOptions)), null, 2);
     } else {
       outputText.innerHTML = arg;
@@ -47,7 +47,7 @@ const append = ({ verb = 'log', args, stack = [] }) => {
     // Expand icon
     if (outputText.textContent.indexOf('\n') > -1) {
       outputText.classList.add(styles.block);
-      outputText.onclick = onClickExpandIcon.bind(this, outputText);
+      outputText.onclick = () => onClickExpandIcon(outputText);
     }
 
     newEntry.appendChild(outputText);

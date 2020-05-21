@@ -6,8 +6,8 @@ export default function jsx(tagName, attributes, ...children) {
   // Fragments are called `fragment` per pragmaFrag babel config
   if (tagName === 'fragment') return children;
 
-  // Custom component was passed in
-  if (typeof tagName === 'function') return tagName({ ...attributes });
+  // It's not a tag name, it's a custom component
+  if (typeof tagName === 'function') return getCustomComponent(tagName, attributes);
 
   // Create Element
   const element = document.createElement(tagName);
@@ -25,6 +25,24 @@ export default function jsx(tagName, attributes, ...children) {
 
   return element;
 }
+
+/**
+ * Custom components can return JSX directly or an object with the JSX in a member called `el`.
+ * The raw return value of the custom component is accessible from parent JSX via the `ref` prop.
+ * This allows components to expose functions or values while still being used like a regular JSX component.
+ */
+const getCustomComponent = (functionalComponent, attributes) => {
+  // Get the component
+  const component = functionalComponent({ ...attributes });
+
+  // Provide the whole component via ref prop
+  if (attributes && typeof attributes.ref === 'function') {
+    attributes.ref(component);
+  }
+
+  // Component's JSX can be returned directly or in the `el` member
+  return component instanceof HTMLElement || Array.isArray(component) ? component : component.el;
+};
 
 /**
  * Handle arrays and text nodes
