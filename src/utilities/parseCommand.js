@@ -1,7 +1,6 @@
 const parseCommand = (command) => {
   command = command.trim();
-  if ((command.startsWith('"') && command.endsWith('"')) ||
-    (command.startsWith("'") && command.endsWith("'"))) {
+  if (command.match(/^".*"$/) || command.match(/^'.*'$/)) {
     return command.slice(1, -1);
   }
   const expressions = command.split(/\s*=\s*/);
