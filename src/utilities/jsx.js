@@ -7,7 +7,7 @@ export default function jsx(tagName, attributes, ...children) {
   if (tagName === 'fragment') return children;
 
   // It's not a tag name, it's a custom component
-  if (typeof tagName === 'function') return getCustomComponent(tagName, attributes);
+  if (typeof tagName === 'function') return getCustomComponent(tagName, { ...attributes, children });
 
   // Create Element
   const element = document.createElement(tagName);
