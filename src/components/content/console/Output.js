@@ -1,7 +1,6 @@
 import jsx from '../../../utilities/jsx';
 import styles from './Console.module.css';
-
-const prune = require('json-prune');
+import prune from 'json-prune';
 
 /**
  * Console tab output
