@@ -1,6 +1,5 @@
 import jsx from '../utilities/jsx';
 import Tab from './Tab';
-import Console from './content/console/Console';
 
 /**
  * Tab bar with content

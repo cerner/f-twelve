@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import jsx from '../../../utilities/jsx';
 import styles from '../../App.module.css';
-import Output, * as output from './Output';
+import Output from './Output';
 import Prompt from './Prompt';
 
 /**
@@ -11,6 +11,8 @@ const historyKey = 'fTwelve.history';
 const originalConsole = Object.assign({}, window.console);
 const originalOnError = window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null;
 export default () => {
+  let output;
+
   const getHistory = () => {
     return window.localStorage
       ? (JSON.parse(window.localStorage.getItem(historyKey)) || [])
@@ -90,8 +92,8 @@ export default () => {
     setHistory,
     el: (
       <div className={styles.content}>
-        <Output/>
-        <Prompt/>
+        <Output ref={ref => (output = ref)}/>
+        <Prompt exec={exec} getHistory={getHistory}/>
       </div>
     )
   };

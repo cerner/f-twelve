@@ -1,6 +1,4 @@
-import jsx from './utilities/jsx';
 import App from './components/App';
-import * as console from './components/content/console/Console';
 
 /**
  * Main F-Twelve API
@@ -50,8 +48,7 @@ const detach = () => {
   if (attached !== true) {
     return;
   }
-  const attachedEl = document.getElementById(id); // TODO: use el directly?
-  attachedEl.parentNode.removeChild(attachedEl); // TODO: use el directly?
+  el.parentNode.removeChild(el);
   attached = false;
   if (typeof customOnDetach === 'function') {
     customOnDetach();

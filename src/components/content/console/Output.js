@@ -6,57 +6,64 @@ const prune = require('json-prune');
 /**
  * Console tab output
  */
+export default () => {
+  const el = <div className={styles.output}/>;
 
-let el;
+  const append = ({ verb = 'log', args, stack = [] }) => {
+    const newEntry = document.createElement('div');
+    newEntry.className = `${styles.row} ${styles[verb]}`;
 
-const append = ({ verb = 'log', args, stack = [] }) => {
-  const newEntry = document.createElement('div');
-  newEntry.className = `${styles.row} ${styles[verb]}`;
+    // Add timestamp
+    const timestamp = document.createElement('span');
+    const tzOffset = (new Date()).getTimezoneOffset() * 60000;
+    timestamp.className = styles.timestamp;
+    timestamp.textContent = (new Date(Date.now() - tzOffset)).toISOString().slice(11, 23);
+    newEntry.appendChild(timestamp);
 
-  // Add timestamp
-  const timestamp = document.createElement('span');
-  const tzOffset = (new Date()).getTimezoneOffset() * 60000;
-  timestamp.className = styles.timestamp;
-  timestamp.textContent = (new Date(Date.now() - tzOffset)).toISOString().slice(11, 23);
-  newEntry.appendChild(timestamp);
+    // Add file name
+    const frame = (stack && stack[0]) || {};
+    const fileName = document.createElement('a');
+    fileName.className = styles.fileName;
+    fileName.textContent = frame.fileName && frame.lineNumber
+      ? `${frame.fileName}:${frame.lineNumber}`
+      : frame.fileName || '';
+    fileName.title = stack.map(frame => frame.path).join('\n');
+    fileName.href = frame.url;
+    newEntry.appendChild(fileName);
 
-  // Add file name
-  const frame = (stack && stack[0]) || {};
-  const fileName = document.createElement('a');
-  fileName.className = styles.fileName;
-  fileName.textContent = frame.fileName && frame.lineNumber
-    ? `${frame.fileName}:${frame.lineNumber}`
-    : frame.fileName || '';
-  fileName.title = stack.map(frame => frame.path).join('\n');
-  fileName.href = frame.url;
-  newEntry.appendChild(fileName);
+    Object.keys(args).forEach((key) => {
+      const arg = args[key];
 
-  Object.keys(args).forEach((key) => {
-    const arg = args[key];
+      // Output text
+      const outputText = document.createElement('span');
+      outputText.className = styles.outputText;
+      if (typeof arg === 'object') {
+        outputText.innerHTML = arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1
+          ? arg.stack : JSON.stringify(JSON.parse(prune(arg, pruneOptions)), null, 2);
+      } else {
+        outputText.innerHTML = arg;
+      }
 
-    // Output text
-    const outputText = document.createElement('span');
-    outputText.className = styles.outputText;
-    if (typeof arg === 'object') {
-      outputText.innerHTML = arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1
-        ? arg.stack : JSON.stringify(JSON.parse(prune(arg, pruneOptions)), null, 2);
-    } else {
-      outputText.innerHTML = arg;
+      // Expand icon
+      if (outputText.textContent.indexOf('\n') > -1) {
+        outputText.classList.add(styles.block);
+        outputText.onclick = () => onClickExpandIcon(outputText);
+      }
+
+      newEntry.appendChild(outputText);
+    });
+
+    el.appendChild(newEntry);
+    if (newEntry.scrollIntoView) {
+      newEntry.scrollIntoView();
     }
+  };
 
-    // Expand icon
-    if (outputText.textContent.indexOf('\n') > -1) {
-      outputText.classList.add(styles.block);
-      outputText.onclick = () => onClickExpandIcon(outputText);
-    }
-
-    newEntry.appendChild(outputText);
-  });
-
-  el.appendChild(newEntry);
-  if (newEntry.scrollIntoView) {
-    newEntry.scrollIntoView();
-  }
+  return {
+    append,
+    pruneOptions,
+    el
+  };
 };
 
 const onClickExpandIcon = (outputEntry) => {
@@ -77,10 +84,3 @@ const pruneOptions = {
     return defaultValue;
   }
 };
-
-export {
-  append,
-  pruneOptions
-};
-
-export default () => <div className={styles.output} ref={node => (el = node)}/>;

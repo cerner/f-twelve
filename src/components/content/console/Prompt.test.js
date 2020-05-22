@@ -1,11 +1,20 @@
 import jsx from '../../../utilities/jsx';
 import assert from 'assert';
-import * as console from './Console';
 import Prompt from './Prompt';
+import Console from './Console';
 
 describe('Prompt', function() {
+  beforeEach(function() {
+    this.console.setHistory(null, 0);
+  });
+
   before(function() {
-    this.prompt = <Prompt inputRef={node => (this.inputBox = node)}/>;
+    this.console = Console();
+    this.prompt = (
+      <Prompt exec={this.console.exec}
+              getHistory={this.console.getHistory}
+              inputRef={node => (this.inputBox = node)}/>
+    );
     this.pressKey = (key) => this.dispatchKeyboardEvent('keydown', key, this.inputBox);
   });
 
@@ -17,16 +26,15 @@ describe('Prompt', function() {
       assert.deepStrictEqual(this.inputBox.value, '');
     });
     it('should append command to history on enter', function() {
-      console.setHistory(null, 0);
       this.inputBox.value = "'enter1'";
       this.pressKey('Enter');
-      assert.deepStrictEqual(console.getHistory(), ["'enter1'"]);
+      assert.deepStrictEqual(this.console.getHistory(), ["'enter1'"]);
       this.inputBox.value = "'enter2'";
       this.pressKey('Enter');
-      assert.deepStrictEqual(console.getHistory(), ["'enter2'", "'enter1'"]);
+      assert.deepStrictEqual(this.console.getHistory(), ["'enter2'", "'enter1'"]);
       this.inputBox.value = "'enter3'";
       this.pressKey('Enter');
-      assert.deepStrictEqual(console.getHistory(), ["'enter3'", "'enter2'", "'enter1'"]);
+      assert.deepStrictEqual(this.console.getHistory(), ["'enter3'", "'enter2'", "'enter1'"]);
     });
 
     // Arrow keys
