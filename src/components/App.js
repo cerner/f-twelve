@@ -6,7 +6,6 @@ import Console from './content/console/Console';
 /**
  * Root app view
  */
-
 export default ({ id }) => {
   let contentWrapper;
   let content;

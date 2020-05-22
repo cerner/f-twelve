@@ -4,8 +4,7 @@ import App from './components/App';
  * Main F-Twelve API
  */
 
-const id = 'f-twelve';
-const app = App({ id });
+const app = App({ id: 'f-twelve' });
 const el = app.el;
 
 let customOnAttach;

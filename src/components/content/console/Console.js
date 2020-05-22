@@ -3,6 +3,8 @@ import jsx from '../../../utilities/jsx';
 import styles from '../../App.module.css';
 import Output from './Output';
 import Prompt from './Prompt';
+import parseCommand from '../../../utilities/parseCommand';
+import parseStack from '../../../utilities/parseStack';
 
 /**
  * The content of the Console tab
@@ -25,16 +27,6 @@ export default () => {
     if (window.localStorage) {
       window.localStorage.setItem(historyKey, JSON.stringify(execHistory));
     }
-  };
-
-  const parseStack = (stack) => {
-    return stack.split('\n').map((line) => ({
-      path: (line.match(/^( *at )(.*)/) || [])[2],
-      url: (line.match(/(http:\/\/.*?):\d+:\d+/) || [])[1],
-      fileName: (line.match(/.+[\\/(](.*?\.\w+)/) || [])[1],
-      lineNumber: (line.split(':').slice(-2, -1) || [])[0],
-      columnNumber: (line.split(':').slice(-1)[0].match(/\d+/) || [])[0],
-    })).filter(frame => frame.path);
   };
 
   const overrideWindowConsole = () => {
@@ -85,8 +77,6 @@ export default () => {
     getHistory,
     overrideWindowConsole,
     overrideWindowOnError,
-    parseCommand,
-    parseStack,
     restoreWindowConsole,
     restoreWindowOnError,
     setHistory,
@@ -97,23 +87,4 @@ export default () => {
       </div>
     )
   };
-};
-
-const parseCommand = (command) => {
-  command = command.trim();
-  if ((command.startsWith('"') && command.endsWith('"')) ||
-    (command.startsWith("'") && command.endsWith("'"))) {
-    return command.slice(1, -1);
-  }
-  const expressions = command.split(/\s*=\s*/);
-  const firstExpression = expressions.shift();
-  return firstExpression.replace(/(?=\[)/g, '.').split('.').reduce((object, memberString, idx, array) => {
-    const bracketMatch = memberString.match(/^\[([^\]]*)]$/);
-    const memberName = bracketMatch ? bracketMatch[1].replace(/^["']|["']$/g, '') : memberString;
-    if (expressions.length > 0 && idx === array.length - 1) {
-      // If there are things to the right of the equals sign, assign it to the left
-      (object || {})[memberName] = parseCommand(expressions.join('='));
-    }
-    return (object || {})[memberName];
-  }, window);
 };

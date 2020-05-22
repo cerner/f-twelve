@@ -42,37 +42,6 @@ describe('Console', function() {
     });
   });
 
-  describe('#parseStack()', function() {
-    it('should parse stack with backslashes', function() {
-      const parsed = this.console.parseStack('\n\n  at fn (C:\\path\\file.js:123:45)');
-      assert.deepStrictEqual(parsed[0].path, 'fn (C:\\path\\file.js:123:45)');
-      assert.deepStrictEqual(parsed[0].url, undefined);
-      assert.deepStrictEqual(parsed[0].fileName, 'file.js');
-      assert.deepStrictEqual(parsed[0].lineNumber, '123');
-      assert.deepStrictEqual(parsed[0].columnNumber, '45');
-    });
-    it('should parse stack with forwardslashes', function() {
-      const parsed = this.console.parseStack('\n\n  at fn (http://path/file.js:123:45)');
-      assert.deepStrictEqual(parsed[0].path, 'fn (http://path/file.js:123:45)');
-      assert.deepStrictEqual(parsed[0].url, 'http://path/file.js');
-      assert.deepStrictEqual(parsed[0].fileName, 'file.js');
-      assert.deepStrictEqual(parsed[0].lineNumber, '123');
-      assert.deepStrictEqual(parsed[0].columnNumber, '45');
-    });
-    it('should parse stack with no parenthesis', function() {
-      const parsed = this.console.parseStack('\n\n  at C:/path/file.js:123:45');
-      assert.deepStrictEqual(parsed[0].path, 'C:/path/file.js:123:45');
-      assert.deepStrictEqual(parsed[0].url, undefined);
-      assert.deepStrictEqual(parsed[0].fileName, 'file.js');
-      assert.deepStrictEqual(parsed[0].lineNumber, '123');
-      assert.deepStrictEqual(parsed[0].columnNumber, '45');
-    });
-    it('should handle unexpected input', function() {
-      const parsed = this.console.parseStack('\n\n something that does not look like a stack');
-      assert.deepStrictEqual(parsed, []);
-    });
-  });
-
   describe('#overrideWindowConsole()', function() {
     it('should create a new function for the 4 verb methods', function() {
       this.console.overrideWindowConsole();
@@ -146,73 +115,6 @@ describe('Console', function() {
         this.console.exec(notAString);
         assert.deepStrictEqual(output.length, 1);
       });
-    });
-  });
-
-  describe('#parseCommand()', function() {
-    before(function() {
-      this.testParseCommand = (command) => {
-        assert.strictEqual(
-          this.console.parseCommand(command),
-          new Function(`return ${command}`)() // eslint-disable-line no-new-func
-        );
-      };
-    });
-    it('should evaluate valid global objects using dot notation', function() {
-      window.testString = 'value';
-      this.testParseCommand('window.location.href');
-      this.testParseCommand('window.testString');
-    });
-    it('should evaluate valid global objects using bracket notation', function() {
-      window.testArray = ['value'];
-      this.testParseCommand("window['location']['href']");
-      this.testParseCommand("window['testArray'][0]");
-    });
-    it('should evaluate valid global objects using dot and bracket notation', function() {
-      window.testObj = {
-        arrayOfObjs: [
-          { key1: 'value1' },
-          { key2: 'value2' }
-        ],
-        1: 'one',
-        'stringkey': 1,
-        nestedArray: [[
-          [1, 2, 3],
-          [4, 5, 6],
-        ], [
-          ['one', 'two', 'three'],
-          ['four', 'five', 'six'],
-        ], {
-          one: 1
-        }]
-      };
-      this.testParseCommand('window.testObj.arrayOfObjs[0]');
-      this.testParseCommand("window.testObj['arrayOfObjs'][1].key2");
-      this.testParseCommand('window.testObj.stringkey');
-      this.testParseCommand('window.testObj.nestedArray[0][0][0]');
-      this.testParseCommand("window.testObj['nestedArray'][1][0][2]");
-      this.testParseCommand("window.testObj.nestedArray[2]['one']");
-    });
-    it('should evaluate strings', function() {
-      this.testParseCommand("'single quotes'");
-      this.testParseCommand('"double quotes"');
-    });
-    it('should handle assignments', function() {
-      window.testValue = 'old';
-      this.testParseCommand('window.testValue = "new"');
-      assert.strictEqual(window.testValue, 'new');
-    });
-    it('should handle multiple assignments', function() {
-      window.testValue1 = 'old1';
-      window.testValue2 = 'old2';
-      this.testParseCommand('window.testValue1 = window.testValue2 = "new"');
-      assert.strictEqual(window.testValue1, 'new');
-      assert.strictEqual(window.testValue2, 'new');
-    });
-    it('should handle nested assignments', function() {
-      window.testObject = { key1: { key2: 'old' } };
-      this.testParseCommand("window.testObject.key1.key2 = 'new'");
-      assert.strictEqual(window.testObject.key1.key2, 'new');
     });
   });
 });
