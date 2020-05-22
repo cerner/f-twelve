@@ -8,7 +8,7 @@
     "build": "npm run compile && npm run pack",
     "compile": "babel src --out-dir lib --copy-files --delete-dir-on-start",
     "dev": "webpack-dev-server --mode development",
-    "eslint": "eslint --ext .js,.jsx .",
+    "eslint": "eslint --ext .js .",
     "pack": "webpack --mode production",
     "pack:dev": "webpack --mode development",
     "test": "nyc mocha ./src --recursive",

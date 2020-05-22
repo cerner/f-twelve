@@ -24,13 +24,5 @@ describe('Tabs', function() {
         assert.strictEqual(testVar, 'new', 'Tab missing onClick: ' + child.innerText);
       });
     });
-
-    // TODO: this after converting ab and console (also is this the right place for this test? just saying)
-    // it("should only contain content elements with className 'content'", function() {
-    //   this.tabs.forEach(child => {
-
-    //     assert.strictEqual(child.content.render().className, 'content', 'Tab has bad content: ' + child.innerText);
-    //   });
-    // });
   });
 });

@@ -1,14 +1,15 @@
-import App from './views/App';
-import * as console from './views/content/console/Console';
+import jsx from './utilities/jsx';
+import App from './components/App';
+import * as console from './components/content/console/Console';
 
 /**
  * Main F-Twelve API
  */
 
-// Root DOM ID
 const id = 'f-twelve';
+const app = App({ id });
+const el = app.el;
 
-let el;
 let customOnAttach;
 let customOnDetach;
 let keyDownStack;
@@ -21,16 +22,16 @@ const enable = ({ show = true } = {}) => {
     attach();
   }
   enableKeyboardTrigger();
-  console.overrideWindowConsole();
-  console.overrideWindowOnError();
+  app.console.overrideWindowConsole();
+  app.console.overrideWindowOnError();
 };
 
 const disable = () => {
   active = false;
   detach();
   disableKeyboardTrigger();
-  console.restoreWindowConsole();
-  console.restoreWindowOnError();
+  app.console.restoreWindowConsole();
+  app.console.restoreWindowOnError();
 };
 
 const attach = () => {
@@ -38,7 +39,6 @@ const attach = () => {
     return;
   }
   const body = document.getElementsByTagName('body')[0];
-  el = el || App({ id }); // Keep only 1 instance
   body.appendChild(el);
   attached = true;
   if (typeof customOnAttach === 'function') {
@@ -50,8 +50,8 @@ const detach = () => {
   if (attached !== true) {
     return;
   }
-  const attachedEl = document.getElementById(id);
-  attachedEl.parentNode.removeChild(attachedEl);
+  const attachedEl = document.getElementById(id); // TODO: use el directly?
+  attachedEl.parentNode.removeChild(attachedEl); // TODO: use el directly?
   attached = false;
   if (typeof customOnDetach === 'function') {
     customOnDetach();

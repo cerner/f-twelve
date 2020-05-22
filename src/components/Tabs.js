@@ -5,14 +5,10 @@ import Console from './content/console/Console';
 /**
  * Tab bar with content
  */
-const console = <Console/>;
-export default ({ setContent }) => {
+export default ({ console, setContent }) => {
   return (
     <>
-      <Tab
-        label='Console'
-        onclick={() => setContent(console)}
-      />
+      <Tab label='Console' onclick={() => setContent(console)}/>
     </>
   );
 };
