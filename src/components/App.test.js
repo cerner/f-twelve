@@ -1,5 +1,4 @@
 import assert from 'assert';
-import App from './App';
 
 describe('App', function() {
   describe('#setContent()', function() {

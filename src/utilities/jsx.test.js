@@ -1,6 +1,5 @@
 import jsx from './jsx';
 import assert from 'assert';
-import Tab from '../components/Tab';
 
 describe('#jsx()', function() {
   describe('dom elements', function() {
