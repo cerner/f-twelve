@@ -58,7 +58,6 @@
     "js-yaml": "^3.13.1",
     "jsdom": "^15.0.0",
     "jsdom-global": "^3.0.2",
-    "json-prune": "https://github.com/Canop/JSON.prune/archive/e0e86d0a1a4c13fd5803efba6e9bfdae20f7ea28.tar.gz",
     "lodash": ">=4.17.13",
     "mini-css-extract-plugin": "^0.5.0",
     "mocha": "^6.1.4",
@@ -71,5 +70,8 @@
     "webpack": "^4.12.2",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.7"
+  },
+  "dependencies": {
+    "json-prune": "https://github.com/Canop/JSON.prune/archive/e0e86d0a1a4c13fd5803efba6e9bfdae20f7ea28.tar.gz"
   }
 }
