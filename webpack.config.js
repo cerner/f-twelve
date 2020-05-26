@@ -48,7 +48,7 @@ module.exports = (env, argv) => {
           exclude: /(node_modules)/,
         },
         {
-          test: /\.css$/,
+          test: /\.(scss|css)$/,
           use: [
             {
               loader: production ? MiniCssExtractPlugin.loader : 'style-loader'

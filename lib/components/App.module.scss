@@ -1,4 +1,6 @@
-.fTwelve {
+:local {
+
+  .fTwelve {
     color: #333;
     position: fixed;
     left: 0;
@@ -7,9 +9,9 @@
     font-family: verdana, sans-serif;
     font-size: 12px;
     z-index: 2147483647;
-}
+  }
 
-.tab {
+  .tab {
     cursor: pointer;
     background-color: #ffffff;
     border: 1px solid #bbb;
@@ -19,12 +21,14 @@
     margin-left: 1px;
     padding: 3px 5px;
     pointer-events: all;
-}
+  }
 
-.content {
+  .content {
     height: 320px;
     position: relative;
     background-color: #fff;
     border: 1px solid #bbb;
     top: 0;
+  }
+
 }

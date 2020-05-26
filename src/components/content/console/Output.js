@@ -1,5 +1,5 @@
 import jsx from '../../../utilities/jsx';
-import styles from './Console.module.css';
+import styles from './Console.module.scss';
 import prune from 'json-prune';
 
 /**

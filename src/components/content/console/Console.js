@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import jsx from '../../../utilities/jsx';
-import styles from '../../App.module.css';
+import styles from '../../App.module.scss';
 import Output from './Output';
 import Prompt from './Prompt';
 import parseCommand from '../../../utilities/parseCommand';

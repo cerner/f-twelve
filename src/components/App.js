@@ -1,5 +1,5 @@
 import jsx from '../utilities/jsx';
-import styles from './App.module.css';
+import styles from './App.module.scss';
 import Tabs from './Tabs';
 import Console from './content/console/Console';
 
