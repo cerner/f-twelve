@@ -1,4 +1,10 @@
 import JsDomGlobal from 'jsdom-global';
+import { register } from 'mock-css-modules';
+
+/**
+ * Use mock-css-modules to return the requested class name
+ */
+register(['.scss']);
 
 /**
  * Configure jsdom before running setup, needed in order to `import fTwelve` since the
