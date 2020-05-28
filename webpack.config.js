@@ -1,10 +1,11 @@
+require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const packageDotjson = require('./package.json');
 const packageName = packageDotjson.name;
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
-const webpack = require('webpack'); // eslint-disable-line no-unused-vars
 
 module.exports = (env, argv) => {
   const production = argv.mode === 'production';
@@ -48,7 +49,7 @@ module.exports = (env, argv) => {
           exclude: /(node_modules)/,
         },
         {
-          test: /\.(scss|css)$/,
+          test: /\.(s?css)$/,
           use: [
             {
               loader: production ? MiniCssExtractPlugin.loader : 'style-loader'
@@ -60,12 +61,16 @@ module.exports = (env, argv) => {
                 localIdentName: production ? '[hash:base64:5]' : '[path][name]_[local]',
                 context: path.resolve(__dirname, 'src')
               },
+            },
+            {
+              loader: 'sass-loader'
             }
           ]
-        },
+        }
       ]
     },
     plugins: [
+      new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
         filename: `${packageName}.css`,
       }),
