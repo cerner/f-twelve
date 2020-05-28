@@ -29,14 +29,10 @@ The tool can be enabled via [ES6 Import](#es6-import) or [HTML Tag](#html-tag):
 
 ### ES6 Import
 
-**JS** 
+See [webpack.config.js](/webpack.config.js) for example of required CSS loaders. 
+
 ```js 
 import "f-twelve";
-```
-
-**CSS**
-```js
-import "f-twelve/dist/f-twelve.css";
 ```
 
 ### HTML Tag
