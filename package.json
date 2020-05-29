@@ -1,6 +1,6 @@
 {
   "name": "f-twelve",
-  "version": "1.1.3",
+  "version": "2.0.0",
   "description": "Render console output to the DOM and provide an input console for troubleshooting environments that do not have the usual F12 dev console.",
   "main": "lib/main.js",
   "scripts": {
