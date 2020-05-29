@@ -1,19 +1,16 @@
+require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const packageDotjson = require('./package.json');
 const packageName = packageDotjson.name;
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
-const webpack = require('webpack'); // eslint-disable-line no-unused-vars
 
 module.exports = (env, argv) => {
   const production = argv.mode === 'production';
   return {
     mode: argv.mode,
-    entry: [
-      path.join(__dirname, 'src', 'js', 'polyfills', 'index.js'),
-      path.join(__dirname, 'src', 'js', 'main.js'),
-    ],
     devtool: production ? 'source-map' : 'inline-source-map',
     devServer: {
       publicPath: '/dist/',
@@ -26,9 +23,13 @@ module.exports = (env, argv) => {
         }
       }
     },
+    entry: path.join(__dirname, 'src', 'main.js'),
     output: {
       path: path.join(__dirname, 'dist'),
-      filename: `${packageName}.umd.js`
+      filename: `${packageName}.js`,
+      library: 'fTwelve',
+      libraryExport: 'default',
+      libraryTarget: 'var',
     },
     optimization: {
       minimizer: [
@@ -43,12 +44,12 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          test: /(\.js)$/,
+          test: /(\.jsx?)$/,
           loader: 'babel-loader',
           exclude: /(node_modules)/,
         },
         {
-          test: /\.css$/,
+          test: /\.(s?css)$/,
           use: [
             {
               loader: production ? MiniCssExtractPlugin.loader : 'style-loader'
@@ -58,17 +59,24 @@ module.exports = (env, argv) => {
               options: {
                 modules: true,
                 localIdentName: production ? '[hash:base64:5]' : '[path][name]_[local]',
-                context: path.resolve(__dirname, 'src', 'css')
+                context: path.resolve(__dirname, 'src')
               },
+            },
+            {
+              loader: 'sass-loader'
             }
           ]
-        },
+        }
       ]
     },
     plugins: [
+      new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
         filename: `${packageName}.css`,
       }),
-    ]
+    ],
+    resolve: {
+      extensions: ['.js', '.jsx']
+    }
   };
 };

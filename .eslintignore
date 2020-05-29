@@ -1,0 +1,4 @@
+/lib/*
+/dist/*
+/dist-before/*
+/node_modules/*
