@@ -51,8 +51,8 @@ const append = (parent, child) => {
   if (Array.isArray(child)) {
     child.forEach(grandChild => append(parent, grandChild));
   } else if (typeof child === 'string') {
-    parent.append(document.createTextNode(child));
+    parent.appendChild(document.createTextNode(child));
   } else {
-    parent.append(child);
+    parent.appendChild(child);
   }
 };
