@@ -30,4 +30,20 @@ describe('#parseStack()', function() {
     const parsed = parseStack('\n\n something that does not look like a stack');
     assert.deepStrictEqual(parsed, []);
   });
+  it('should handle falsey input', function() {
+    const parsedFalse = parseStack(false);
+    assert.deepStrictEqual(parsedFalse, []);
+    const parsedNull = parseStack(null);
+    assert.deepStrictEqual(parsedNull, []);
+    const parsedUndefined = parseStack(undefined);
+    assert.deepStrictEqual(parsedUndefined, []);
+  });
+  it('should handle non-string input', function() {
+    const parsedObject = parseStack({ some: 'object' });
+    assert.deepStrictEqual(parsedObject, []);
+    const parsedArray = parseStack([1, true, 'three']);
+    assert.deepStrictEqual(parsedArray, []);
+    const parsedNumber = parseStack(42);
+    assert.deepStrictEqual(parsedNumber, []);
+  });
 });
