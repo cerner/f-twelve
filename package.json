@@ -78,6 +78,6 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "json-prune": "https://github.com/Canop/JSON.prune/archive/e0e86d0a1a4c13fd5803efba6e9bfdae20f7ea28.tar.gz"
+    "json-viewer-js": "^1.0.7"
   }
 }

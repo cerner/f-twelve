@@ -1,6 +1,6 @@
 import jsx from '../../../utilities/jsx';
 import styles from './Console.module.scss';
-import prune from 'json-prune';
+import JsonViewer from 'json-viewer-js';
 
 /**
  * Console tab output
@@ -36,11 +36,12 @@ export default () => {
       // Output text
       const outputText = document.createElement('span');
       outputText.className = styles.outputText;
-      if (typeof arg === 'object') {
-        outputText.innerHTML = arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1
-          ? arg.stack : JSON.stringify(JSON.parse(prune(arg, pruneOptions)), null, 2);
-      } else {
+      if (typeof arg !== 'object') {
         outputText.innerHTML = arg;
+      } else if (arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1) {
+        outputText.innerHTML = arg.stack
+      } else {
+        new JsonViewer({ container: outputText, data: JSON.stringify(arg) });
       }
 
       // Expand icon
@@ -60,7 +61,6 @@ export default () => {
 
   return {
     append,
-    pruneOptions,
     el
   };
 };
@@ -73,13 +73,6 @@ const onClickExpandIcon = (outputEntry) => {
   }
 };
 
-const pruneOptions = {
-  depthDecr: 10,
-  replacer: function(value, defaultValue, circular) {
-    if (circular) return `"-circular-"`;
-    if (value === undefined) return `"-undefined-"`;
-    if (Array.isArray(value)) return `"-array(` + value.length + `)-"`;
-    /* istanbul ignore next */
-    return defaultValue;
-  }
+const buildOutputText = (arg) => {
+
 };
