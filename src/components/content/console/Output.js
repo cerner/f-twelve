@@ -1,6 +1,6 @@
 import jsx from '../../../utilities/jsx';
 import styles from './Console.module.scss';
-import * as JsonView from './JsonView';
+import DataTree from '../../DataTree';
 
 /**
  * Console tab output
@@ -42,7 +42,7 @@ export default () => {
       } else if (arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1) {
         outputText.innerHTML = arg.stack
       } else {
-        JsonView.renderJSON(arg, outputText);
+        outputText.appendChild(<DataTree data={args}/>);
       }
 
       // Expand icon
@@ -72,8 +72,4 @@ const onClickExpandIcon = (outputEntry) => {
   } else {
     outputEntry.classList.add(styles.open);
   }
-};
-
-const buildOutputText = (arg) => {
-
 };
