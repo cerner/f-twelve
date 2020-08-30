@@ -1,0 +1,92 @@
+/**
+ * Based on https://github.com/pgrabovets/json-view/blob/master/src/jsonview.scss
+ */
+
+.jsonContainer {
+  font-family: 'Open Sans';
+  font-size: 16px;
+  background-color: #fff;
+  color: #808080;
+  box-sizing: border-box;
+}
+
+.line {
+  margin: 4px 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.caretIcon {
+  width: 18px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.emptyIcon {
+  width: 18px;
+}
+
+.jsontype {
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+.jsonKey {
+  color: #444;
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+.jsonIndex {
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+.jsonSeparator {
+
+}
+
+.jsonValue {
+  margin-left: 8px;
+}
+
+.json {
+  .number {
+    color: #f9ae58;
+  }
+
+  .boolean {
+    color: #ec5f66;
+  }
+
+  .string {
+    color: #86b25c;
+  }
+}
+
+.jsonSize {
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+.hide {
+  display: none;
+}
+
+.fas {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.faCaretDown {
+  border-width: 6px 5px 0 5px;
+  border-color: #808080 transparent;
+}
+
+.faCaretRight {
+  border-width: 5px 0 5px 6px;
+  border-color: transparent transparent transparent #808080;
+}
+

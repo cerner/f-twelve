@@ -1,7 +1,6 @@
 import jsx from '../../../utilities/jsx';
 import styles from './Console.module.scss';
-import * as JsonView from 'json-view/src/jsonview';
-import jsonViewStyles from 'json-view/src/jsonview.scss';
+import * as JsonView from './JsonView';
 
 /**
  * Console tab output

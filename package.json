@@ -76,8 +76,5 @@
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
-  },
-  "dependencies": {
-    "json-view": "https://github.com/pgrabovets/json-view/archive/097723b35706976916381c22db095462808d95c1.tar.gz"
   }
 }
