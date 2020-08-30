@@ -1,9 +1,10 @@
 import jsx from '../../../utilities/jsx';
 import styles from './Console.module.scss';
-import JsonViewer from 'json-viewer-js';
+import JSONTreeView from 'json-tree-view';
 
 /**
  * Console tab output
+ *
  */
 export default () => {
   const el = <div className={styles.output}/>;
@@ -41,7 +42,8 @@ export default () => {
       } else if (arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1) {
         outputText.innerHTML = arg.stack
       } else {
-        new JsonViewer({ container: outputText, data: JSON.stringify(arg) });
+        const x = (new JSONTreeView("heyy", arg));
+        outputText.appendChild(x.dom);
       }
 
       // Expand icon

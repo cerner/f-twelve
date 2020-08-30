@@ -78,6 +78,6 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "json-viewer-js": "^1.0.7"
+    "json-tree-view": "^0.4.12"
   }
 }
