@@ -20,17 +20,13 @@ export default () => {
     const argElements = Object.keys(args).map((key) => {
       const arg = args[key];
       const isError = arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1;
-      return (
-        <span className={styles.argElement}>
-          {isError ? (arg.stack || arg) : <DataTree data={arg}/>}
-        </span>
-      );
+      return isError ? (arg.stack || arg) : <DataTree data={arg}/>;
     });
 
     const row = (
       <div className={`${styles.row} ${styles[verb]}`}>
-        <span className={styles.timestamp}>{timestamp}</span>
-        {[...argElements]}
+        <div className={styles.timestamp}>{timestamp}</div>
+        <div className={styles.consoleArgs}>{[...argElements]}</div>
         <a className={styles.fileName} href={frame.url} title={stack.map(frame => frame.path).join('\n')}>{fileName}</a>
       </div>
     );

@@ -1,34 +1,41 @@
 .dataTree {
-  box-sizing: border-box;
 }
 
 .item {
-  margin: 4px 0;
+
 }
 
 .parent {
   display: flex;
   justify-content: flex-start;
+  margin-bottom: 4px;
 }
 
-.children {
+.child {
   display: flex;
   justify-content: flex-start;
+  margin-left: 20px;
 }
 
 .caretIcon {
-  width: 18px;
-  text-align: center;
+  width: 14px;
+  text-align: right;
+}
+
+.caretIcon, .objectType, .size {
   cursor: pointer;
 }
 
-.type, .key, .index, .size {
-  margin-right: 4px;
-  margin-left: 4px;
+.objectType, .index, .size {
+  padding-left: 6px;
 }
 
-.key {
+.objectType {
   color: #444444;
+}
+
+.size {
+  font-style: italic;
 }
 
 .type {
@@ -45,6 +52,10 @@
   }
 }
 
+.key {
+  color: #881391;
+}
+
 .value {
   margin-left: 8px;
 }
@@ -54,11 +65,13 @@
   width: 0;
   height: 0;
   border-style: solid;
+  margin-top: 2px;
 }
 
 .caretDown {
   border-width: 6px 5px 0 5px;
   border-color: #808080 transparent;
+  margin-top: 4px;
 }
 
 .caretRight {

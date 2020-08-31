@@ -5,10 +5,7 @@
     border-color: #f0f0f0;
     border-bottom: 1px solid;
     font-family: monospace;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
     padding: 3px 3px 3px 95px;
-    white-space: nowrap;
   }
 
   .row.error {
@@ -47,17 +44,17 @@
     color: #808080;
   }
 
-  .argElement {
-    white-space: nowrap;
+  .consoleArgs {
     padding-right: 5px;
+    display: flex;
+    flex-flow: wrap;
   }
 
   .fileName {
-    position: absolute;
-    right: 0;
     background-color: inherit;
     padding: 0 5px;
     color: #808080;
+    cursor: pointer;
   }
 
   .prompt {
