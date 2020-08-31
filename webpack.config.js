@@ -58,7 +58,7 @@ module.exports = (env, argv) => {
               loader: 'css-loader',
               options: {
                 modules: true,
-                localIdentName: production ? '[hash:base64:5]' : '[path][name]_[local]',
+                localIdentName: production ? '[hash:base64:5]' : '[name]_[local]_[hash:base64:5]',
                 context: path.resolve(__dirname, 'src')
               },
             },

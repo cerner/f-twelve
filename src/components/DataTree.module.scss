@@ -1,12 +1,8 @@
-.jsonContainer {
-  font-family: 'Open Sans';
-  font-size: 16px;
-  background-color: #fff;
-  color: #808080;
+.dataTree {
   box-sizing: border-box;
 }
 
-.line {
+.item {
   margin: 4px 0;
   display: flex;
   justify-content: flex-start;
@@ -16,10 +12,6 @@
   width: 18px;
   text-align: center;
   cursor: pointer;
-}
-
-.emptyIcon {
-  width: 18px;
 }
 
 .jsontype {
@@ -36,10 +28,6 @@
 .jsonIndex {
   margin-right: 4px;
   margin-left: 4px;
-}
-
-.jsonSeparator {
-
 }
 
 .jsonValue {

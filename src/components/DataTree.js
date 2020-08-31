@@ -7,30 +7,25 @@ import styles from './DataTree.module.scss';
  * https://github.com/pgrabovets/json-view/blob/master/src/jsonview.js
  */
 export default ({ data }) => {
+  const ExpandedItem = ({ key, size }) => {
+    return (
+      <div className={styles.item}>
+        <div className={styles.caretIcon}><i className={`${styles.fas} ${styles.faCaretRight}`}/></div>
+        <div className={styles.jsonKey}>{key}</div>
+        <div className={styles.jsonSize}>{size}</div>
+      </div>
+    );
+  };
 
-  const expandedTemplate = (params = {}) => {
-    const { key, size } = params;
-    return `
-    <div class="${styles.line}">
-      <div class="${styles.caretIcon}"><i class="${styles.fas} ${styles.faCaretRight}"></i></div>
-      <div class="${styles.jsonKey}">${key}</div>
-      <div class="${styles.jsonSize}">${size}</div>
-    </div>
-  `
-  }
-
-// TODO: Replace this with a jsx component
-  const notExpandedTemplate = (params = {}) => {
-    const { key, value, type } = params;
-    return `
-    <div class="${styles.line}">
-      <div class="${styles.emptyIcon}"></div>
-      <div class="${styles.jsonKey}">${key}</div>
-      <div class="${styles.jsonSeparator}">:</div>
-      <div class="${styles.jsonValue} ${styles.json} ${styles[type]}">${value}</div>
-    </div>
-  `
-  }
+  const CollapsedItem = ({ key, value, type }) => {
+    return (
+      <div className={styles.item}>
+        <div className={styles.jsonKey}>{key}</div>
+        <div className={styles.jsonSeparator}>:</div>
+        <div className={`${styles.jsonValue} ${styles.json} ${styles[type]}`}>{value}</div>
+      </div>
+    );
+  };
 
   const hideNodeChildren = (node) => {
     node.children.forEach((child) => {
@@ -39,7 +34,7 @@ export default ({ data }) => {
         hideNodeChildren(child);
       }
     });
-  }
+  };
 
   const showNodeChildren = (node) => {
     node.children.forEach((child) => {
@@ -48,7 +43,7 @@ export default ({ data }) => {
         showNodeChildren(child);
       }
     });
-  }
+  };
 
   const setCaretIconDown = (node) => {
     if (node.children.length > 0) {
@@ -57,7 +52,7 @@ export default ({ data }) => {
         icon.classList.replace(styles.faCaretRight, styles.faCaretDown);
       }
     }
-  }
+  };
 
   const setCaretIconRight = (node) => {
     if (node.children.length > 0) {
@@ -66,7 +61,7 @@ export default ({ data }) => {
         icon.classList.replace(styles.faCaretDown, styles.faCaretRight);
       }
     }
-  }
+  };
 
   const toggleNode = (node) => {
     if (node.isExpanded) {
@@ -78,13 +73,13 @@ export default ({ data }) => {
       setCaretIconDown(node);
       showNodeChildren(node);
     }
-  }
+  };
 
   const createContainerElement = () => {
     const el = document.createElement('div');
-    el.className = styles.jsonContainer;
+    el.className = styles.dataTree;
     return el;
-  }
+  };
 
   /**
    * Create node html element
@@ -92,43 +87,32 @@ export default ({ data }) => {
    * @return html element
    */
   const createNodeElement = (node) => {
-    let el = document.createElement('div');
-
     const getSizeString = (node) => {
       const len = node.children.length;
       if (node.type === 'array') return `[${len}]`;
       if (node.type === 'object') return `{${len}}`;
       return null;
-    }
+    };
+
+    const el = node.children.length > 0
+      ? <ExpandedItem key={node.key} size={getSizeString(node)}/>
+      : <CollapsedItem key={node.key} type={typeof node.value} value={node.value}/>;
 
     if (node.children.length > 0) {
-      el.innerHTML = expandedTemplate({
-        key: node.key,
-        size: getSizeString(node),
-      })
-
       const caretEl = el.querySelector(`.${styles.caretIcon}`);
       caretEl.addEventListener('click', () => {
         toggleNode(node);
       });
-    } else {
-      el.innerHTML = notExpandedTemplate({
-        key: node.key,
-        value: node.value,
-        type: typeof node.value
-      })
     }
-
-    const lineEl = el.children[0];
 
     if (node.parent !== null) {
-      lineEl.classList.add(styles.hide);
+      el.classList.add(styles.hide);
     }
 
-    lineEl.style = 'margin-left: ' + node.depth * 18 + 'px;';
+    el.style = 'margin-left: ' + node.depth * 18 + 'px;';
 
-    return lineEl;
-  }
+    return el;
+  };
 
   /**
    * Get value data type
@@ -139,21 +123,7 @@ export default ({ data }) => {
     if (Array.isArray(val)) type = 'array';
     if (val === null) type = 'null';
     return type;
-  }
-
-  /**
-   * Recursively traverse json object
-   * @param {object} target
-   * @param {function} callback
-   */
-  const traverseObject = (target, callback) => {
-    callback(target);
-    if (typeof target === 'object') {
-      for (let key in target) {
-        traverseObject(target[key], callback);
-      }
-    }
-  }
+  };
 
   /**
    * Recursively traverse Tree object
@@ -167,7 +137,7 @@ export default ({ data }) => {
         traverseTree(child, callback);
       });
     }
-  }
+  };
 
   /**
    * Create node object
@@ -184,8 +154,8 @@ export default ({ data }) => {
       children: opt.children || [],
       el: opt.el || null,
       depth: opt.depth || 0,
-    }
-  }
+    };
+  };
 
   /**
    * Create subnode for node
@@ -206,7 +176,7 @@ export default ({ data }) => {
         createSubnode(data[key], child);
       }
     }
-  }
+  };
 
   /**
    * Create tree
@@ -221,7 +191,7 @@ export default ({ data }) => {
     });
     createSubnode(data, rootNode);
     return rootNode;
-  }
+  };
 
   /**
    * Render tree into DOM container
@@ -236,7 +206,7 @@ export default ({ data }) => {
     });
 
     return containerEl;
-  }
+  };
 
   const expandChildren = (node) => {
     traverseTree(node, function(child) {
@@ -244,7 +214,7 @@ export default ({ data }) => {
       child.isExpanded = true;
       setCaretIconDown(child);
     });
-  }
+  };
 
   const collapseChildren = (node) => {
     traverseTree(node, function(child) {
@@ -252,12 +222,12 @@ export default ({ data }) => {
       if (child.depth > node.depth) child.el.classList.add(styles.hide);
       setCaretIconRight(child);
     });
-  }
+  };
 
   return {
     el: render(createTree(data)),
     expandChildren,
     collapseChildren,
     traverseTree,
-  }
-}
+  };
+};

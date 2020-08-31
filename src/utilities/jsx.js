@@ -50,7 +50,7 @@ const getCustomComponent = (functionalComponent, attributes) => {
 const append = (parent, child) => {
   if (Array.isArray(child)) {
     child.forEach(grandChild => append(parent, grandChild));
-  } else if (typeof child === 'string') {
+  } else if (typeof child === 'string' || typeof child === 'number' || typeof child === 'boolean') {
     parent.appendChild(document.createTextNode(child));
   } else {
     parent.appendChild(child);
