@@ -48,9 +48,11 @@ const getCustomComponent = (functionalComponent, attributes) => {
  * Handle arrays and text nodes
  */
 const append = (parent, child) => {
-  if (Array.isArray(child)) {
+  if (child === null || typeof child === 'boolean' || typeof child === 'function') {
+    // Do nothing!
+  } else if (Array.isArray(child)) {
     child.forEach(grandChild => append(parent, grandChild));
-  } else if (typeof child === 'string' || typeof child === 'number' || typeof child === 'boolean') {
+  } else if (typeof child === 'string' || typeof child === 'number') {
     parent.appendChild(document.createTextNode(child));
   } else {
     parent.appendChild(child);

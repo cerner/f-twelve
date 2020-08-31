@@ -4,6 +4,14 @@
 
 .item {
   margin: 4px 0;
+}
+
+.parent {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.children {
   display: flex;
   justify-content: flex-start;
 }
@@ -14,27 +22,16 @@
   cursor: pointer;
 }
 
-.jsontype {
+.type, .key, .index, .size {
   margin-right: 4px;
   margin-left: 4px;
 }
 
-.jsonKey {
-  color: #444;
-  margin-right: 4px;
-  margin-left: 4px;
+.key {
+  color: #444444;
 }
 
-.jsonIndex {
-  margin-right: 4px;
-  margin-left: 4px;
-}
-
-.jsonValue {
-  margin-left: 8px;
-}
-
-.json {
+.type {
   .number {
     color: #f9ae58;
   }
@@ -48,28 +45,23 @@
   }
 }
 
-.jsonSize {
-  margin-right: 4px;
-  margin-left: 4px;
+.value {
+  margin-left: 8px;
 }
 
-.hide {
-  display: none;
-}
-
-.fas {
+.caret {
   display: inline-block;
   width: 0;
   height: 0;
   border-style: solid;
 }
 
-.faCaretDown {
+.caretDown {
   border-width: 6px 5px 0 5px;
   border-color: #808080 transparent;
 }
 
-.faCaretRight {
+.caretRight {
   border-width: 5px 0 5px 6px;
   border-color: transparent transparent transparent #808080;
 }
