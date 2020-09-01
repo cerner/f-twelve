@@ -1,6 +1,6 @@
 import jsx from '../../../utilities/jsx';
 import styles from './Console.module.scss';
-import DataTree from '../../DataTree';
+import DataTree from '../../dataTree/Tree';
 
 /**
  * Console tab output
