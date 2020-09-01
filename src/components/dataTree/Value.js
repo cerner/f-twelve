@@ -11,11 +11,11 @@ export default ({ meta }) => {
   const onclick = () => onClick(meta);
   const dataType = getDataType(meta.data);
   const isObject = typeof meta.data === 'object' && meta.data !== null;
+  const objectType = isObject && `${dataType.charAt(0).toUpperCase()}${dataType.slice(1)}(${getSize(meta.data)})`;
   return isObject ? (
     <>
       <div className={styles.caretIcon} onclick={onclick}><i className={caretClass}/></div>
-      <div className={styles.objectType} onclick={onclick}>{getDataType(meta.data)}</div>
-      <div className={styles.size} onclick={onclick}>{Object.keys(meta.data).length}</div>
+      <div className={styles.objectType} onclick={onclick}>{objectType}</div>
     </>
   ) : (
     <div className={`${styles.value} ${styles[dataType]}`}>{formatSimpleValue(meta)}</div>
@@ -48,3 +48,11 @@ const formatSimpleValue = (meta) => {
   // Otherwise return it as a string
   return value.toString();
 };
+
+/**
+ * Get object (must be Object or Array) size
+ */
+const getSize = (object) =>
+  Array.isArray(object)
+    ? Object.keys(object).length
+    : Object.getOwnPropertyNames(object).length;

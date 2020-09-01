@@ -6,7 +6,6 @@ import Value from './Value';
  * A DOM element representing any JS value/object including its children
  */
 const Node = ({ data, isOpen = false, key = null }) => {
-
   // Meta object to accompany the data
   const meta = {
     data,
@@ -14,15 +13,22 @@ const Node = ({ data, isOpen = false, key = null }) => {
     key,
   };
 
+  const keys = Object.keys(data || []);
+  const members = keys.map(key => ({ key, type: 'member' }));
+  const properties = Object.getOwnPropertyNames(data || [])
+    .filter(key => !keys.includes(key))
+    .map(key => ({ key, type: 'property' }));
+  const children = [...members, ...properties, { key: '__proto__', type: 'property' }];
+
   const el = (
     <div className={styles.node}>
       <div className={styles.parent}>
         {key && <div className={styles.key}>{key}:</div>}
         <Value meta={meta}/>
       </div>
-      {isOpen && Object.keys(data || []).map(childKey => (
-        <div className={styles.child}>
-          <Node data={data[childKey]} key={childKey}/>
+      {isOpen && children.map(child => (
+        <div className={`${styles.child} ${styles[child.type]}`}>
+          <Node data={data[child.key]} key={child.key}/>
         </div>
       ))}
     </div>

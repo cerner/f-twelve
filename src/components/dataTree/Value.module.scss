@@ -2,15 +2,12 @@
   cursor: pointer;
 }
 
-.objectType, .index, .size, .value {
+.objectType, .index, .value {
   padding-left: 6px;
 }
 
-.objectType, .size {
+.objectType {
   color: #444444;
-}
-
-.size {
   font-style: italic;
 }
 
