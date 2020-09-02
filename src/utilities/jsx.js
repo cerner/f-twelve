@@ -14,7 +14,7 @@ export default function jsx(tagName, attributes, ...children) {
 
   // Remove `children` attribute
   // Occurs when using a spread operator to pass-thru props, this attribute causes an error in Object.assign
-  delete attributes.children;
+  attributes && delete attributes.children;
 
   // Append attributes
   Object.assign(element, attributes);

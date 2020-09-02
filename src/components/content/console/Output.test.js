@@ -1,8 +1,6 @@
 import assert from 'assert';
 import Output from './Output';
 
-const prune = require('json-prune');
-
 describe('Output', function() {
   beforeEach(function() {
     this.el.innerHTML = '';
@@ -14,13 +12,20 @@ describe('Output', function() {
     this.testAppendStrings = (verb) => {
       const args = ['string1', 'string2', 'has a\nnewline', '👍'];
       this.output.append({ verb: verb, args: args });
+
+      // Verify 1 row
       const logs = this.el.getElementsByClassName(verb);
       assert.strictEqual(logs.length, 1);
-      const texts = logs[0].getElementsByClassName('outputText');
-      assert.strictEqual(texts.length, args.length);
+
+      // Verify 1 element per console arg
+      const argEl = logs[0].getElementsByClassName('consoleArgs')[0];
+      const argNodes = argEl.childNodes;
+      assert.strictEqual(argNodes.length, args.length);
+
+      // Verify the output matches the input
       let idx = 0;
-      for (const text of texts) {
-        assert.strictEqual(text.textContent, args[idx++]);
+      for (const node of argNodes) {
+        assert.strictEqual(node.textContent, args[idx++]);
       }
     };
     this.testAppendObjects = (verb) => {
@@ -29,16 +34,25 @@ describe('Output', function() {
       const largeArray = new Array(51).fill(0);
       const args = [{ key: 'value' }, [1, '2', 'three'], largeArray, circular, { undefined: undefined }];
       this.output.append({ verb: verb, args: args });
+
+      // Verify 1 row
       const logs = this.el.getElementsByClassName(verb);
       assert.strictEqual(logs.length, 1);
-      const texts = logs[0].getElementsByClassName('outputText');
-      assert.strictEqual(texts.length, args.length);
+
+      // Verify 1 element per console arg
+      const argEl = logs[0].getElementsByClassName('consoleArgs')[0];
+      const argNodes = argEl.childNodes;
+      assert.strictEqual(argNodes.length, args.length);
+
+      // Verify the output matches the input
       let idx = 0;
-      for (const text of texts) {
-        assert.strictEqual(
-          text.textContent,
-          JSON.stringify(JSON.parse(prune(args[idx++], this.output.pruneOptions)), null, 2)
-        );
+      for (const node of argNodes) {
+        const data = args[idx++];
+        if (Array.isArray(data)) {
+          assert.strictEqual(node.textContent, `Array(${data.length})`);
+        } else {
+          assert.strictEqual(node.textContent, `Object(${Object.keys(data).length})`);
+        }
       }
     };
   });
@@ -95,25 +109,25 @@ describe('Output', function() {
   });
 
   describe('#onClickExpandIcon()', function() {
-    it('should expand output block on click', function() {
+    it('should display children on click', function() {
       this.output.append({ args: [{ key: 'value' }] });
-      const textBlocks = this.el.getElementsByClassName('block');
-      assert.strictEqual(textBlocks.length, 1, this.setupError);
-      const textBlock = textBlocks[0];
-      assert(!textBlock.classList.contains('open'));
-      textBlock.click();
-      assert(textBlock.classList.contains('open'));
+      const args = this.el.getElementsByClassName('consoleArgs');
+      assert.strictEqual(args.length, 1, this.setupError);
+      const arg = args[0];
+      assert.strictEqual(arg.getElementsByClassName('child').length, 0);
+      arg.getElementsByClassName('caret')[0].click();
+      assert(arg.getElementsByClassName('child').length > 0);
     });
-    it('should collapse expanded output block on click', function() {
+    it('should remove children on click', function() {
       this.output.append({ args: [{ key: 'value' }] });
-      const textBlocks = this.el.getElementsByClassName('block');
-      assert.strictEqual(textBlocks.length, 1, this.setupError);
-      const textBlock = textBlocks[0];
-      assert(!textBlock.classList.contains('open'), this.setupError);
-      textBlock.click();
-      assert(textBlock.classList.contains('open'), this.setupError);
-      textBlock.click();
-      assert(!textBlock.classList.contains('open'));
+      const args = this.el.getElementsByClassName('consoleArgs');
+      assert.strictEqual(args.length, 1, this.setupError);
+      const arg = args[0];
+      assert(arg.getElementsByClassName('child').length === 0, this.setupError);
+      arg.getElementsByClassName('caret')[0].click();
+      assert(arg.getElementsByClassName('child').length > 0, this.setupError);
+      arg.getElementsByClassName('caret')[0].click();
+      assert(arg.getElementsByClassName('child').length === 0);
     });
   });
 });
