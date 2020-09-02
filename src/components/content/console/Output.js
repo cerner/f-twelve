@@ -19,8 +19,9 @@ export default () => {
 
     const argElements = Object.keys(args).map((key) => {
       const arg = args[key];
-      const isError = arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1;
-      return isError ? (arg.stack || arg) : <DataTree data={arg}/>;
+      const isError = arg instanceof Error ||
+        (arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1);
+      return <DataTree data={isError ? (arg.stack || arg) : arg}/>;
     });
 
     const row = (

@@ -39,15 +39,14 @@
   }
 
   .timestamp {
-    padding-right: 5px;
     margin-left: -90px;
     color: #808080;
   }
 
   .consoleArgs {
-    padding-right: 5px;
     display: flex;
     flex-flow: wrap;
+    white-space: pre-wrap;
   }
 
   .fileName {
