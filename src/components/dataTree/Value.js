@@ -43,6 +43,9 @@ const formatSimpleValue = (meta) => {
   // Stringify undefined
   if (typeof value === 'undefined') return 'undefined';
 
+  // Flatten functions
+  if (typeof value === 'function') return value.toString().replace(/\s+/g, ' ');
+
   // Wrap child strings in quotes
   if (meta.key && typeof value === 'string') return `"${value}"`;
 

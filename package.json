@@ -5,7 +5,7 @@
   "main": "lib/main.js",
   "scripts": {
     "build": "npm run compile && npm run pack",
-    "compile": "babel src --out-dir lib --ignore **/*.test.js --copy-files  --no-copy-ignored --delete-dir-on-start",
+    "compile": "babel src --out-dir lib --ignore **/*.test.js --copy-files --no-copy-ignored --delete-dir-on-start",
     "dev": "webpack-dev-server --mode development",
     "eslint": "eslint --ext .js .",
     "pack": "webpack --mode production",
