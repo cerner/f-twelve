@@ -13,10 +13,11 @@ const Node = ({ data, isOpen = false, key = null }) => {
     key,
   };
 
-  const keys = Object.keys(data || []);
+  const objectData = typeof data === 'object' ? (data || []) : [];
+  const keys = Object.keys(objectData);
   const members = keys.map(key => ({ key, type: 'member' }));
-  const properties = Object.getOwnPropertyNames(data || [])
-    .filter(key => !keys.includes(key))
+  const properties = Object.getOwnPropertyNames(objectData)
+    .filter(key => keys.indexOf(key) === -1)
     .map(key => ({ key, type: 'property' }));
   const children = [...members, ...properties, { key: '__proto__', type: 'property' }];
 

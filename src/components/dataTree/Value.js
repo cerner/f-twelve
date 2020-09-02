@@ -8,17 +8,18 @@ import getDataType from '../../utilities/getDataType';
  */
 export default ({ meta }) => {
   const caretClass = `${styles.caret} ${meta.isOpen ? styles.caretDown : styles.caretRight}`;
-  const onclick = () => onClick(meta);
+  const onClickParent = () => onClick(meta);
   const dataType = getDataType(meta.data);
   const isObject = typeof meta.data === 'object' && meta.data !== null;
   const objectType = isObject && `${dataType.charAt(0).toUpperCase()}${dataType.slice(1)}(${getSize(meta.data)})`;
+  const dataTypeStyle = !meta.key && typeof meta.data === 'string' ? '' : styles[dataType]; // Don't style parent strings
   return isObject ? (
     <>
-      <div className={styles.caretIcon} onclick={onclick}><i className={caretClass}/></div>
-      <div className={styles.objectType} onclick={onclick}>{objectType}</div>
+      <div className={styles.caretIcon} onclick={onClickParent}><i className={caretClass}/></div>
+      <div className={styles.objectType} onclick={onClickParent}>{objectType}</div>
     </>
   ) : (
-    <div className={`${styles.value} ${styles[dataType]}`}>{formatSimpleValue(meta)}</div>
+    <div className={`${styles.value} ${dataTypeStyle}`}>{formatSimpleValue(meta)}</div>
   );
 };
 

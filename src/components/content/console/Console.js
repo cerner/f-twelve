@@ -34,12 +34,23 @@ export default () => {
     verbs.forEach((verb) => {
       window.console[verb] = (...args) => {
         const isError = args.length === 1 && args[0] instanceof Error;
-        const stackPreFtwelve = (Error().stack || '').split('\n').splice(2).join('\n');
+        const stackPreFtwelve = getStack().split('\n').splice(3).join('\n');
         const stack = parseStack(isError ? args[0].stack : stackPreFtwelve);
         output.append({ verb, args, stack });
         return originalConsole[verb] && originalConsole[verb].apply(window.console, args);
       };
     });
+  };
+
+  /**
+   * Only way to get a stack in IE is throw an actual error!
+   */
+  const getStack = () => {
+    try {
+      throw Error();
+    } catch (error) {
+      return error.stack || '';
+    }
   };
 
   const restoreWindowConsole = () => {
