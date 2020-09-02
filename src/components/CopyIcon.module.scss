@@ -1,0 +1,25 @@
+.copyIcon {
+
+  width: 13px;
+  height: 14px;
+
+  div {
+    position: absolute;
+    border: 1px solid #999;
+    background-color: #fff;
+    border-radius: 2px;
+    width: 7px;
+    height: 10px;
+  }
+
+  .back {
+    border-width: 1px 1px 0 0;
+    margin-left: 4px;
+  }
+
+  .front {
+    margin-top: 2px;
+  }
+}
+
+

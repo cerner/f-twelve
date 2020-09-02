@@ -1,6 +1,7 @@
 import jsx from '../../utilities/jsx';
 import styles from './Node.module.scss';
 import Value from './Value';
+import CopyIcon from '../CopyIcon';
 
 /**
  * A DOM element representing any JS value/object including its children
@@ -24,6 +25,7 @@ const Node = ({ data, isOpen = false, key = null }) => {
   const el = (
     <div className={styles.node}>
       <div className={styles.parent}>
+        <div className={styles.copyIcon}><CopyIcon onclick={() => alert('todo')} title="Copy"/></div>
         {key && <div className={styles.key}>{key}:</div>}
         <Value meta={meta}/>
       </div>

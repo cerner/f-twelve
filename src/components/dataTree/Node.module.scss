@@ -19,3 +19,12 @@
 .property .key {
   color: #b870b3;
 }
+
+.copyIcon {
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.parent:hover .copyIcon {
+  visibility: visible;
+}
