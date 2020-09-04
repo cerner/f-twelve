@@ -1,6 +1,6 @@
 import jsx from '../../../utilities/jsx';
 import styles from './Console.module.scss';
-import DataTree from '../../dataTree/DomNode';
+import Tree from '../../dataTree/Tree';
 
 /**
  * Console tab output
@@ -21,7 +21,7 @@ export default () => {
       const arg = args[key];
       const isError = arg instanceof Error ||
         (arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1);
-      return <DataTree data={isError ? (arg.stack || arg) : arg}/>;
+      return <Tree data={isError ? (arg.stack || arg) : arg}/>;
     });
 
     const row = (

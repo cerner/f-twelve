@@ -1,5 +1,5 @@
 import jsx from '../../utilities/jsx';
-import Node from './DomNode';
+import Node from './Node';
 import styles from './Value.module.scss';
 import getDataType from '../../utilities/getDataType';
 
@@ -9,10 +9,10 @@ import getDataType from '../../utilities/getDataType';
 export default ({ meta }) => {
   const caretClass = `${styles.caret} ${meta.isOpen ? styles.caretDown : styles.caretRight}`;
   const onClickParent = () => onClick(meta);
-  const dataType = getDataType(meta.data);
-  const isObject = typeof meta.data === 'object' && meta.data !== null;
-  const objectType = isObject && `${dataType.charAt(0).toUpperCase()}${dataType.slice(1)}(${getSize(meta.data)})`;
-  const dataTypeStyle = !meta.key && typeof meta.data === 'string' ? '' : styles[dataType]; // Don't style parent strings
+  const dataType = getDataType(meta.node.value);
+  const isObject = typeof meta.node.value === 'object' && meta.data !== null;
+  const objectType = isObject && `${dataType.charAt(0).toUpperCase()}${dataType.slice(1)}(${getSize(meta.node.value)})`;
+  const dataTypeStyle = !meta.key && typeof meta.node.value === 'string' ? '' : styles[dataType]; // Don't style parent strings
   return isObject ? (
     <>
       <div className={styles.caretIcon} onclick={onClickParent}><i className={caretClass}/></div>
@@ -27,7 +27,7 @@ export default ({ meta }) => {
  * Replace clicked Node with an identical Node but toggle isOpen
  */
 const onClick = (meta) => {
-  const newNode = <Node data={meta.data} isOpen={!meta.isOpen} key={meta.key} parentMeta={meta.parent}/>;
+  const newNode = <Node isOpen={!meta.isOpen} key={meta.key} node={meta.node}/>;
   meta.el.parentNode.replaceChild(newNode, meta.el);
 };
 
@@ -35,7 +35,7 @@ const onClick = (meta) => {
  * Format display of non-object values
  */
 const formatSimpleValue = (meta) => {
-  const value = meta.data;
+  const value = meta.node.value;
 
   // Stringify null
   if (value === null) return 'null';
