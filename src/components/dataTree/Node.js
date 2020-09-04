@@ -8,7 +8,7 @@ const Node = ({ value, parent = null }) => {
   // Populate the node
   const node = { value, parent };
   node.children = getChildren(node);
-  node.toJson = () => toJson(node);
+  node.toJson = toJson.bind(null, node);
   // node.el = <Node data={data}/>; // TODO: Tie into DOM
   return node;
 };
@@ -30,12 +30,12 @@ const getChildren = (parent) => {
 
   // Create a node for each child
   return children.map(child => {
-    const childValue = parent.value[child.key];
-    const circularAncestor = getCircularAncestor(parent, childValue);
+    const value = parent.value[child.key];
+    const circularAncestor = getCircularAncestor(parent, value);
     return {
       key: child.key,
       type: child.type,
-      node: circularAncestor || Node({ value: childValue, parent })
+      node: circularAncestor || Node({ value, parent })
     };
   });
 };
@@ -50,23 +50,25 @@ const getCircularAncestor = (parentNode, value) => {
 };
 
 /**
- * Use the regular JSON.stringify for this node but terminate circular references
+ * Use the regular JSON.stringify for simple values but stop traversing children that are circular references
+ * Manually glue the simple values together with JSON syntax characters (commas, brackets, curly braces)
  * @param node
  */
 const toJson = (node) => {
   const value = node.value;
 
-  // End recursion
-  if (node.parents && node.parents.find(parent => parent.value === value)) {
-    return '"-circular-"';
-  } else if (typeof value !== 'object') {
+  if (typeof value !== 'object') {
     return JSON.stringify(value);
   }
 
-  // Begin recursion
-  const childrenCsv = node.children.map(childKey => {
-    return `"${childKey}":${node[childKey].toJson()}`;
-  }).join(',');
+  const childrenCsv = node.children
+    .filter(child => child.type === 'member')
+    .map(child => {
+      const childValue = node.value[child.key];
+      const circularAncestor = getCircularAncestor(node, childValue);
+      const value = circularAncestor ? '"-circular-"' : child.node.toJson();
+      return Array.isArray(node.value) ? value : `"${child.key}":${value}`;
+    }).join(',');
 
   return Array.isArray(value) ? `[${childrenCsv}]` : `{${childrenCsv}}`;
 };

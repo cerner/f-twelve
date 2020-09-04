@@ -42,4 +42,45 @@ describe('Node', function() {
     assert.strictEqual(tree.children[0].node.children[1].node.children[0].node.children[0].node.value, data.level1);
     assert.strictEqual(tree.children[0].node.children[1].node.children[0].node.children[0].node.value, data.level1.level2.level3.circular);
   });
+
+  describe('#toJson()', function() {
+    it('should handle simple values', function() {
+      const stringNode = Node({ value: 'one' });
+      assert.strictEqual(stringNode.toJson(), '"one"');
+      const numberNode = Node({ value: 1 });
+      assert.strictEqual(numberNode.toJson(), '1');
+      const booleanNode = Node({ value: true });
+      assert.strictEqual(booleanNode.toJson(), 'true');
+    });
+    it('should handle arrays', function() {
+      const arrayNode = Node({ value: [1, 2, 3] });
+      assert.strictEqual(arrayNode.toJson(), '[1,2,3]');
+    });
+    it('should handle objects', function() {
+      const objectNode = Node({ value: { 'one': 1, 'two': true, 'three': '3ree' } });
+      assert.strictEqual(objectNode.toJson(), '{"one":1,"two":true,"three":"3ree"}');
+    });
+    it('should handle circular references', function() {
+      const data = {};
+      data.circular = data;
+      const tree = Node({ value: data });
+      assert.strictEqual(tree.toJson(), '{"circular":"-circular-"}');
+    });
+    it('should handle deep circular references', function() {
+      const data = { level1: { regularKey: 'regularValue', level2: { level3: {} } } };
+      data.level1.level2.level3.circular = data.level1;
+      const tree = Node({ value: data });
+      assert.strictEqual(tree.toJson(), '{"level1":{"regularKey":"regularValue","level2":{"level3":{"circular":"-circular-"}}}}');
+    });
+    it('should handle arrays with circular references', function() {
+      const data = [
+        null,
+        { level1: { level2: { level3: {} } } }
+      ];
+      data[0] = data;
+      data[1].level1.level2.level3.circular = data[0];
+      const tree = Node({ value: data });
+      assert.strictEqual(tree.toJson(), '["-circular-",{"level1":{"level2":{"level3":{"circular":"-circular-"}}}}]');
+    });
+  });
 });
