@@ -9,51 +9,34 @@ const Node = ({ value, parent = null }) => {
   const node = { value, parent };
   node.children = getChildren(node);
   node.toJson = () => toJson(node);
-
   // node.el = <Node data={data}/>; // TODO: Tie into DOM
-
-  // Add this child to the parent in order to build a tree
-  // if (parent && !parent.children.find(child => child.data === data)) parent.children.push(node);
-
-  // Build a tree
-  // if (parent && !parent.children.find(child => child.data === data)) return node;
-
-  // Save this toJson so the tree can be manually traversed and converted to a string without circular references
-
-
-  // node.fields.forEach(field =>
-  //   (node.children[field.key] = Node({ data: data[field.key], parent: node }))
-  // );
-
   return node;
 };
 
 /**
- * Retrieve all fields that exist on an object and return an array of their meta info (key, type, Node)
+ * Retrieve all fields that exist on an object and return an array of their meta info (key, type, node)
  */
 const getChildren = (parent) => {
-  const value = parent.value;
-  if (value == null || typeof value !== 'object') return [];
-  const keys = Object.keys(value);
-  const members = keys.map(key => ({
-    key,
-    type: 'member',
-    value: value[key],
-  }));
-  const properties = Object.getOwnPropertyNames(value)
+  // Null makes more sense for non-objects but an empty array is easier to work with
+  if (parent.value == null || typeof parent.value !== 'object') return [];
+
+  // Get object members and properties i.e. children
+  const keys = Object.keys(parent.value);
+  const members = keys.map(key => ({ key, type: 'member', }));
+  const properties = Object.getOwnPropertyNames(parent.value)
     .filter(key => keys.indexOf(key) === -1)
-    .map(key => ({
-      key,
-      type: 'property',
-      value: value[key]
-    }));
+    .map(key => ({ key, type: 'property', }));
   const children = [...members, ...properties, { key: '__proto__', type: 'property' }];
+
+  // Create a node for each child
   return children.map(child => {
-    const circularAncestor = getCircularAncestor(parent, child.value);
+    const childValue = parent.value[child.key];
+    const circularAncestor = getCircularAncestor(parent, childValue);
     return {
-      ...child,
-      node: circularAncestor || Node({ value: child.value, parent })
-    }
+      key: child.key,
+      type: child.type,
+      node: circularAncestor || Node({ value: childValue, parent })
+    };
   });
 };
 
@@ -63,8 +46,8 @@ const getChildren = (parent) => {
 const getCircularAncestor = (parentNode, value) => {
   if (!parentNode) return null;
   if (parentNode.value === value) return parentNode;
-  return getCircularAncestor(parentNode.parent);
-}
+  return getCircularAncestor(parentNode.parent, value);
+};
 
 /**
  * Use the regular JSON.stringify for this node but terminate circular references
