@@ -1,5 +1,5 @@
 import jsx from '../../utilities/jsx';
-import Node from './Node';
+import Node from './DomNode';
 import styles from './Value.module.scss';
 import getDataType from '../../utilities/getDataType';
 
@@ -27,8 +27,8 @@ export default ({ meta }) => {
  * Replace clicked Node with an identical Node but toggle isOpen
  */
 const onClick = (meta) => {
-  const newNode = <Node data={meta.data} isOpen={!meta.isOpen} key={meta.key}/>;
-  meta.node.parentNode.replaceChild(newNode, meta.node);
+  const newNode = <Node data={meta.data} isOpen={!meta.isOpen} key={meta.key} parentMeta={meta.parent}/>;
+  meta.el.parentNode.replaceChild(newNode, meta.el);
 };
 
 /**

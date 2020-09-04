@@ -1,49 +1,91 @@
 import jsx from '../../utilities/jsx';
-import styles from './Node.module.scss';
-import Value from './Value';
-import CopyIcon from '../CopyIcon';
+import DomNode from './DomNode';
 
 /**
- * A DOM element representing any JS value/object including its children
+ * Node that recursively builds a tree with any JS data and truncate circular references so it can be converted to JSON
  */
-const Node = ({ data, isOpen = false, key = null }) => {
-  // Meta object to accompany the data
-  const meta = {
-    data,
-    isOpen,
+const Node = ({ value, parent = null }) => {
+  // Populate the node
+  const node = { value, parent };
+  node.children = getChildren(node);
+  node.toJson = () => toJson(node);
+
+  // node.el = <Node data={data}/>; // TODO: Tie into DOM
+
+  // Add this child to the parent in order to build a tree
+  // if (parent && !parent.children.find(child => child.data === data)) parent.children.push(node);
+
+  // Build a tree
+  // if (parent && !parent.children.find(child => child.data === data)) return node;
+
+  // Save this toJson so the tree can be manually traversed and converted to a string without circular references
+
+
+  // node.fields.forEach(field =>
+  //   (node.children[field.key] = Node({ data: data[field.key], parent: node }))
+  // );
+
+  return node;
+};
+
+/**
+ * Retrieve all fields that exist on an object and return an array of their meta info (key, type, Node)
+ */
+const getChildren = (parent) => {
+  const value = parent.value;
+  if (value == null || typeof value !== 'object') return [];
+  const keys = Object.keys(value);
+  const members = keys.map(key => ({
     key,
-  };
-
-  const objectData = typeof data === 'object' ? (data || []) : [];
-  const keys = Object.keys(objectData);
-  const members = keys.map(key => ({ key, type: 'member' }));
-  const properties = Object.getOwnPropertyNames(objectData)
+    type: 'member',
+    value: value[key],
+  }));
+  const properties = Object.getOwnPropertyNames(value)
     .filter(key => keys.indexOf(key) === -1)
-    .map(key => ({ key, type: 'property' }));
+    .map(key => ({
+      key,
+      type: 'property',
+      value: value[key]
+    }));
   const children = [...members, ...properties, { key: '__proto__', type: 'property' }];
+  return children.map(child => {
+    const circularAncestor = getCircularAncestor(parent, child.value);
+    return {
+      ...child,
+      node: circularAncestor || Node({ value: child.value, parent })
+    }
+  });
+};
 
-  const el = (
-    <div className={styles.node}>
-      <div className={styles.parent}>
-        <div className={styles.copyIcon}><CopyIcon onclick={() => alert('todo')} title="Copy"/></div>
-        {key && <div className={styles.key}>{key}:</div>}
-        <Value meta={meta}/>
-      </div>
-      {isOpen && children.map(child => (
-        <div className={`${styles.child} ${styles[child.type]}`}>
-          <Node data={data[child.key]} key={child.key}/>
-        </div>
-      ))}
-    </div>
-  );
+/**
+ * Find nodes that already exist in this family line
+ */
+const getCircularAncestor = (parentNode, value) => {
+  if (!parentNode) return null;
+  if (parentNode.value === value) return parentNode;
+  return getCircularAncestor(parentNode.parent);
+}
 
-  // Add the element itself to the meta
-  meta.node = el;
+/**
+ * Use the regular JSON.stringify for this node but terminate circular references
+ * @param node
+ */
+const toJson = (node) => {
+  const value = node.value;
 
-  return {
-    el,
-    meta
-  };
+  // End recursion
+  if (node.parents && node.parents.find(parent => parent.value === value)) {
+    return '"-circular-"';
+  } else if (typeof value !== 'object') {
+    return JSON.stringify(value);
+  }
+
+  // Begin recursion
+  const childrenCsv = node.children.map(childKey => {
+    return `"${childKey}":${node[childKey].toJson()}`;
+  }).join(',');
+
+  return Array.isArray(value) ? `[${childrenCsv}]` : `{${childrenCsv}}`;
 };
 
 export default Node;
