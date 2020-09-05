@@ -1,14 +1,11 @@
 :local {
 
   .row {
-    display: block;
+    display: flex;
     border-color: #f0f0f0;
     border-bottom: 1px solid;
     font-family: monospace;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
     padding: 3px 3px 3px 95px;
-    white-space: nowrap;
   }
 
   .row.error {
@@ -42,37 +39,23 @@
   }
 
   .timestamp {
-    padding-right: 5px;
     margin-left: -90px;
     color: #808080;
   }
 
-  .outputText {
-    white-space: nowrap;
-    padding-right: 5px;
-  }
-
-  .outputText.block {
-    padding-left: 10px;
-    background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+PHBvbHlnb24gcG9pbnRzPSczLDIgOCw1IDMsOScgc3R5bGU9J2ZpbGw6IzcyNzI3MicgLz48L3N2Zz4=") no-repeat;
-    background-position-y: 2px;
-  }
-
-  .outputText.block.open {
-    white-space: pre;
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+PHBvbHlnb24gcG9pbnRzPScyLDMgOCwzIDUsOScgc3R5bGU9J2ZpbGw6IzcyNzI3MicgLz48L3N2Zz4=");
-  }
-
-  .outputText.block:hover {
-    background-color: #f1ffff88;
+  .consoleArgs {
+    display: flex;
+    flex-flow: wrap;
+    white-space: pre-wrap;
   }
 
   .fileName {
-    position: absolute;
-    right: 0;
     background-color: inherit;
     padding: 0 5px;
     color: #808080;
+    cursor: pointer;
+    flex: auto;
+    text-align: right;
   }
 
   .prompt {
