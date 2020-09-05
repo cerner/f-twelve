@@ -18,9 +18,9 @@ const Node = ({ node, isOpen, key }) => {
   const el = (
     <div className={styles.domNode}>
       <div className={styles.parent}>
-        <div className={styles.copyIcon}><CopyIcon onclick={() => alert(node.toJson())} title="Copy"/></div>
+        <div className={styles.copyIcon}><CopyIcon onclick={onClickCopy.bind(null, node)} title="Copy"/></div>
         {key && <div className={styles.key}>{key}:</div>}
-        <Value meta={meta} onClick={onClick.bind(null, meta)}/>
+        <Value meta={meta} onClick={onClickNode.bind(null, meta)}/>
       </div>
       {isOpen && node.children.map(child => (
         <div className={`${styles.child} ${styles[child.type]}`}>
@@ -39,9 +39,24 @@ const Node = ({ node, isOpen, key }) => {
 /**
  * Replace clicked Node with an identical Node but toggle isOpen
  */
-const onClick = (meta) => {
+const onClickNode = (meta) => {
   const newNode = <Node isOpen={!meta.isOpen} key={meta.key} node={meta.node}/>;
   meta.el.parentNode.replaceChild(newNode, meta.el);
+};
+
+/**
+ * Replace clicked Node with an identical Node but toggle isOpen
+ */
+const onClickCopy = (node) => {
+
+  // Beautify the json
+  const json = JSON.stringify(JSON.parse(node.toJson()), null, 2);
+
+  const tempInput = <textarea style='position: absolute; left: -1000px; top: -1000px' value={json}/>;
+  document.body.appendChild(tempInput);
+  tempInput.select();
+  document.execCommand('copy');
+  document.body.removeChild(tempInput);
 };
 
 export default Node;

@@ -45,12 +45,15 @@ const getChildren = (parent) => {
   const properties = Object.getOwnPropertyNames(parent.value)
     .filter(key => keys.indexOf(key) === -1)
     .map(key => ({ key, type: 'property', }));
-  const children = [...members, ...properties, { key: '__proto__', type: 'property' }];
+  const children = [...members, ...properties, { key: '__proto__', type: 'property' }]
+    .filter(child => !(Object.getOwnPropertyDescriptor(parent.value, child.key) || {}).get);
 
   // Return an array of objects with metadata for each child including the child's node
   return children.map(child => {
     const value = parent.value[child.key];
     const circularAncestor = getCircularAncestor(parent, value);
+    // It would simplify things to just return the node with childKey/childType fields added to it, however
+    //  a given node can live in 2 places with different keys thus the extra layer is necessary
     return {
       key: child.key,
       type: child.type,
@@ -67,8 +70,10 @@ const toJson = (node) => {
   const value = node.value;
 
   // End recursion
-  if (typeof value !== 'object') {
-    return JSON.stringify(value);
+  if (typeof value === 'function') {
+    return JSON.stringify(value.toString());
+  } else if (typeof value !== 'object') {
+    return JSON.stringify(value) || '"-undefined-"';
   }
 
   const childrenCsv = node.children
