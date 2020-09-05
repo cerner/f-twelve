@@ -14,15 +14,18 @@ import Node from './Node';
  */
 export default ({ data }) => {
   // Generate a data tree
-  const dataTree = getNode({ value: data });
+  const dataTree = getNode(data);
   // Use the data tree to populate the DOM tree
-  return <Node node={dataTree}/>;
+  return {
+    dataTree,
+    el: <Node node={dataTree}/>
+  }
 };
 
 /**
  * Node that recursively builds a tree with any JS data and provides a toJson function that handles circular references
  */
-const getNode = ({ value, parent = null }) => {
+const getNode = (value, parent = null) => {
   const node = { value, parent };
   node.children = getChildren(node);
   node.toJson = toJson.bind(null, node);
@@ -33,7 +36,7 @@ const getNode = ({ value, parent = null }) => {
  * Retrieve all fields that exist on an object and return an array of their meta info (key, type, node)
  */
 const getChildren = (parent) => {
-  // Null makes more sense for non-objects but an empty array is easier to work with
+  // Null would make more sense for non-objects but an empty array is easier to work with
   if (parent.value == null || typeof parent.value !== 'object') return [];
 
   // Get object members and properties i.e. children
@@ -44,14 +47,14 @@ const getChildren = (parent) => {
     .map(key => ({ key, type: 'property', }));
   const children = [...members, ...properties, { key: '__proto__', type: 'property' }];
 
-  // Create a node for each child
+  // Return an object with metadata for each child including the child's node
   return children.map(child => {
     const value = parent.value[child.key];
     const circularAncestor = getCircularAncestor(parent, value);
     return {
       key: child.key,
       type: child.type,
-      node: circularAncestor || getNode({ value, parent })
+      node: circularAncestor || getNode(value, parent)
     };
   });
 };

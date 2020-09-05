@@ -7,12 +7,13 @@ import getDataType from '../../utilities/getDataType';
  * The actual value of a Node. The only prop is meta as it has everything needed to create a new Node on click.
  */
 export default ({ meta }) => {
+  const node = meta.node;
   const caretClass = `${styles.caret} ${meta.isOpen ? styles.caretDown : styles.caretRight}`;
   const onClickParent = () => onClick(meta);
-  const dataType = getDataType(meta.node.value);
-  const isObject = typeof meta.node.value === 'object' && meta.data !== null;
-  const objectType = isObject && `${dataType.charAt(0).toUpperCase()}${dataType.slice(1)}(${getSize(meta.node.value)})`;
-  const dataTypeStyle = !meta.key && typeof meta.node.value === 'string' ? '' : styles[dataType]; // Don't style parent strings
+  const dataType = getDataType(node.value);
+  const isObject = typeof node.value === 'object' && node.value !== null;
+  const objectType = isObject && `${dataType.charAt(0).toUpperCase()}${dataType.slice(1)}(${getSize(node.value)})`;
+  const dataTypeStyle = !meta.key && typeof node.value === 'string' ? '' : styles[dataType]; // Don't style parent strings
   return isObject ? (
     <>
       <div className={styles.caretIcon} onclick={onClickParent}><i className={caretClass}/></div>
