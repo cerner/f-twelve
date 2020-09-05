@@ -81,22 +81,36 @@ alert("Hiding F-Twelve");
       console.info("info msg");
       console.log({ "one": "two" });
       console.log("one", "two", 3);
-      console.warn("words followed by a small object followed by a large object", { "one": "two" }, {
-        "ticket": [{
+      console.warn("shorts words, 2 objects, long words", { "one": "two" }, {
+        "tickets": [{
           "impact": "0",
           "tenantId": "5ba2af2b0456dc5c3fdc9b02",
           "summary": "123",
-          "description": "123",
-          "assignedGroupId": "5ba3ddddc40a384ad1bd45c8",
+          "description": "this has \"quotes\" in it",
+          "assignedGroupId": "this also has 'quotes' in it",
           "containsPhi": true,
           "firstName": "Portal",
-          "lastName": "Portal",
+          "lastName": undefined,
           "userName": "4464007",
           "email": "pgross41@gmail.com",
-          "phoneNumber": "(636) 466-3778",
+          "phoneNumber": "(281) 330-8004",
           "id": 1
-        }],
-        "configuration": [{
+        },
+          {
+            "impact": "1",
+            "tenantId": "NWJhMmFmMmIwNDU2ZGM1YzNmZGM5YjAy",
+            "summary": "123",
+            "description": "123",
+            "assignedGroupId": "5ba3ddddc40a384ad1bd45c8",
+            "containsPhi": true,
+            "firstName": "Portal",
+            "lastName": "Portal",
+            "userName": "4464007",
+            "email": "pgross41@gmail.com",
+            "phoneNumber": "(281) 330-8004",
+            "id": 1
+          }],
+        "configuration": {
           "id": "undefined",
           "tenantId": "0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca",
           "issueTypes": {
@@ -118,8 +132,8 @@ alert("Hiding F-Twelve");
               "text": "Moderate/Limited"
             }, { "value": "2", "text": "Significant/Large" }, { "value": "3", "text": "Extensive/Widespread" }]
           }
-        }]
-      });
+        }
+      }, "followup words after a small object followed by a large object with lots of words it's really long vertically but not very long horizontally need to see what it will look like");
       iAmBadCode;
 
     </script>

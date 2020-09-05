@@ -25,6 +25,39 @@ describe('#jsx()', function() {
       assert.strictEqual(textNode.constructor.name, 'Text');
       assert.strictEqual(textNode.textContent, 'text');
     });
+    it('should handle simple elements with number content', function() {
+      const el = <div>{3}</div>;
+      assert.strictEqual(el instanceof HTMLDivElement, true);
+      assert.strictEqual(el.childNodes.length, 1);
+      assert.strictEqual(el.attributes.length, 0);
+      const textNode = el.childNodes[0];
+      assert.strictEqual(textNode.constructor.name, 'Text');
+      assert.strictEqual(textNode.textContent, '3');
+    });
+    it('should handle simple elements with boolean content (false)', function() {
+      const el = <div>{false}</div>;
+      assert.strictEqual(el instanceof HTMLDivElement, true);
+      assert.strictEqual(el.childNodes.length, 0);
+      assert.strictEqual(el.attributes.length, 0);
+    });
+    it('should handle simple elements with boolean content (true)', function() {
+      const el = <div>{true}</div>;
+      assert.strictEqual(el instanceof HTMLDivElement, true);
+      assert.strictEqual(el.childNodes.length, 0);
+      assert.strictEqual(el.attributes.length, 0);
+    });
+    it('should handle simple elements with null content', function() {
+      const el = <div>{null}</div>;
+      assert.strictEqual(el instanceof HTMLDivElement, true);
+      assert.strictEqual(el.childNodes.length, 0);
+      assert.strictEqual(el.attributes.length, 0);
+    });
+    it('should handle simple elements with function content', function() {
+      const el = <div>{() => 'test'}</div>;
+      assert.strictEqual(el instanceof HTMLDivElement, true);
+      assert.strictEqual(el.childNodes.length, 0);
+      assert.strictEqual(el.attributes.length, 0);
+    });
     it('should handle simple element fragments', function() {
       const els = (
         <>

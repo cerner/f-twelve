@@ -5,7 +5,7 @@
   "main": "lib/main.js",
   "scripts": {
     "build": "npm run compile && npm run pack",
-    "compile": "babel src --out-dir lib --ignore **/*.test.js --copy-files  --no-copy-ignored --delete-dir-on-start",
+    "compile": "babel src --out-dir lib --ignore **/*.test.js --copy-files --no-copy-ignored --delete-dir-on-start",
     "dev": "webpack-dev-server --mode development",
     "eslint": "eslint --ext .js .",
     "pack": "webpack --mode production",
@@ -76,8 +76,5 @@
     "webpack": "^4.12.2",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.7"
-  },
-  "dependencies": {
-    "json-prune": "https://github.com/Canop/JSON.prune/archive/e0e86d0a1a4c13fd5803efba6e9bfdae20f7ea28.tar.gz"
   }
 }

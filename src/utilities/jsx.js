@@ -12,6 +12,10 @@ export default function jsx(tagName, attributes, ...children) {
   // Create Element
   const element = document.createElement(tagName);
 
+  // Remove `children` attribute
+  // Occurs when using a spread operator to pass-thru props, this attribute causes an error in Object.assign
+  attributes && delete attributes.children;
+
   // Append attributes
   Object.assign(element, attributes);
 
@@ -48,9 +52,11 @@ const getCustomComponent = (functionalComponent, attributes) => {
  * Handle arrays and text nodes
  */
 const append = (parent, child) => {
-  if (Array.isArray(child)) {
+  if (child === null || typeof child === 'boolean' || typeof child === 'function') {
+    // Do nothing!
+  } else if (Array.isArray(child)) {
     child.forEach(grandChild => append(parent, grandChild));
-  } else if (typeof child === 'string') {
+  } else if (typeof child === 'string' || typeof child === 'number') {
     parent.appendChild(document.createTextNode(child));
   } else {
     parent.appendChild(child);
