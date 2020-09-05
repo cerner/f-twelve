@@ -20,11 +20,11 @@
   color: #b870b3;
 }
 
-.copyIcon {
+.copyButton {
   visibility: hidden;
   cursor: pointer;
 }
 
-.parent:hover .copyIcon {
+.parent:hover .copyButton {
   visibility: visible;
 }

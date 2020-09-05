@@ -1,0 +1,49 @@
+.successMessage {
+  position: absolute;
+  color: #0C7A18;
+  font-size: 1.2em;
+  margin-top: -4px;
+  display: none;
+}
+
+.showSuccess .successMessage {
+  display: block;
+}
+
+.copyButton.showSuccess > div {
+  display: none;
+}
+
+.tempTextArea {
+  position: absolute;
+  height: 0;
+  width: 0;
+  border: 0;
+}
+
+/**
+ * 2 rectangles that make a "copy" icon
+ */
+.copyButton {
+
+  width: 13px;
+  height: 14px;
+
+  div {
+    position: absolute;
+    border: 1px solid #999;
+    background-color: #fff;
+    border-radius: 2px;
+    width: 7px;
+    height: 10px;
+  }
+
+  .back {
+    border-width: 1px 1px 0 0;
+    margin-left: 4px;
+  }
+
+  .front {
+    margin-top: 2px;
+  }
+}
