@@ -9,17 +9,18 @@ import CopyIcon from '../CopyIcon';
 const Node = ({ node, isOpen, key }) => {
   // Meta DOM information to accompany the node data
   const meta = {
+    el: null,
     node,
     isOpen,
-    key, // The key is available in node but it lives on the child but renders on the parent
+    key,
   };
 
   const el = (
     <div className={styles.domNode}>
       <div className={styles.parent}>
-        <div className={styles.copyIcon}><CopyIcon onclick={() => alert(node.toJson(meta))} title="Copy"/></div>
+        <div className={styles.copyIcon}><CopyIcon onclick={() => alert(node.toJson())} title="Copy"/></div>
         {key && <div className={styles.key}>{key}:</div>}
-        <Value meta={meta}/>
+        <Value meta={meta} onClick={onClick.bind(null, meta)}/>
       </div>
       {isOpen && node.children.map(child => (
         <div className={`${styles.child} ${styles[child.type]}`}>
@@ -32,10 +33,15 @@ const Node = ({ node, isOpen, key }) => {
   // Add the element itself to the meta
   meta.el = el;
 
-  return {
-    el,
-    meta
-  };
+  return el;
+};
+
+/**
+ * Replace clicked Node with an identical Node but toggle isOpen
+ */
+const onClick = (meta) => {
+  const newNode = <Node isOpen={!meta.isOpen} key={meta.key} node={meta.node}/>;
+  meta.el.parentNode.replaceChild(newNode, meta.el);
 };
 
 export default Node;

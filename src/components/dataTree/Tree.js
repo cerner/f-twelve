@@ -19,7 +19,7 @@ export default ({ data }) => {
   return {
     dataTree,
     el: <Node node={dataTree}/>
-  }
+  };
 };
 
 /**
@@ -47,25 +47,16 @@ const getChildren = (parent) => {
     .map(key => ({ key, type: 'property', }));
   const children = [...members, ...properties, { key: '__proto__', type: 'property' }];
 
-  // Return an object with metadata for each child including the child's node
+  // Return an array of objects with metadata for each child including the child's node
   return children.map(child => {
     const value = parent.value[child.key];
     const circularAncestor = getCircularAncestor(parent, value);
     return {
       key: child.key,
       type: child.type,
-      node: circularAncestor || getNode(value, parent)
+      node: circularAncestor || getNode(value, parent) // End or begin recursion
     };
   });
-};
-
-/**
- * Find nodes that already exist in this "family line"
- */
-const getCircularAncestor = (parentNode, value) => {
-  if (!parentNode) return null;
-  if (parentNode.value === value) return parentNode;
-  return getCircularAncestor(parentNode.parent, value);
 };
 
 /**
@@ -75,6 +66,7 @@ const getCircularAncestor = (parentNode, value) => {
 const toJson = (node) => {
   const value = node.value;
 
+  // End recursion
   if (typeof value !== 'object') {
     return JSON.stringify(value);
   }
@@ -84,9 +76,20 @@ const toJson = (node) => {
     .map(child => {
       const childValue = node.value[child.key];
       const circularAncestor = getCircularAncestor(node, childValue);
-      const value = circularAncestor ? '"-circular-"' : child.node.toJson();
+      const value = circularAncestor
+        ? '"-circular-"' // End recursion
+        : child.node.toJson(); // Begin recursion
       return Array.isArray(node.value) ? value : `"${child.key}":${value}`;
     }).join(',');
 
   return Array.isArray(value) ? `[${childrenCsv}]` : `{${childrenCsv}}`;
+};
+
+/**
+ * Find nodes that already exist in this "family line"
+ */
+const getCircularAncestor = (parentNode, value) => {
+  if (!parentNode) return null;
+  if (parentNode.value === value) return parentNode;
+  return getCircularAncestor(parentNode.parent, value);
 };
