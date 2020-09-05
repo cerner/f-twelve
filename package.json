@@ -56,6 +56,7 @@
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-standard": "^4.0.0",
+    "http-proxy": ">=1.18.1",
     "js-yaml": "^3.13.1",
     "jsdom": "^15.0.0",
     "jsdom-global": "^3.0.2",
@@ -75,6 +76,7 @@
     "test-console": "^1.1.0",
     "webpack": "^4.12.2",
     "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.7"
+    "webpack-dev-server": "^3.1.7",
+    "yargs-parser": ">=13.1.2"
   }
 }
