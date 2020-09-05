@@ -22,4 +22,4 @@ jobs:
     - name: Commit changes
       uses: elstudio/actions-js-build/commit@v3
       with:
-        commitMessage: Commit build (automated)
+        commitMessage: Build (automated)
