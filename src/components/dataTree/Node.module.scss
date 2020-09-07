@@ -12,6 +12,10 @@
   margin-left: 20px;
 }
 
+.key {
+  padding-right: 5px;
+}
+
 .member .key {
   color: #881391;
 }
@@ -22,7 +26,6 @@
 
 .copyButton {
   visibility: hidden;
-  cursor: pointer;
 }
 
 .parent:hover .copyButton {

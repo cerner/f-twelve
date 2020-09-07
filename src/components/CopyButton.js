@@ -4,9 +4,9 @@ import styles from './CopyButton.module.scss';
 /**
  * Copy icon made of CSS rectangles
  */
-export default ({ getText }) => {
+export default ({ getText, title = 'Copy' }) => {
   return (
-    <div className={styles.copyButton} onclick={event => onClickCopy(event, getText)} title="Copy">
+    <div className={styles.copyButton} onclick={event => onClickCopy(event, getText)} title={title}>
       <span className={styles.successMessage} title='Copied'>✔</span>
       <div className={styles.back}/>
       <div className={styles.front}/>

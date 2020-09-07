@@ -1,5 +1,5 @@
 import jsx from '../../../utilities/jsx';
-import styles from './Console.module.scss';
+import styles from './Prompt.module.scss';
 
 /**
  * Console tab input

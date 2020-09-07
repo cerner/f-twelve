@@ -1,5 +1,5 @@
 import jsx from '../utilities/jsx';
-import styles from './App.module.scss';
+import styles from './Tab.module.scss';
 
 /**
  * Single tab for the tab bar

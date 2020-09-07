@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 import jsx from '../../../utilities/jsx';
-import styles from '../../App.module.scss';
+import appStyles from '../../App.module.scss';
+import styles from './Console.module.scss';
 import Output from './Output';
 import Prompt from './Prompt';
 import parseCommand from '../../../utilities/parseCommand';
 import parseStack from '../../../utilities/parseStack';
+import CopyButton from '../../CopyButton';
 
 /**
  * The content of the Console tab
@@ -92,8 +94,11 @@ export default () => {
     restoreWindowOnError,
     setHistory,
     el: (
-      <div className={styles.content}>
+      <div className={appStyles.content}>
         <Output ref={ref => (output = ref)}/>
+        <div className={styles.copyAllButton}>
+          <CopyButton getText={output.toJson} title="Copy all output"/>
+        </div>
         <Prompt exec={exec} getHistory={getHistory}/>
       </div>
     )

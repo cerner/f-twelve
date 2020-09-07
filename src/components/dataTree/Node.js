@@ -21,7 +21,7 @@ const Node = ({ node, isOpen, key }) => {
   const el = (
     <div className={styles.domNode}>
       <div className={styles.parent}>
-        <div className={styles.copyIcon}><CopyButton getText={getCopyText}/></div>
+        <div className={styles.copyButton}><CopyButton getText={getCopyText}/></div>
         {key && <div className={styles.key}>{key}:</div>}
         <Value meta={meta} onClick={onClickNode.bind(null, meta)}/>
       </div>
