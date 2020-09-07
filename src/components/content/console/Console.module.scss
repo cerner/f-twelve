@@ -1,5 +1,8 @@
 .copyAllButton {
-  padding: 4px;
   position: absolute;
   bottom: 0;
+}
+
+.copyAllButton > div {
+  padding: 4px;
 }
