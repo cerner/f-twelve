@@ -4,7 +4,7 @@ import Value from './Value';
 import CopyButton from '../CopyButton';
 
 /**
- * A DOM element representing any JS value/object including its children
+ * A DOM element representing any JS value/object including its children.
  */
 const Node = ({ node, isOpen, key }) => {
   // Meta DOM information to accompany the node data
@@ -15,8 +15,10 @@ const Node = ({ node, isOpen, key }) => {
     key,
   };
 
-  // Beautify the copied json
-  const getCopyText = () => JSON.stringify(JSON.parse(node.toJson()), null, 2);
+  // Return strings as-is, otherwise convert to json and beautify it
+  const getCopyText = () => typeof node.value === 'string' || typeof node.value === 'undefined'
+    ? node.value
+    : JSON.stringify(JSON.parse(node.toJson()), null, 2);
 
   const el = (
     <div className={styles.domNode}>

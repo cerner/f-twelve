@@ -44,7 +44,7 @@ export default () => {
     // Append to the data variable
     outputData.push({
       timestamp,
-      fileName,
+      stack,
       treeData,
     });
   };
@@ -57,7 +57,7 @@ export default () => {
       const treeData = rowData.treeData.map(tree => JSON.parse(tree.toJson()));
       return {
         time: rowData.timestamp,
-        file: rowData.fileName,
+        stack: rowData.stack,
         output: treeData
       };
     })

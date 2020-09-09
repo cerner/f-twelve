@@ -70,7 +70,9 @@ const toJson = (node) => {
   const value = node.value;
 
   // End recursion
-  if (typeof value === 'function') {
+  if (value === null) {
+    return 'null';
+  } else if (typeof value === 'function') {
     return JSON.stringify(value.toString());
   } else if (typeof value !== 'object') {
     return JSON.stringify(value) || '"-undefined-"';
