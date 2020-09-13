@@ -1,34 +1,30 @@
-:local {
+.fTwelve {
+  color: #333;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  font-family: verdana, sans-serif;
+  font-size: 12px;
+  z-index: 2147483647;
+}
 
-  .fTwelve {
-    color: #333;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    font-family: verdana, sans-serif;
-    font-size: 12px;
-    z-index: 2147483647;
-  }
+.tab {
+  cursor: pointer;
+  background-color: #ffffff;
+  border: 1px solid #bbb;
+  border-radius: 3px 3px 0 0;
+  display: inline-block;
+  margin-bottom: -1px;
+  margin-left: 1px;
+  padding: 3px 5px;
+  pointer-events: all;
+}
 
-  .tab {
-    cursor: pointer;
-    background-color: #ffffff;
-    border: 1px solid #bbb;
-    border-radius: 3px 3px 0 0;
-    display: inline-block;
-    margin-bottom: -1px;
-    margin-left: 1px;
-    padding: 3px 5px;
-    pointer-events: all;
-  }
-
-  .content {
-    height: 320px;
-    position: relative;
-    background-color: #fff;
-    border: 1px solid #bbb;
-    top: 0;
-  }
-
+.content {
+  height: 320px;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #bbb;
+  top: 0;
 }
