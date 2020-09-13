@@ -1,13 +1,11 @@
 import assert from 'assert';
-import Tree from './Tree';
-
-const getTree = (value) => Tree({ data: value }).dataTree;
+import { getNode } from './Tree';
 
 describe('Tree', function() {
   describe('#getNode', function() {
     it('should build a tree', function() {
       const data = { stringValue: 'value1', arrayValue: [1, 2, 3] };
-      const tree = getTree(data);
+      const tree = getNode(data);
       assert.strictEqual(tree.value, data);
       assert.strictEqual(tree.children.filter(child => child.type === 'member').length, 2);
       assert.strictEqual(tree.children[0].key, 'stringValue');
@@ -19,7 +17,7 @@ describe('Tree', function() {
     it('should handle circular references', function() {
       const data = {};
       data.circular = data;
-      const tree = getTree(data);
+      const tree = getNode(data);
       assert.strictEqual(tree.value, data);
       assert.strictEqual(tree.children.filter(child => child.type === 'member').length, 1);
       assert.strictEqual(tree.children[0].key, 'circular');
@@ -31,7 +29,7 @@ describe('Tree', function() {
     it('should handle deep circular references', function() {
       const data = { level1: { regularKey: 'regularValue', level2: { level3: {} } } };
       data.level1.level2.level3.circular = data.level1;
-      const tree = getTree(data);
+      const tree = getNode(data);
       assert.strictEqual(tree.value, data);
       assert.strictEqual(tree.children.filter(child => child.type === 'member').length, 1);
       assert.strictEqual(tree.children[0].key, 'level1');
@@ -48,43 +46,64 @@ describe('Tree', function() {
   });
 
   describe('#toJson()', function() {
-    it('should handle simple values', function() {
-      const stringNode = getTree('one');
-      assert.strictEqual(stringNode.toJson(), '"one"');
-      const numberNode = getTree(1);
-      assert.strictEqual(numberNode.toJson(), '1');
-      const booleanNode = getTree(true);
-      assert.strictEqual(booleanNode.toJson(), 'true');
+    describe('data types', function() {
+      it('should handle strings', function() {
+        const stringNode = getNode('one');
+        assert.strictEqual(stringNode.toJson(), '"one"');
+      });
+      it('should handle numbers', function() {
+        const numberNode = getNode(1);
+        assert.strictEqual(numberNode.toJson(), '1');
+      });
+      it('should handle boolean', function() {
+        const booleanNode = getNode(true);
+        assert.strictEqual(booleanNode.toJson(), 'true');
+      });
+      it('should handle arrays', function() {
+        const arrayNode = getNode([1, 2, 3]);
+        assert.strictEqual(arrayNode.toJson(), '[1,2,3]');
+      });
+      it('should handle objects', function() {
+        const objectNode = getNode({ 'one': 1, 'two': true, 'three': '3ree' });
+        assert.strictEqual(objectNode.toJson(), '{"one":1,"two":true,"three":"3ree"}');
+      });
+      it('should handle null', function() {
+        const nullNode = getNode(null);
+        assert.strictEqual(nullNode.toJson(), 'null');
+      });
+      it('should handle undefined', function() {
+        const undefinedNode = getNode(undefined);
+        assert.strictEqual(undefinedNode.toJson(), '"-undefined-"');
+      });
+      it('should handle functions', function() {
+        const someFunction = (arg) => console.log(arg);
+        const functionNode = getNode(someFunction);
+        assert.strictEqual(functionNode.toJson(), JSON.stringify(someFunction.toString()));
+      });
     });
-    it('should handle arrays', function() {
-      const arrayNode = getTree([1, 2, 3]);
-      assert.strictEqual(arrayNode.toJson(), '[1,2,3]');
-    });
-    it('should handle objects', function() {
-      const objectNode = getTree({ 'one': 1, 'two': true, 'three': '3ree' });
-      assert.strictEqual(objectNode.toJson(), '{"one":1,"two":true,"three":"3ree"}');
-    });
-    it('should handle circular references', function() {
-      const data = {};
-      data.circular = data;
-      const tree = getTree(data);
-      assert.strictEqual(tree.toJson(), '{"circular":"-circular-"}');
-    });
-    it('should handle deep circular references', function() {
-      const data = { level1: { regularKey: 'regularValue', level2: { level3: {} } } };
-      data.level1.level2.level3.circular = data.level1;
-      const tree = getTree(data);
-      assert.strictEqual(tree.toJson(), '{"level1":{"regularKey":"regularValue","level2":{"level3":{"circular":"-circular-"}}}}');
-    });
-    it('should handle arrays with circular references', function() {
-      const data = [
-        null,
-        { level1: { level2: { level3: {} } } }
-      ];
-      data[0] = data;
-      data[1].level1.level2.level3.circular = data[0];
-      const tree = getTree(data);
-      assert.strictEqual(tree.toJson(), '["-circular-",{"level1":{"level2":{"level3":{"circular":"-circular-"}}}}]');
+    describe('circular references', function() {
+      it('should handle circular references', function() {
+        const data = {};
+        data.circular = data;
+        const tree = getNode(data);
+        assert.strictEqual(tree.toJson(), '{"circular":"-circular-"}');
+      });
+      it('should handle deep circular references', function() {
+        const data = { level1: { regularKey: 'regularValue', level2: { level3: {} } } };
+        data.level1.level2.level3.circular = data.level1;
+        const tree = getNode(data);
+        assert.strictEqual(tree.toJson(), '{"level1":{"regularKey":"regularValue","level2":{"level3":{"circular":"-circular-"}}}}');
+      });
+      it('should handle arrays with circular references', function() {
+        const data = [
+          null,
+          { level1: { level2: { level3: {} } } }
+        ];
+        data[0] = data;
+        data[1].level1.level2.level3.circular = data[0];
+        const tree = getNode(data);
+        assert.strictEqual(tree.toJson(), '["-circular-",{"level1":{"level2":{"level3":{"circular":"-circular-"}}}}]');
+      });
     });
   });
 });

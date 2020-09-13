@@ -25,7 +25,7 @@ export default ({ data }) => {
 /**
  * Node that recursively builds a tree with any JS data and provides a toJson function that handles circular references
  */
-const getNode = (value, parent = null) => {
+export const getNode = (value, parent = null) => {
   const node = { value, parent };
   node.children = getChildren(node);
   node.toJson = toJson.bind(null, node);
