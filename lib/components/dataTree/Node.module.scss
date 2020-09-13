@@ -1,0 +1,21 @@
+.node {
+  margin-left: 4px;
+}
+
+.parent {
+  display: flex;
+  margin-bottom: 4px;
+}
+
+.child {
+  display: flex;
+  margin-left: 20px;
+}
+
+.member .key {
+  color: #881391;
+}
+
+.property .key {
+  color: #b870b3;
+}

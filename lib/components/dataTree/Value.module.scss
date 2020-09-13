@@ -1,0 +1,53 @@
+.caretIcon, .objectType, .size {
+  cursor: pointer;
+}
+
+.objectType, .index {
+  padding-left: 6px;
+}
+
+.objectType {
+  color: #444444;
+  font-style: italic;
+}
+
+.number {
+  color: #1c00cf;
+}
+
+.boolean {
+  color: #0d22aa;
+}
+
+.string {
+  color: #c41a16;
+}
+
+.undefined {
+  color: #91918e;
+}
+
+.caretIcon {
+  width: 10px;
+  text-align: right;
+}
+
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  margin-top: 2px;
+}
+
+.caretDown {
+  border-width: 6px 5px 0 5px;
+  border-color: #808080 transparent;
+  margin-top: 4px;
+}
+
+.caretRight {
+  border-width: 5px 0 5px 6px;
+  border-color: transparent transparent transparent #808080;
+}
+
