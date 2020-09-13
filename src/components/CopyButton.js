@@ -7,7 +7,7 @@ import styles from './CopyButton.module.scss';
 export default ({ getText, title = 'Copy' }) => {
   return (
     <div className={styles.copyButton} onclick={event => onClickCopy(event, getText)} title={title}>
-      <span className={styles.successMessage} title='Copied'>✔</span>
+      <span className={styles.successMessage} title='Copied'/>
       <div className={styles.back}/>
       <div className={styles.front}/>
     </div>

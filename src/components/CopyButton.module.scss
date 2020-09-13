@@ -10,6 +10,10 @@
   display: none;
 }
 
+.successMessage::before {
+  content: "✔";
+}
+
 .showSuccess .successMessage {
   display: block;
 }

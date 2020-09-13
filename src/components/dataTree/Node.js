@@ -15,10 +15,10 @@ const Node = ({ node, isOpen, key }) => {
     key,
   };
 
-  // Return strings as-is, otherwise convert to json and beautify it
-  const getCopyText = () => typeof node.value === 'string' || typeof node.value === 'undefined'
-    ? node.value
-    : JSON.stringify(JSON.parse(node.toJson()), null, 2);
+  // Convert objects to json and beautify it, return everything else as-is
+  const getCopyText = () => typeof node.value === 'object' && node.value !== null
+    ? JSON.stringify(JSON.parse(node.toJson()), null, 2)
+    : node.value;
 
   const el = (
     <div className={styles.domNode}>
