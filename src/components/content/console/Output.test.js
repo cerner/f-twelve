@@ -1,6 +1,5 @@
 import assert from 'assert';
 import Output from './Output';
-import { getNode } from '../../dataTree/Tree';
 
 describe('Output', function() {
   beforeEach(function() {
