@@ -52,7 +52,7 @@ const getCustomComponent = (functionalComponent, attributes) => {
  * Handle arrays and text nodes
  */
 const append = (parent, child) => {
-  if (child === null || typeof child === 'boolean' || typeof child === 'function') {
+  if (child === null || typeof child === 'boolean' || typeof child === 'function' || typeof child === 'undefined') {
     // Do nothing!
   } else if (Array.isArray(child)) {
     child.forEach(grandChild => append(parent, grandChild));

@@ -130,4 +130,16 @@ describe('Output', function() {
       assert(arg.getElementsByClassName('child').length === 0);
     });
   });
+  describe('#toJson()', function() {
+    it('should create json of all data', function() {
+      this.output.append({ args: ['string', { key: 'value' }] });
+      const parsed = JSON.parse(this.output.toJson());
+      assert.strictEqual(parsed.userAgent, 'Mozilla/5.0 (win32) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/15.0.0');
+      assert.strictEqual(parsed.href, 'http://localhost/');
+      assert(!!parsed.time.match(/\d\d:\d\d:\d\d\.\d\d\d/));
+      assert(!!parsed.consoleOutput[0].time.match(/\d\d:\d\d:\d\d\.\d\d\d/));
+      assert.strictEqual(parsed.consoleOutput[0].output[0], 'string');
+      assert.strictEqual(parsed.consoleOutput[0].output[1].key, 'value');
+    });
+  });
 });

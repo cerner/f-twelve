@@ -1,47 +1,52 @@
 import jsx from '../../utilities/jsx';
 import styles from './Node.module.scss';
 import Value from './Value';
+import CopyButton from '../CopyButton';
 
 /**
- * A DOM element representing any JS value/object including its children
+ * A DOM element representing any JS value/object including its children.
  */
-const Node = ({ data, isOpen = false, key = null }) => {
-  // Meta object to accompany the data
+const Node = ({ node, isOpen, key }) => {
+  // Meta DOM information to accompany the node data
   const meta = {
-    data,
+    el: null,
+    node,
     isOpen,
     key,
   };
 
-  const objectData = typeof data === 'object' ? (data || []) : [];
-  const keys = Object.keys(objectData);
-  const members = keys.map(key => ({ key, type: 'member' }));
-  const properties = Object.getOwnPropertyNames(objectData)
-    .filter(key => keys.indexOf(key) === -1)
-    .map(key => ({ key, type: 'property' }));
-  const children = [...members, ...properties, { key: '__proto__', type: 'property' }];
+  // Convert objects to json and beautify it, return everything else as-is
+  const getCopyText = () => typeof node.value === 'object' && node.value !== null
+    ? JSON.stringify(JSON.parse(node.toJson()), null, 2)
+    : node.value;
 
   const el = (
-    <div className={styles.node}>
+    <div className={styles.domNode}>
       <div className={styles.parent}>
+        <div className={styles.copyButton}><CopyButton getText={getCopyText}/></div>
         {key && <div className={styles.key}>{key}:</div>}
-        <Value meta={meta}/>
+        <Value meta={meta} onClick={onClickNode.bind(null, meta)}/>
       </div>
-      {isOpen && children.map(child => (
+      {isOpen && node.children.map(child => (
         <div className={`${styles.child} ${styles[child.type]}`}>
-          <Node data={data[child.key]} key={child.key}/>
+          <Node key={child.key} node={child.node}/>
         </div>
       ))}
     </div>
   );
 
   // Add the element itself to the meta
-  meta.node = el;
+  meta.el = el;
 
-  return {
-    el,
-    meta
-  };
+  return el;
+};
+
+/**
+ * Replace clicked Node with an identical Node but toggle isOpen
+ */
+const onClickNode = (meta) => {
+  const newNode = <Node isOpen={!meta.isOpen} key={meta.key} node={meta.node}/>;
+  meta.el.parentNode.replaceChild(newNode, meta.el);
 };
 
 export default Node;

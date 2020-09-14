@@ -1,22 +1,21 @@
 import jsx from '../../utilities/jsx';
-import Node from './Node';
 import styles from './Value.module.scss';
 import getDataType from '../../utilities/getDataType';
 
 /**
  * The actual value of a Node. The only prop is meta as it has everything needed to create a new Node on click.
  */
-export default ({ meta }) => {
+export default ({ meta, onClick }) => {
+  const node = meta.node;
   const caretClass = `${styles.caret} ${meta.isOpen ? styles.caretDown : styles.caretRight}`;
-  const onClickParent = () => onClick(meta);
-  const dataType = getDataType(meta.data);
-  const isObject = typeof meta.data === 'object' && meta.data !== null;
-  const objectType = isObject && `${dataType.charAt(0).toUpperCase()}${dataType.slice(1)}(${getSize(meta.data)})`;
-  const dataTypeStyle = !meta.key && typeof meta.data === 'string' ? '' : styles[dataType]; // Don't style parent strings
+  const dataType = getDataType(node.value);
+  const isObject = typeof node.value === 'object' && node.value !== null;
+  const objectType = isObject && `${dataType.charAt(0).toUpperCase()}${dataType.slice(1)}(${getSize(node.value)})`;
+  const dataTypeStyle = !meta.key && typeof node.value === 'string' ? '' : styles[dataType]; // Don't style parent strings
   return isObject ? (
     <>
-      <div className={styles.caretIcon} onclick={onClickParent}><i className={caretClass}/></div>
-      <div className={styles.objectType} onclick={onClickParent}>{objectType}</div>
+      <div className={styles.caretIcon} onclick={onClick}><i className={caretClass}/></div>
+      <div className={styles.objectType} onclick={onClick}>{objectType}</div>
     </>
   ) : (
     <div className={`${styles.value} ${dataTypeStyle}`}>{formatSimpleValue(meta)}</div>
@@ -24,18 +23,10 @@ export default ({ meta }) => {
 };
 
 /**
- * Replace clicked Node with an identical Node but toggle isOpen
- */
-const onClick = (meta) => {
-  const newNode = <Node data={meta.data} isOpen={!meta.isOpen} key={meta.key}/>;
-  meta.node.parentNode.replaceChild(newNode, meta.node);
-};
-
-/**
  * Format display of non-object values
  */
 const formatSimpleValue = (meta) => {
-  const value = meta.data;
+  const value = meta.node.value;
 
   // Stringify null
   if (value === null) return 'null';

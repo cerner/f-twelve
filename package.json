@@ -16,7 +16,10 @@
   "nyc": {
     "check-coverage ": true,
     "lines": 100,
-    "exclude": "src/polyfills/**/*"
+    "exclude": [
+      "src/polyfills/**/*",
+      "**/*.test.js"
+    ]
   },
   "repository": {
     "type": "git",

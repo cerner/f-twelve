@@ -1,6 +1,9 @@
 import jsx from '../../../utilities/jsx';
-import styles from './Console.module.scss';
-import DataTree from '../../dataTree/Node';
+import styles from './Output.module.scss';
+import Tree from '../../dataTree/Tree';
+import getTimestamp from '../../../utilities/getTimestamp';
+
+const outputData = [];
 
 /**
  * Console tab output
@@ -9,19 +12,19 @@ export default () => {
   const el = <div className={styles.output}/>;
 
   const append = ({ verb = 'log', args, stack = [] }) => {
-    const tzOffset = (new Date()).getTimezoneOffset() * 60000;
-    const timestamp = (new Date(Date.now() - tzOffset)).toISOString().slice(11, 23);
+    const timestamp = getTimestamp();
 
     const frame = (stack && stack[0]) || {};
     const fileName = frame.fileName && frame.lineNumber
       ? `${frame.fileName}:${frame.lineNumber}`
       : frame.fileName || '';
 
+    const treeData = [];
     const argElements = Object.keys(args).map((key) => {
       const arg = args[key];
       const isError = arg instanceof Error ||
         (arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1);
-      return <DataTree data={isError ? (arg.stack || arg) : arg}/>;
+      return <Tree data={isError ? (arg.stack || arg) : arg} ref={ref => treeData.push(ref.dataTree)}/>;
     });
 
     const row = (
@@ -32,14 +35,37 @@ export default () => {
       </div>
     );
 
+    // Append do the DOM
     el.appendChild(row);
     if (row.scrollIntoView) {
       row.scrollIntoView();
     }
+
+    // Append to the data variable
+    outputData.push({
+      timestamp,
+      stack,
+      treeData,
+    });
   };
+
+  const toJson = () => JSON.stringify({
+    userAgent: navigator.userAgent,
+    href: window.location.href,
+    time: getTimestamp(),
+    consoleOutput: outputData.map(rowData => {
+      const treeData = rowData.treeData.map(tree => JSON.parse(tree.toJson()));
+      return {
+        time: rowData.timestamp,
+        stack: rowData.stack,
+        output: treeData
+      };
+    })
+  });
 
   return {
     append,
+    toJson,
     el
   };
 };
