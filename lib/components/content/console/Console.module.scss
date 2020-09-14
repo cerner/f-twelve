@@ -1,8 +1,10 @@
-.copyAllButton {
-  position: absolute;
-  bottom: 0;
-}
+:local {
+  .copyAllButton {
+    position: absolute;
+    bottom: 0;
+  }
 
-.copyAllButton > div {
-  padding: 4px;
+  .copyAllButton > div {
+    padding: 4px;
+  }
 }

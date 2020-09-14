@@ -1,33 +1,35 @@
-.domNode {
-  margin-left: 4px;
-}
+:local {
+  .domNode {
+    margin-left: 4px;
+  }
 
-.parent {
-  display: flex;
-  margin-bottom: 4px;
-}
+  .parent {
+    display: flex;
+    margin-bottom: 4px;
+  }
 
-.child {
-  display: flex;
-  margin-left: 20px;
-}
+  .child {
+    display: flex;
+    margin-left: 20px;
+  }
 
-.key {
-  padding-right: 5px;
-}
+  .key {
+    padding-right: 5px;
+  }
 
-.member .key {
-  color: #881391;
-}
+  .member .key {
+    color: #881391;
+  }
 
-.property .key {
-  color: #b870b3;
-}
+  .property .key {
+    color: #b870b3;
+  }
 
-.copyButton {
-  visibility: hidden;
-}
+  .copyButton {
+    visibility: hidden;
+  }
 
-.parent:hover .copyButton {
-  visibility: visible;
+  .parent:hover .copyButton {
+    visibility: visible;
+  }
 }

@@ -1,61 +1,62 @@
-.caretIcon, .objectType, .size {
-  cursor: pointer;
-}
+:local {
+  .caretIcon, .objectType, .size {
+    cursor: pointer;
+  }
 
-.objectType, .index {
-  padding-left: 6px;
-}
+  .objectType, .index {
+    padding-left: 6px;
+  }
 
-.objectType {
-  color: #444444;
-  font-style: italic;
-}
+  .objectType {
+    color: #444444;
+    font-style: italic;
+  }
 
-.number {
-  color: #1c00cf;
-}
+  .number {
+    color: #1c00cf;
+  }
 
-.boolean {
-  color: #0d22aa;
-}
+  .boolean {
+    color: #0d22aa;
+  }
 
-.string {
-  color: #c41a16;
-}
+  .string {
+    color: #c41a16;
+  }
 
-.undefined {
-  color: #91918e;
-}
+  .undefined {
+    color: #91918e;
+  }
 
-.function {
-  font-style: italic;
-}
+  .function {
+    font-style: italic;
+  }
 
-.value {
-  max-width: 100%;
-}
+  .value {
+    max-width: 100%;
+  }
 
-.caretIcon {
-  width: 8px;
-  text-align: right;
-}
+  .caretIcon {
+    width: 8px;
+    text-align: right;
+  }
 
-.caret {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  margin-top: 2px;
-}
+  .caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    margin-top: 2px;
+  }
 
-.caretDown {
-  border-width: 6px 5px 0 5px;
-  border-color: #808080 transparent;
-  margin-top: 4px;
-}
+  .caretDown {
+    border-width: 6px 5px 0 5px;
+    border-color: #808080 transparent;
+    margin-top: 4px;
+  }
 
-.caretRight {
-  border-width: 5px 0 5px 6px;
-  border-color: transparent transparent transparent #808080;
+  .caretRight {
+    border-width: 5px 0 5px 6px;
+    border-color: transparent transparent transparent #808080;
+  }
 }
-
