@@ -39,6 +39,16 @@ const getChildren = (parent) => {
   // Null would make more sense for non-objects but an empty array is easier to work with
   if (parent.value == null || typeof parent.value !== 'object') return [];
 
+  // Assure the object doesn't throw an error when being read
+  const canRead = (object, key) => {
+    try {
+      const value = object[key];
+      return !!value || (key in object);
+    } catch (e) {
+      return false;
+    }
+  };
+
   // Get object members and properties i.e. children
   const keys = Object.keys(parent.value);
   const members = keys.map(key => ({ key, type: 'member', }));
@@ -46,7 +56,7 @@ const getChildren = (parent) => {
     .filter(key => keys.indexOf(key) === -1)
     .map(key => ({ key, type: 'property', }));
   const children = [...members, ...properties, { key: '__proto__', type: 'property' }]
-    .filter(child => !(Object.getOwnPropertyDescriptor(parent.value, child.key) || {}).get);
+    .filter(child => canRead(parent.value, child.key));
 
   // Return an array of objects with metadata for each child including the child's node
   return children.map(child => {
