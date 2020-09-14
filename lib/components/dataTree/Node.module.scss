@@ -1,4 +1,4 @@
-.node {
+.domNode {
   margin-left: 4px;
 }
 
@@ -12,10 +12,22 @@
   margin-left: 20px;
 }
 
+.key {
+  padding-right: 5px;
+}
+
 .member .key {
   color: #881391;
 }
 
 .property .key {
   color: #b870b3;
+}
+
+.copyButton {
+  visibility: hidden;
+}
+
+.parent:hover .copyButton {
+  visibility: visible;
 }
