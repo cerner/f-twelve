@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { getNode } from './Tree';
+import { canRead, getNode } from './Tree';
 
 describe('Tree', function() {
   describe('#getNode', function() {
@@ -104,6 +104,18 @@ describe('Tree', function() {
         const tree = getNode(data);
         assert.strictEqual(tree.toJson(), '["-circular-",{"level1":{"level2":{"level3":{"circular":"-circular-"}}}}]');
       });
+    });
+  });
+
+  describe('#canRead()', function() {
+    it('should handle getters that throw an error', function() {
+      const obj = {
+        get test() {
+          throw Error();
+        }
+      };
+      const canReadObj = canRead(obj, 'test');
+      assert.strictEqual(canReadObj, false);
     });
   });
 });

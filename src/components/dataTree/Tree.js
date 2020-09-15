@@ -39,16 +39,6 @@ const getChildren = (parent) => {
   // Null would make more sense for non-objects but an empty array is easier to work with
   if (parent.value == null || typeof parent.value !== 'object') return [];
 
-  // Assure the object doesn't throw an error when being read
-  const canRead = (object, key) => {
-    try {
-      const value = object[key];
-      return !!value || (key in object);
-    } catch (e) {
-      return false;
-    }
-  };
-
   // Get object members and properties i.e. children
   const keys = Object.keys(parent.value);
   const members = keys.map(key => ({ key, type: 'member', }));
@@ -109,4 +99,14 @@ const getCircularAncestor = (parentNode, value) => {
   if (!parentNode) return null;
   if (parentNode.value === value) return parentNode;
   return getCircularAncestor(parentNode.parent, value);
+};
+
+// Determine if a key is readable on an object with throwing an error (happens in IE)
+export const canRead = (object, key) => {
+  try {
+    const value = object[key];
+    return !!value || (key in object);
+  } catch (e) {
+    return false;
+  }
 };
