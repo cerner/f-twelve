@@ -9,6 +9,7 @@
     font-size: 1.2em;
     margin-top: -4px;
     display: none;
+    line-height: 1.5;
   }
 
   .successMessage::before {
@@ -46,6 +47,7 @@
       border-radius: 2px;
       width: 7px;
       height: 10px;
+      box-sizing: content-box;
     }
 
     .back {
