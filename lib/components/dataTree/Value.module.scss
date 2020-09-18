@@ -1,5 +1,8 @@
 :local {
-  .caretIcon, .objectType, .size {
+
+  $light-gray: #91918e;
+
+  .caretIcon, .objectType, .size, .preview {
     cursor: pointer;
   }
 
@@ -10,6 +13,16 @@
   .objectType {
     color: #444444;
     font-style: italic;
+    flex: 0 0 auto;
+  }
+
+  .preview {
+    font-style: italic;
+    color: $light-gray;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 2px;
   }
 
   .number {
@@ -25,11 +38,12 @@
   }
 
   .undefined {
-    color: #91918e;
+    color: $light-gray;
   }
 
   .function {
     font-style: italic;
+    color: $light-gray;
   }
 
   .value {
