@@ -29,7 +29,7 @@ export default () => {
 
     const row = (
       <div className={`${styles.row} ${styles[verb]}`}>
-        <div className={styles.timestamp}>{timestamp}</div>
+        <div className={styles.timestamp}>{timestamp.split(' ')[1]}</div>
         <div className={styles.consoleArgs}>{[...argElements]}</div>
         <a className={styles.fileName} href={frame.url} title={stack.map(frame => frame.path).join('\n')}>{fileName}</a>
       </div>
