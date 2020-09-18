@@ -4,7 +4,7 @@
     border-color: #f0f0f0;
     border-bottom: 1px solid;
     font-family: monospace;
-    padding: 3px 3px 3px 95px;
+    padding: 3px;
   }
 
   .row.error {
@@ -38,14 +38,17 @@
   }
 
   .timestamp {
-    margin-left: -90px;
     color: #808080;
+    flex: 0 0 auto;
   }
 
   .consoleArgs {
     display: flex;
     flex-flow: wrap;
     white-space: pre-wrap;
+    flex: auto;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .fileName {
@@ -53,7 +56,6 @@
     padding: 0 5px;
     color: #808080;
     cursor: pointer;
-    flex: auto;
-    text-align: right;
+    flex: 0 1 auto;
   }
 }
