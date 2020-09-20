@@ -1,6 +1,5 @@
 import jsx from '../../utilities/jsx';
 import styles from './Value.module.scss';
-import getDataType from '../../utilities/getDataType';
 
 /**
  * The actual value of a Node. The only prop is meta as it has everything needed to create a new Node on click.
@@ -8,14 +7,12 @@ import getDataType from '../../utilities/getDataType';
 export default ({ meta, onClick }) => {
   const node = meta.node;
   const caretClass = `${styles.caret} ${meta.isOpen ? styles.caretDown : styles.caretRight}`;
-  const dataType = getDataType(node.value);
-  const isObject = typeof node.value === 'object' && node.value !== null;
-  const objectType = isObject && `${dataType.charAt(0).toUpperCase()}${dataType.slice(1)}(${getSize(node.value)})`;
-  const dataTypeStyle = !meta.key && typeof node.value === 'string' ? '' : styles[dataType]; // Don't style parent strings
-  return isObject ? (
+  const dataTypeStyle = !meta.key && typeof node.value === 'string' ? '' : styles[node.dataType]; // Don't style parent strings
+  return node.isObject ? (
     <>
       <div className={styles.caretIcon} onclick={onClick}><i className={caretClass}/></div>
-      <div className={styles.objectType} onclick={onClick}>{objectType}</div>
+      <div className={styles.objectType} onclick={onClick}>{node.objectType}</div>
+      <div className={styles.preview} onclick={onClick}>{getPreview(meta.key, node.value)}</div>
     </>
   ) : (
     <div className={`${styles.value} ${dataTypeStyle}`}>{formatSimpleValue(meta)}</div>
@@ -45,9 +42,16 @@ const formatSimpleValue = (meta) => {
 };
 
 /**
- * Get object (must be Object or Array) size
+ * Get a simple string preview of an object
  */
-const getSize = (object) =>
-  Array.isArray(object)
-    ? Object.keys(object).length
-    : Object.getOwnPropertyNames(object).length;
+export const getPreview = (key, object) => {
+  if (object == null || typeof object !== 'object') return ''; // Objects only
+  if (key === '__proto__') return '{…}';
+  return !Array.isArray(object)
+    ? `{${Object.keys(object).join(':…, ')}:…}`
+    : `[${object.map(child => {
+      if (Array.isArray(child)) return '[…]';
+      if (typeof child === 'object') return '{…}';
+      return child;
+    }).join(', ')}]`;
+};

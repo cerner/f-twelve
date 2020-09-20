@@ -1,5 +1,6 @@
 import jsx from '../../utilities/jsx';
 import Node from './Node';
+import getDataType from '../../utilities/getDataType';
 
 /**
  * Create an interactive data tree with any JS variable
@@ -23,12 +24,21 @@ export default ({ data }) => {
 };
 
 /**
- * Node that recursively builds a tree with any JS data and provides a toJson function that handles circular references
+ * Node that recursively builds a tree that represents JS data
+ *   and provides a toJson function that handles circular references
  */
 export const getNode = (value, parent = null) => {
   const node = { value, parent };
   node.children = getChildren(node);
   node.toJson = toJson.bind(null, node);
+  node.isObject = typeof value === 'object' && value !== null;
+  node.size = node.isObject && (
+    Array.isArray(value)
+      ? Object.keys(value).length
+      : Object.getOwnPropertyNames(value).length
+  );
+  node.dataType = getDataType(node.value);
+  node.objectType = node.isObject && `${node.dataType.charAt(0).toUpperCase()}${node.dataType.slice(1)}(${node.size})`;
   return node;
 };
 

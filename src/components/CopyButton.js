@@ -7,7 +7,6 @@ import styles from './CopyButton.module.scss';
 export default ({ getText, title = 'Copy' }) => {
   return (
     <div className={styles.copyButton} onclick={event => onClickCopy(event, getText)} title={title}>
-      <span className={styles.successMessage} title='Copied'/>
       <div className={styles.back}/>
       <div className={styles.front}/>
     </div>
@@ -28,7 +27,8 @@ const onClickCopy = (event, getText) => {
   document.execCommand('copy');
   copyButton.removeChild(textArea);
 
-  // Temporarily show a checkmark instead of the copy icon
-  copyButton.classList.add(styles.showSuccess);
-  setTimeout(() => copyButton.classList.remove(styles.showSuccess), 2000);
+  // Temporarily show a checkmark on the copy icon
+  const successEl = <span className={styles.successMessage} title='Copied'>✔</span>;
+  copyButton.appendChild(successEl);
+  setTimeout(() => copyButton.removeChild(successEl), 2000);
 };
