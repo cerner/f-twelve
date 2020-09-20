@@ -1,4 +1,3 @@
-import jsx from '../../utilities/jsx';
 import assert from 'assert';
 import { getPreview } from './Value';
 
