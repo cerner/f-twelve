@@ -51,10 +51,21 @@
   }
 
   .fileName {
+    display: flex;
+    flex: 0 1 auto;
+  }
+
+  .fileName > div {
+    visibility: hidden;
+  }
+
+  .fileName:hover > div {
+    visibility: visible;
+  }
+
+  .fileName > span {
     background-color: inherit;
     padding: 0 5px;
     color: #808080;
-    cursor: pointer;
-    flex: 0 1 auto;
   }
 }

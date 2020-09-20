@@ -8,20 +8,7 @@
     color: #0C7A18;
     font-size: 1.2em;
     margin-top: -4px;
-    display: none;
     line-height: 1.5;
-  }
-
-  .successMessage::before {
-    content: "✔";
-  }
-
-  .showSuccess .successMessage {
-    display: block;
-  }
-
-  .copyButton.showSuccess > div {
-    display: none;
   }
 
   .tempTextArea {
