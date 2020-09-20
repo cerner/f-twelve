@@ -1,6 +1,5 @@
 import jsx from '../../utilities/jsx';
 import styles from './Value.module.scss';
-import getDataType from '../../utilities/getDataType';
 
 /**
  * The actual value of a Node. The only prop is meta as it has everything needed to create a new Node on click.
@@ -45,7 +44,8 @@ const formatSimpleValue = (meta) => {
 /**
  * Get a simple string preview of an object
  */
-const getPreview = (key, object) => {
+export const getPreview = (key, object) => {
+  if (object == null || typeof object !== 'object') return ''; // Objects only
   if (key === '__proto__') return '{…}';
   return !Array.isArray(object)
     ? `{${Object.keys(object).join(':…, ')}:…}`

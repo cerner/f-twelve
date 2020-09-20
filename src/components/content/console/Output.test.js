@@ -106,6 +106,14 @@ describe('Output', function() {
       const fileNameHref = this.el.getElementsByClassName('fileName')[0].href;
       assert.strictEqual(fileNameHref, url);
     });
+    it('should copy when copy button is clicked', function() {
+      let copyCommandExecuted = false;
+      global.document.execCommand = () => (copyCommandExecuted = true);
+      const url = 'http://test.com/';
+      this.output.append({ verb: 'log', args: ['test'], stack: [{ url }] });
+      this.el.getElementsByClassName('fileName')[0].getElementsByClassName('copyButton')[0].click();
+      assert(copyCommandExecuted);
+    });
   });
 
   describe('#onClickExpandIcon()', function() {

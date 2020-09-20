@@ -2,6 +2,7 @@ import jsx from '../../../utilities/jsx';
 import styles from './Output.module.scss';
 import Tree from '../../dataTree/Tree';
 import getTimestamp from '../../../utilities/getTimestamp';
+import CopyButton from '../../CopyButton';
 
 const outputData = [];
 
@@ -27,11 +28,15 @@ export default () => {
       return <Tree data={isError ? (arg.stack || arg) : arg} ref={ref => treeData.push(ref.dataTree)}/>;
     });
 
+    const stackString = stack.map(frame => frame.path).join('\n');
     const row = (
       <div className={`${styles.row} ${styles[verb]}`}>
         <div className={styles.timestamp}>{timestamp.split(' ')[1]}</div>
         <div className={styles.consoleArgs}>{[...argElements]}</div>
-        <a className={styles.fileName} href={frame.url} title={stack.map(frame => frame.path).join('\n')}>{fileName}</a>
+        <div className={styles.fileName}>
+          <CopyButton getText={() => stackString} title='Copy stack'/>
+          <span title={stackString}>{fileName}</span>
+        </div>
       </div>
     );
 
