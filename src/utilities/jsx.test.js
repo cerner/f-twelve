@@ -83,6 +83,16 @@ describe('#jsx()', function() {
       assert.strictEqual(span.childNodes.length, 0);
       assert.strictEqual(span.attributes.length, 1);
     });
+    it('should handle svg', function() {
+      const el = (
+        <svg height="100" width="100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" fill="yellow" r="40" stroke="green" stroke-width="4"/>
+        </svg>
+      );
+      assert.strictEqual(el.constructor.name, 'SVGSVGElement');
+      assert.strictEqual(el.childNodes.length, 1);
+      assert.strictEqual(el.childNodes[0].constructor.name, 'SVGElement');
+    });
   });
 
   describe('custom components', function() {

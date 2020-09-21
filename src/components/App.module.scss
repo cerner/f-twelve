@@ -10,6 +10,12 @@
     z-index: 2147483647;
   }
 
+  .icon {
+    height: 30px;
+    width: 30px;
+    margin-bottom: -8px;
+  }
+
   .tab {
     cursor: pointer;
     background-color: #f3f3f3;
@@ -23,7 +29,7 @@
   }
 
   .tabBar {
-    visibility: visible;
+    display: flex;
   }
 
   .content {

@@ -1,5 +1,6 @@
 import jsx from '../utilities/jsx';
 import styles from './App.module.scss';
+import Icon from './Icon';
 import Console from './tabs/console/Console';
 
 /**
@@ -28,6 +29,8 @@ export default ({ id }) => {
     el: (
       <div className={styles.fTwelve} id={id}>
         <div className={styles.tabBar}>
+          <div className={styles.tab} onclick={() => setContent(<div>toggle</div>)}><Icon className={styles.icon}/>
+          </div>
           <div className={styles.tab} onclick={() => setContent(console.el)}>Console</div>
         </div>
         <div ref={el => (contentWrapper = el)}/>

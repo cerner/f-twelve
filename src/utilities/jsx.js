@@ -9,15 +9,19 @@ export default function jsx(tagName, attributes, ...children) {
   // It's not a tag name, it's a custom component
   if (typeof tagName === 'function') return getCustomComponent(tagName, { ...attributes, children });
 
-  // Create Element
-  const element = document.createElement(tagName);
-
   // Remove `children` attribute
   // Occurs when using a spread operator to pass-thru props, this attribute causes an error in Object.assign
   attributes && delete attributes.children;
 
+  // Create Element
+  const element = (isSvg(tagName))
+    ? document.createElementNS('http://www.w3.org/2000/svg', tagName)
+    : document.createElement(tagName);
+
   // Append attributes
-  Object.assign(element, attributes);
+  (isSvg(tagName))
+    ? Object.keys(attributes).forEach(key => element.setAttribute(key, attributes[key]))
+    : Object.assign(element, attributes);
 
   // Append children
   children.forEach(child => append(element, child));
@@ -45,7 +49,12 @@ const getCustomComponent = (functionalComponent, attributes) => {
   }
 
   // Component's JSX can be returned directly or in the `el` member
-  return component instanceof HTMLElement || Array.isArray(component) ? component : component.el;
+  return (
+    component instanceof HTMLElement ||
+    component instanceof SVGElement ||
+    Array.isArray(component)
+  ) ? component
+    : component.el;
 };
 
 /**
@@ -62,3 +71,12 @@ const append = (parent, child) => {
     parent.appendChild(child);
   }
 };
+
+/**
+ * Determine if a given tag is an SVG element
+ */
+export function isSvg(tagName) {
+  const regExp = new RegExp(`^${tagName}$`, 'i');
+  const svgTags = ['circle', 'g', 'path', 'polygon', 'rect', 'svg', 'use'];
+  return svgTags.some(tag => regExp.test(tag));
+}
