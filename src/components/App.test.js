@@ -13,4 +13,10 @@ describe('App', function() {
       });
     });
   });
+  describe('tabBar', function() {
+    it('should contain an array of only tab elements', function() {
+      const tabBar = Array.from(this.fTwelve.el.getElementsByClassName('tabBar'));
+      tabBar.forEach(child => assert.strictEqual(child.className, 'tab'));
+    });
+  });
 });

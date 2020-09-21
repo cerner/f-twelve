@@ -1,7 +1,6 @@
 import jsx from '../utilities/jsx';
 import styles from './App.module.scss';
-import Tabs from './Tabs';
-import Console from './content/console/Console';
+import Console from './tabs/console/Console';
 
 /**
  * Root app view
@@ -9,7 +8,6 @@ import Console from './content/console/Console';
 export default ({ id }) => {
   let contentWrapper;
   let content;
-  const console = Console();
 
   const setContent = (el) => {
     if (content) {
@@ -23,11 +21,15 @@ export default ({ id }) => {
     }
   };
 
+  const console = Console();
+
   return {
     console,
     el: (
       <div className={styles.fTwelve} id={id}>
-        <Tabs console={console.el} setContent={setContent}/>
+        <div className={styles.tabBar}>
+          <div className={styles.tab} onclick={() => setContent(console.el)}>Console</div>
+        </div>
         <div ref={el => (contentWrapper = el)}/>
       </div>
     )
