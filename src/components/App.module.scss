@@ -12,30 +12,28 @@
     flex-direction: column;
   }
 
-  .openIcon,
-  .closedIcon {
-    height: 30px;
-    width: 30px;
+  .icon {
+    height: 40px;
+    width: 40px;
     cursor: pointer;
-    margin-bottom: -8px;
+    margin-bottom: -13px;
     margin-left: 1px;
-  }
-
-  .closedIcon {
     position: absolute;
     bottom: 0;
   }
 
-  .open .closedIcon {
-    display: none;
+  .icon:hover {
+    margin-bottom: -10px;
+    filter: brightness(1.1);
   }
 
-  .main {
-    display: none;
+  .open .icon {
+    position: relative;
+    margin-bottom: -33px;
   }
 
-  .open .main {
-    display: block;
+  .tabBar, .content {
+    display: none;
   }
 
   .tab {
@@ -46,9 +44,9 @@
   }
 
   .tabBar {
-    display: flex;
     background-color: #f3f3f3;
     border-top: 1px solid #bbb;
+    padding-left: 40px;
   }
 
   .content {
@@ -58,4 +56,13 @@
     border: 1px solid #bbb;
     top: 0;
   }
+
+  .open .tabBar {
+    display: flex;
+  }
+
+  .open .content {
+    display: block;
+  }
+
 }

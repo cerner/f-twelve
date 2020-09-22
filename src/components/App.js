@@ -12,34 +12,32 @@ export default ({ id }) => {
   let content;
 
   const setContent = (el) => {
-    if (content) {
-      contentWrapper.removeChild(content);
-    }
-    if (!el.isSameNode(content)) {
-      contentWrapper.appendChild(el);
-      content = el;
-    } else {
-      content = undefined;
-    }
+    contentWrapper.replaceChild(el, content);
+    content = el;
   };
 
-  const open = () => app.classList.add(styles.open);
-  const close = () => app.classList.remove(styles.open);
+  const toggleOpen = () => {
+    app.classList.contains(styles.open)
+      ? app.classList.remove(styles.open)
+      : app.classList.add(styles.open);
+
+  };
 
   const console = Console();
+
+  // Default content to be Console
+  content = console.el;
 
   return {
     console,
     el: (
       <div className={styles.fTwelve} id={id} ref={el => (app = el)}>
-        <Icon className={styles.closedIcon} onclick={open} title="Show F-Twelve"/>
-        <div className={styles.main}>
-          <div className={styles.tabBar}>
-            <Icon className={styles.openIcon} onclick={close} title="Hide F-Twelve"/>
-            <div className={styles.tab} onclick={() => setContent(console.el)}>Console</div>
-          </div>
-          <div ref={el => (contentWrapper = el)}/>
+        <Icon className={styles.icon} onclick={toggleOpen} title="Toggle F-Twelve"/>
+        <div className={styles.tabBar}>
+          <div className={styles.tab} onclick={() => setContent(console.el)}>Console</div>
+          <div className={styles.tab} onclick={() => setContent(<div>Network tab</div>)}>Network</div>
         </div>
+        <div className={styles.content} ref={el => (contentWrapper = el)}>{content}</div>
       </div>
     )
   };
