@@ -13,23 +13,27 @@
   }
 
   .icon {
-    height: 40px;
     width: 40px;
+    height: 28px;
     cursor: pointer;
-    margin-bottom: -13px;
     margin-left: 1px;
     position: absolute;
-    bottom: 0;
+    bottom: -3px;
+    box-shadow: 3px 1px 5px #aaa;
   }
 
   .icon:hover {
-    margin-bottom: -10px;
+    margin-bottom: 3px;
     filter: brightness(1.1);
   }
 
   .open .icon {
-    position: relative;
-    margin-bottom: -33px;
+    bottom: unset;
+    top: -5px;
+  }
+
+  .open .icon:hover {
+    margin-top: 3px;
   }
 
   .tabBar, .content {
@@ -38,22 +42,24 @@
 
   .tab {
     cursor: pointer;
-    margin-bottom: -1px;
-    margin-left: 1px;
-    padding: 3px 5px;
+    padding: 4px 14px;
+  }
+
+  .tab:hover {
+    background-color: #eaeaea;
   }
 
   .tabBar {
     background-color: #f3f3f3;
     border-top: 1px solid #bbb;
-    padding-left: 40px;
+    border-bottom: 1px solid #bbb;
+    padding-left: 50px;
   }
 
   .content {
     height: 320px;
     position: relative;
     background-color: #fff;
-    border: 1px solid #bbb;
     top: 0;
   }
 

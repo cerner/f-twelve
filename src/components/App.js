@@ -12,8 +12,10 @@ export default ({ id }) => {
   let content;
 
   const setContent = (el) => {
-    contentWrapper.replaceChild(el, content);
-    content = el;
+    if (!el.isSameNode(content)) {
+      contentWrapper.replaceChild(el, content);
+      content = el;
+    }
   };
 
   const toggleOpen = () => {
@@ -32,7 +34,7 @@ export default ({ id }) => {
     console,
     el: (
       <div className={styles.fTwelve} id={id} ref={el => (app = el)}>
-        <Icon className={styles.icon} onclick={toggleOpen} title="Toggle F-Twelve"/>
+        <Icon className={styles.icon} onclick={toggleOpen} title="F-Twelve"/>
         <div className={styles.tabBar}>
           <div className={styles.tab} onclick={() => setContent(console.el)}>Console</div>
           <div className={styles.tab} onclick={() => setContent(<div>Network tab</div>)}>Network</div>
