@@ -36,10 +36,6 @@
     margin-top: 3px;
   }
 
-  .tabBar, .content {
-    display: none;
-  }
-
   .tab {
     cursor: pointer;
     padding: 4px 14px;
@@ -47,6 +43,23 @@
 
   .tab:hover {
     background-color: #eaeaea;
+  }
+
+  .resizer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+    cursor: ns-resize;
+  }
+
+  .resizer:hover,
+  .resizer:active {
+    background-color: #ddd;
+  }
+
+  .tabBar, .content {
+    display: none;
   }
 
   .tabBar {
@@ -57,10 +70,12 @@
   }
 
   .content {
-    height: 320px;
     position: relative;
     background-color: #fff;
     top: 0;
+    flex: 1 1 320px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .open .tabBar {

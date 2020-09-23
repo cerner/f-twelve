@@ -7,6 +7,7 @@ import Console from './tabs/console/Console';
  * Root app view
  */
 export default ({ id }) => {
+  // DOM refs
   let app;
   let contentWrapper;
   let content;
@@ -22,7 +23,20 @@ export default ({ id }) => {
     app.classList.contains(styles.open)
       ? app.classList.remove(styles.open)
       : app.classList.add(styles.open);
+  };
 
+  const resizeMouseDown = (event) => {
+    window.addEventListener('mousemove', resizeMouseMove, false);
+    window.addEventListener('mouseup', resizeMouseUp, false);
+  };
+
+  const resizeMouseMove = (event) => {
+    app.style.top = `${event.clientY}px`;
+  };
+
+  const resizeMouseUp = (event) => {
+    window.removeEventListener('mousemove', resizeMouseMove, false);
+    window.removeEventListener('mouseup', resizeMouseUp, false);
   };
 
   const console = Console();
@@ -34,6 +48,7 @@ export default ({ id }) => {
     console,
     el: (
       <div className={styles.fTwelve} id={id} ref={el => (app = el)}>
+        <div className={styles.resizer} onmousedown={resizeMouseDown}/>
         <Icon className={styles.icon} onclick={toggleOpen} title="F-Twelve"/>
         <div className={styles.tabBar}>
           <div className={styles.tab} onclick={() => setContent(console.el)}>Console</div>
