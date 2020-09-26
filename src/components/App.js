@@ -2,6 +2,7 @@ import jsx from '../utilities/jsx';
 import styles from './App.module.scss';
 import Icon from './Icon';
 import Console from './tabs/console/Console';
+import Network from './tabs/network/Network';
 
 const defaultHeight = 350;
 
@@ -18,10 +19,10 @@ export default ({ id }) => {
 
   // Populate the main content area when changing tabs
   const setContent = (el) => {
-    // if (!el.isSameNode(content)) {
-    contentWrapper.replaceChild(el, content);
-    content = el;
-    // }
+    if (!el.isSameNode(content)) {
+      contentWrapper.replaceChild(el, content);
+      content = el;
+    }
   };
 
   const toggleOpen = (e) => {
@@ -55,19 +56,21 @@ export default ({ id }) => {
   };
 
   const console = Console();
+  const network = Network();
 
   // Default content to be Console
   content = console.el;
 
   return {
     console,
+    network,
     el: (
       <div className={styles.fTwelve} id={id} ref={el => (app = el)}>
         <div className={styles.resizer} onmousedown={resizeMouseDown}/>
         <Icon className={styles.icon} onclick={toggleOpen} title="F-Twelve"/>
         <div className={styles.tabBar}>
           <div className={styles.tab} onclick={() => setContent(console.el)}>Console</div>
-          {/* <div className={styles.tab} onclick={() => setContent(<div>Network tab</div>)}>Network</div> */}
+          <div className={styles.tab} onclick={() => setContent(network.el)}>Network</div>
         </div>
         <div className={styles.content} ref={el => (contentWrapper = el)}>{content}</div>
       </div>

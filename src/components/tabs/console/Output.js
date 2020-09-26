@@ -12,7 +12,7 @@ const outputData = [];
 export default () => {
   const el = <div className={styles.output}/>;
 
-  const append = ({ verb = 'log', args, stack = [] }) => {
+  const append = ({ level = 'log', args, stack = [] }) => {
     const timestamp = getTimestamp();
 
     const frame = (stack && stack[0]) || {};
@@ -30,7 +30,7 @@ export default () => {
 
     const stackString = stack.map(frame => frame.path).join('\n');
     const row = (
-      <div className={`${styles.row} ${styles[verb]}`}>
+      <div className={`${styles.row} ${styles[level]}`}>
         <div className={styles.timestamp}>{timestamp.split(' ')[1]}</div>
         <div className={styles.consoleArgs}>{[...argElements]}</div>
         <div className={styles.fileName}>

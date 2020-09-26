@@ -31,14 +31,14 @@ export default () => {
   };
 
   const overrideWindowConsole = () => {
-    const verbs = ['log', 'warn', 'error', 'info'];
-    verbs.forEach((verb) => {
-      window.console[verb] = (...args) => {
+    const levels = ['log', 'warn', 'error', 'info'];
+    levels.forEach((level) => {
+      window.console[level] = (...args) => {
         const isError = args.length === 1 && args[0] instanceof Error;
         const stackPreFtwelve = getStack().split('\n').splice(3).join('\n');
         const stack = parseStack(isError ? args[0].stack : stackPreFtwelve);
-        output.append({ verb, args, stack });
-        return originalConsole[verb] && originalConsole[verb].apply(window.console, args);
+        output.append({ level: level, args, stack });
+        return originalConsole[level] && originalConsole[level].apply(window.console, args);
       };
     });
   };

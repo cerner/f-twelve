@@ -42,7 +42,7 @@ describe('Console', function() {
   });
 
   describe('#overrideWindowConsole()', function() {
-    it('should create a new function for the 4 verb methods', function() {
+    it('should create a new function for the 4 levels', function() {
       this.console.overrideWindowConsole();
       assert.notDeepStrictEqual(this.oldWindowConsole.error, window.console.error);
       assert.notDeepStrictEqual(this.oldWindowConsole.info, window.console.info);

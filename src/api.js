@@ -21,6 +21,7 @@ const enable = ({ show = true } = {}) => {
   enableKeyboardTrigger();
   app.console.overrideWindowConsole();
   app.console.overrideWindowOnError();
+  app.network.overrideXhr();
 };
 
 const disable = () => {
@@ -29,6 +30,7 @@ const disable = () => {
   disableKeyboardTrigger();
   app.console.restoreWindowConsole();
   app.console.restoreWindowOnError();
+  app.network.restoreXhr();
 };
 
 const attach = () => {
