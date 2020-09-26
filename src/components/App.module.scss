@@ -24,12 +24,12 @@
 
   .icon:hover {
     margin-bottom: 3px;
-    filter: brightness(1.1);
   }
 
   .open .icon {
     bottom: unset;
     top: -5px;
+    box-shadow: none;
   }
 
   .open .icon:hover {
@@ -66,7 +66,7 @@
     background-color: #f3f3f3;
     border-top: 1px solid #bbb;
     border-bottom: 1px solid #bbb;
-    padding-left: 50px;
+    padding-left: 42px;
   }
 
   .content {

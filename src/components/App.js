@@ -52,7 +52,7 @@ export default ({ id }) => {
         <Icon className={styles.icon} onclick={toggleOpen} title="F-Twelve"/>
         <div className={styles.tabBar}>
           <div className={styles.tab} onclick={() => setContent(console.el)}>Console</div>
-          <div className={styles.tab} onclick={() => setContent(<div>Network tab</div>)}>Network</div>
+          {/* <div className={styles.tab} onclick={() => setContent(<div>Network tab</div>)}>Network</div> */}
         </div>
         <div className={styles.content} ref={el => (contentWrapper = el)}>{content}</div>
       </div>
