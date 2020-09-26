@@ -10,6 +10,7 @@
     z-index: 2147483647;
     display: flex;
     flex-direction: column;
+    top: 100%;
   }
 
   .icon {
@@ -58,31 +59,21 @@
     background-color: #ddd;
   }
 
-  .tabBar, .content {
-    display: none;
-  }
-
   .tabBar {
     background-color: #f3f3f3;
     border-top: 1px solid #bbb;
     border-bottom: 1px solid #bbb;
     padding-left: 42px;
+    display: flex;
   }
 
   .content {
     position: relative;
     background-color: #fff;
     top: 0;
-    flex: 1 1 320px;
+    flex: 1 1 auto;
     overflow-y: auto;
     overflow-x: hidden;
-  }
-
-  .open .tabBar {
-    display: flex;
-  }
-
-  .open .content {
     display: block;
   }
 

@@ -3,15 +3,20 @@ import styles from './App.module.scss';
 import Icon from './Icon';
 import Console from './tabs/console/Console';
 
+const defaultHeight = 350;
+
 /**
  * Root app view
  */
 export default ({ id }) => {
+  let top = window.innerHeight - defaultHeight;
+
   // DOM refs
   let app;
   let contentWrapper;
   let content;
 
+  // Populate the main content area when changing tabs
   const setContent = (el) => {
     if (!el.isSameNode(content)) {
       contentWrapper.replaceChild(el, content);
@@ -19,10 +24,14 @@ export default ({ id }) => {
     }
   };
 
-  const toggleOpen = () => {
-    app.classList.contains(styles.open)
-      ? app.classList.remove(styles.open)
-      : app.classList.add(styles.open);
+  const toggleOpen = (e) => {
+    if (app.classList.contains(styles.open)) {
+      app.classList.remove(styles.open);
+      app.style.top = '100%';
+    } else {
+      app.classList.add(styles.open);
+      app.style.top = `${top}px`;
+    }
   };
 
   const resizeMouseDown = (event) => {
@@ -31,7 +40,13 @@ export default ({ id }) => {
   };
 
   const resizeMouseMove = (event) => {
-    app.style.top = `${event.clientY}px`;
+    top = Math.max(0, event.clientY);
+    app.style.top = `${top}px`;
+    if (top > window.innerHeight - 20) {
+      toggleOpen();
+      resizeMouseUp();
+      top = window.innerHeight - defaultHeight;
+    }
   };
 
   const resizeMouseUp = (event) => {
