@@ -11,6 +11,7 @@ register(['.scss']);
  * tool saves copies of the original window.console and window.error at load-time
  */
 global.jsDomCleanup = new JsDomGlobal('', { url: 'http://localhost/' });
+global.SVGElement = () => undefined;
 window.onErrorCallCount = 0;
 window.onerror = () => {
   window.onErrorCallCount++;

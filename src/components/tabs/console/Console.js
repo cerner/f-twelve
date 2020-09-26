@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import jsx from '../../../utilities/jsx';
-import appStyles from '../../App.module.scss';
 import styles from './Console.module.scss';
 import Output from './Output';
 import Prompt from './Prompt';
@@ -94,7 +93,7 @@ export default () => {
     restoreWindowOnError,
     setHistory,
     el: (
-      <div className={appStyles.content}>
+      <div className={styles.console}>
         <Output ref={ref => (output = ref)}/>
         <div className={styles.copyAllButton}>
           <CopyButton getText={output.toJson} title="Copy all output"/>

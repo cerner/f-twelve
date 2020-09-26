@@ -1,4 +1,9 @@
 :local {
+  .console {
+    display: flex;
+    flex-direction: column;
+  }
+
   .copyAllButton {
     position: absolute;
     bottom: 0;
