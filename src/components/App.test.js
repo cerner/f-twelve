@@ -5,11 +5,10 @@ describe('App', function() {
     it('should call setContent and toggle content visibility when a tab is clicked', function() {
       const tabs = Array.from(this.fTwelve.el.getElementsByClassName('tab'));
       tabs.forEach((tab) => {
-        const message = 'Clicked tab did not toggle content visibility: ' + tab.innerText;
+        const message = 'Clicked tab did not display content: ' + tab.textContent;
         tab.click();
-        assert.strictEqual(this.fTwelve.el.getElementsByClassName('content').length, 1, message);
-        tab.click();
-        assert.strictEqual(this.fTwelve.el.getElementsByClassName('content').length, 0, message);
+        const content = this.fTwelve.el.getElementsByClassName('content')[0];
+        assert.strictEqual(content.getElementsByClassName(tab.textContent.toLowerCase()).length, 1, message);
       });
     });
   });
@@ -17,6 +16,39 @@ describe('App', function() {
     it('should contain an array of only tab elements', function() {
       const tabBar = Array.from(this.fTwelve.el.getElementsByClassName('tabBar'));
       tabBar.forEach(child => assert.strictEqual(child.className, 'tab'));
+    });
+  });
+  describe('icon', function() {
+    describe('#toggleOpen', function() {
+      it('should open the app if closed', function() {
+        const icon = this.fTwelve.el.getElementsByClassName('icon')[0];
+        assert(!this.fTwelve.el.classList.contains('open'), this.setupError);
+        icon.click();
+        assert(this.fTwelve.el.classList.contains('open'));
+      });
+      it('should close the app if open', function() {
+        const icon = this.fTwelve.el.getElementsByClassName('icon')[0];
+        this.fTwelve.el.classList.add('open');
+        icon.click();
+        assert(!this.fTwelve.el.classList.contains('open'));
+        assert.strictEqual(this.fTwelve.el.style.top, '100%');
+      });
+    });
+  });
+  describe('resizer', function() {
+    it('should not resize above the top of the screen', function() {
+      this.fTwelve.el.classList.add('open');
+      const resizer = this.fTwelve.el.getElementsByClassName('resizer')[0];
+      resizer.dispatchEvent(new MouseEvent('mousedown'));
+      window.dispatchEvent(new MouseEvent('mousemove', { clientY: -10 }));
+      assert.strictEqual(this.fTwelve.el.style.top, '0px');
+    });
+    it('should "snap" to 100% if within 20 pixels', function() {
+      this.fTwelve.el.classList.add('open');
+      const resizer = this.fTwelve.el.getElementsByClassName('resizer')[0];
+      resizer.dispatchEvent(new MouseEvent('mousedown'));
+      window.dispatchEvent(new MouseEvent('mousemove', { clientY: window.innerHeight - 19 }));
+      assert.strictEqual(this.fTwelve.el.style.top, '100%');
     });
   });
 });

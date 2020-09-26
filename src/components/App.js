@@ -18,10 +18,10 @@ export default ({ id }) => {
 
   // Populate the main content area when changing tabs
   const setContent = (el) => {
-    if (!el.isSameNode(content)) {
-      contentWrapper.replaceChild(el, content);
-      content = el;
-    }
+    // if (!el.isSameNode(content)) {
+    contentWrapper.replaceChild(el, content);
+    content = el;
+    // }
   };
 
   const toggleOpen = (e) => {
