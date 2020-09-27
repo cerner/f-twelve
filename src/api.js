@@ -1,4 +1,5 @@
 import App from './components/App';
+import xhrHook from './utilities/xhrHook';
 
 /**
  * Main F-Twelve API
@@ -21,7 +22,7 @@ const enable = ({ show = true } = {}) => {
   enableKeyboardTrigger();
   app.console.overrideWindowConsole();
   app.console.overrideWindowOnError();
-  app.network.overrideXhr();
+  xhrHook.enable();
 };
 
 const disable = () => {
@@ -30,7 +31,7 @@ const disable = () => {
   disableKeyboardTrigger();
   app.console.restoreWindowConsole();
   app.console.restoreWindowOnError();
-  app.network.restoreXhr();
+  xhrHook.disable();
 };
 
 const attach = () => {
