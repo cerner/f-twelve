@@ -5,10 +5,6 @@ import { stdout, stderr } from 'test-console';
 describe('Console', function() {
   before(function() {
     this.console = Console();
-    this.oldWindowOnError = window.onerror && window.onerror.bind({});
-    this.oldWindowConsole = {
-      ...window.console
-    };
   });
 
   describe('#setHistory()', function() {
@@ -38,50 +34,6 @@ describe('Console', function() {
       this.console.setHistory("'history2'");
       const history2 = this.console.getHistory();
       assert.deepStrictEqual(history2, ["'history2'", "'history'"]);
-    });
-  });
-
-  describe('#overrideWindowConsole()', function() {
-    it('should create a new function for the 4 levels', function() {
-      this.console.overrideWindowConsole();
-      assert.notDeepStrictEqual(this.oldWindowConsole.error, window.console.error);
-      assert.notDeepStrictEqual(this.oldWindowConsole.info, window.console.info);
-      assert.notDeepStrictEqual(this.oldWindowConsole.log, window.console.log);
-      assert.notDeepStrictEqual(this.oldWindowConsole.warn, window.console.warn);
-    });
-    it('should not break the standard console', function() {
-      this.console.overrideWindowConsole();
-      stdout.inspectSync((output) => {
-        window.console.log('string');
-        window.console.log([1, 2, 3]);
-        window.console.log({ key: 'value' });
-        assert.deepStrictEqual(output, ['string\n', '[ 1, 2, 3 ]\n', "{ key: 'value' }\n"]);
-      });
-    });
-  });
-
-  describe('#overrideWindowOnError()', function() {
-    it('should create a new function for window.onerror', function() {
-      this.console.restoreWindowOnError();
-      this.console.overrideWindowOnError();
-      assert.notDeepStrictEqual(this.oldWindowOnError, window.oldWindowOnError);
-    });
-    it('should not break the existing window.onerror', function() {
-      this.console.restoreWindowOnError();
-      const initialCallCount = window.onErrorCallCount;
-      this.console.overrideWindowOnError();
-      window.onerror();
-      assert.deepStrictEqual(window.onErrorCallCount, initialCallCount + 1);
-    });
-    it('should write the error to stderr', function() {
-      this.console.restoreWindowOnError();
-      this.console.overrideWindowOnError();
-      stderr.inspectSync((output) => {
-        window.onerror('', '', 0, 0, 'string');
-        window.onerror('', '', 0, 0, [1, 2, 3]);
-        window.onerror('', '', 0, 0, { key: 'value' });
-        assert.deepStrictEqual(output, ['string\n', '[ 1, 2, 3 ]\n', "{ key: 'value' }\n"]);
-      });
     });
   });
 

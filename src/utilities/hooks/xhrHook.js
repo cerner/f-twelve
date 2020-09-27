@@ -33,14 +33,13 @@ const disable = () => {
 
 /**
  * https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
- * 0 = UNSET
+ * 0 = UNSET (hook not applicable)
  * 1 = OPENED
  * 2 = HEADERS_RECEIVED
  * 3 = LOADING
  * 4 = DONE
  */
 const readyStateChangeCallbacks = {};
-const onUnsent = callback => (readyStateChangeCallbacks[0] = callback);
 const onOpened = callback => (readyStateChangeCallbacks[1] = callback);
 const onHeadersReceived = callback => (readyStateChangeCallbacks[2] = callback);
 const onLoading = callback => (readyStateChangeCallbacks[3] = callback);
@@ -56,7 +55,6 @@ const onReadyStateChange = function() {
 export default {
   enable,
   disable,
-  onUnsent,
   onOpened,
   onHeadersReceived,
   onLoading,
