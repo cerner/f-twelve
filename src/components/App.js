@@ -10,7 +10,7 @@ const defaultHeight = 350;
  * Root app view
  */
 export default ({ id }) => {
-  let top = window.innerHeight - defaultHeight;
+  let height = defaultHeight;
 
   // DOM refs
   let app;
@@ -28,10 +28,10 @@ export default ({ id }) => {
   const toggleOpen = (e) => {
     if (app.classList.contains(styles.open)) {
       app.classList.remove(styles.open);
-      app.style.top = '100%';
+      app.style.height = '0px';
     } else {
       app.classList.add(styles.open);
-      app.style.top = `${top}px`;
+      app.style.height = `${height}px`;
     }
   };
 
@@ -41,12 +41,12 @@ export default ({ id }) => {
   };
 
   const resizeMouseMove = (event) => {
-    top = Math.max(0, event.clientY);
-    app.style.top = `${top}px`;
-    if (top > window.innerHeight - 20) {
+    height = Math.min(window.innerHeight, window.innerHeight - event.clientY);
+    app.style.height = `${height}px`;
+    if (height < 20) {
       toggleOpen();
       resizeMouseUp();
-      top = window.innerHeight - defaultHeight;
+      height = defaultHeight;
     }
   };
 

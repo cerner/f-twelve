@@ -20,18 +20,18 @@ describe('App', function() {
   });
   describe('icon', function() {
     describe('#toggleOpen', function() {
-      it('should open the app if closed', function() {
+      it('should open the tool if closed', function() {
         const icon = this.fTwelve.el.getElementsByClassName('icon')[0];
         assert(!this.fTwelve.el.classList.contains('open'), this.setupError);
         icon.click();
         assert(this.fTwelve.el.classList.contains('open'));
       });
-      it('should close the app if open', function() {
+      it('should close the tool if open', function() {
         const icon = this.fTwelve.el.getElementsByClassName('icon')[0];
         this.fTwelve.el.classList.add('open');
         icon.click();
         assert(!this.fTwelve.el.classList.contains('open'));
-        assert.strictEqual(this.fTwelve.el.style.top, '100%');
+        assert.strictEqual(this.fTwelve.el.style.height, '0px');
       });
     });
   });
@@ -41,14 +41,14 @@ describe('App', function() {
       const resizer = this.fTwelve.el.getElementsByClassName('resizer')[0];
       resizer.dispatchEvent(new MouseEvent('mousedown'));
       window.dispatchEvent(new MouseEvent('mousemove', { clientY: -10 }));
-      assert.strictEqual(this.fTwelve.el.style.top, '0px');
+      assert.strictEqual(this.fTwelve.el.style.height, `${window.innerHeight}px`);
     });
-    it('should "snap" to 100% if within 20 pixels', function() {
+    it('should "snap" closed if within 20 pixels', function() {
       this.fTwelve.el.classList.add('open');
       const resizer = this.fTwelve.el.getElementsByClassName('resizer')[0];
       resizer.dispatchEvent(new MouseEvent('mousedown'));
       window.dispatchEvent(new MouseEvent('mousemove', { clientY: window.innerHeight - 19 }));
-      assert.strictEqual(this.fTwelve.el.style.top, '100%');
+      assert.strictEqual(this.fTwelve.el.style.height, '0px');
     });
   });
 });
