@@ -1,7 +1,8 @@
 import parseStack from '../parseStack';
 
-const originalConsole = Object.assign({}, window.console);
-const originalOnError = window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null;
+// Store original window.console and window.onerror
+const console = Object.assign({}, window.console);
+const onError = window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null;
 
 /**
  * Is executed when a `console[level]` is executed (when hook is enabled)
@@ -21,7 +22,7 @@ export const overrideWindowConsole = () => {
       if (typeof consoleCallback === 'function') {
         consoleCallback({ level: level, args, stack });
       }
-      return originalConsole[level] && originalConsole[level].apply(window.console, args);
+      return console[level] && console[level].apply(window.console, args);
     };
   });
 };
@@ -38,13 +39,13 @@ const getStack = () => {
 };
 
 export const restoreWindowConsole = () => {
-  window.console = Object.assign({}, originalConsole);
+  window.console = Object.assign({}, console);
 };
 
 export const overrideWindowOnError = () => {
   window.onerror = (message, source, lineNo, colNo, error) => {
-    if (typeof originalOnError === 'function') {
-      originalOnError.call(this, message, source, lineNo, colNo, error);
+    if (typeof onError === 'function') {
+      onError.call(this, message, source, lineNo, colNo, error);
     }
     console.error(error);
     return true;
@@ -52,7 +53,7 @@ export const overrideWindowOnError = () => {
 };
 
 export const restoreWindowOnError = () => {
-  window.onerror = originalOnError ? originalOnError.bind({}) : null;
+  window.onerror = onError ? onError.bind({}) : null;
 };
 
 const enable = (callback) => {

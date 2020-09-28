@@ -2,8 +2,9 @@
  * Expose readystatechange callbacks for all XMLHttpRequest requests by overriding `open` and `send`
  */
 
-const originalXhrOpen = XMLHttpRequest.prototype.open;
-const originalXhrSend = XMLHttpRequest.prototype.send;
+// Store original xhr open and send
+const open = XMLHttpRequest.prototype.open;
+const send = XMLHttpRequest.prototype.send;
 
 /**
  * Override `open` and `send` XHR functions
@@ -13,13 +14,13 @@ const enable = () => {
     // Add `open` args to `this` so it is available in the callbacks
     Object.assign(this, { _method, _url, _async, _user, _password });
     this.addEventListener('readystatechange', onReadyStateChange, false);
-    originalXhrOpen.call(this, _method, _url, _async, _user, _password);
+    open.call(this, _method, _url, _async, _user, _password);
   };
 
   XMLHttpRequest.prototype.send = function(data) {
     // Add `data` to `this` so it is available in the callbacks
     this._data = data;
-    originalXhrSend.call(this, data);
+    send.call(this, data);
   };
 };
 
@@ -27,8 +28,8 @@ const enable = () => {
  * Restore original functions causing no callbacks to be executed
  */
 const disable = () => {
-  XMLHttpRequest.prototype.open = originalXhrOpen;
-  XMLHttpRequest.prototype.send = originalXhrSend;
+  XMLHttpRequest.prototype.open = open;
+  XMLHttpRequest.prototype.send = send;
 };
 
 /**
