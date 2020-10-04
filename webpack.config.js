@@ -32,6 +32,7 @@ module.exports = (env, argv) => {
       libraryTarget: 'var',
     },
     optimization: {
+      usedExports: true,
       minimizer: [
         new TerserPlugin({
           cache: true,
