@@ -67,7 +67,9 @@ const getChildren = (parent) => {
     return {
       key: child.key,
       type: child.type,
-      node: circularAncestor || getNode(value, parent) // End or begin recursion
+      get node() { // Use a getter, getNode can be expensive
+        return circularAncestor || getNode(value, parent) // End or begin recursion
+      }
     };
   });
 };
