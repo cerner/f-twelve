@@ -1,8 +1,13 @@
 import parseStack from '../parseStack';
 
+/**
+ * Expose callbacks for when window console functions are used
+ * This is not a React hook
+ */
+
 // Store original window.console and window.onerror
-const console = Object.assign({}, window.console);
-const onError = window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null;
+export const console = Object.assign({}, window.console);
+export const onError = window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null;
 
 /**
  * Is executed when a `console[level]` is executed (when hook is enabled)
@@ -10,7 +15,7 @@ const onError = window.onerror && typeof window.onerror === 'function' ? window.
 let consoleCallback;
 
 /**
- * Override the 4 level functions on the window console and execute a callback before calling the original
+ * Override the 4 "level" functions (log, warn, error, info)
  */
 export const overrideWindowConsole = () => {
   const levels = ['log', 'warn', 'error', 'info'];
