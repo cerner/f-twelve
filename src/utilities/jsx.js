@@ -24,9 +24,9 @@ export default function jsx(tagName, attributes, ...children) {
     : Object.assign(element, attributes);
 
   // Append children
-  children.forEach(child => append(element, child));
+  children.forEach(child => appendChild(element, child));
 
-  // Provide the node via ref prop
+  // Provide the element via ref prop
   if (attributes && typeof attributes.ref === 'function') {
     attributes.ref(element);
   }
@@ -60,11 +60,11 @@ const getCustomComponent = (functionalComponent, attributes) => {
 /**
  * Handle arrays and text nodes
  */
-const append = (parent, child) => {
+const appendChild = (parent, child) => {
   if (child === null || typeof child === 'boolean' || typeof child === 'function' || typeof child === 'undefined') {
     // Do nothing!
   } else if (Array.isArray(child)) {
-    child.forEach(grandChild => append(parent, grandChild));
+    child.forEach(grandChild => appendChild(parent, grandChild));
   } else if (typeof child === 'string' || typeof child === 'number') {
     parent.appendChild(document.createTextNode(child));
   } else {

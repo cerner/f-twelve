@@ -1,28 +1,49 @@
 import jsx from '../../../utilities/jsx';
-import List from './List';
 import Details from './Details';
-import styles from './Network.module.scss';
 import Tree from '../../dataTree/Tree';
+import styles from './Network.module.scss';
 import xhrHook from '../../../utilities/hooks/xhrHook';
 
 
 /**
  * The content of the Network tab
- * Standardizes network data from xhrHook so that it can be used with the List and Details components
+ * A list of network requests
  */
 export default () => {
-  let el;
+
+  // DOM refs
+  let listEl;
+
+  const Row = ({ request }) => (
+    <div className={styles.row}>
+      <div>Opened: <Tree data={request}/></div>
+    </div>
+  );
+
+  /**
+   * Add new requests to the list
+   */
   xhrHook.onOpened((xhr) => {
-    xhr.el = <Row xhr={xhr}/>;
-    el.appendChild(xhr.el);
+    xhr.el = <Row request={xhr}/>; // TODO: uhh
+    listEl.appendChild(xhr.el);
   });
+
+  /**
+   * Update existing request when it completes
+   */
   xhrHook.onDone((xhr) => {
-    el.appendChild(<div>Done: <Tree data={xhr}/></div>);
+    setTimeout(() => {
+      // TODO: Util function to do these 3 lines (replace node i.e. render)
+      const newNode = <div>Done</div>;
+      xhr.el.parentNode.replaceChild(newNode, xhr.el);
+      xhr.el = newNode;
+    }, 1000);
   });
+
   return {
     el: (
-      <div className={styles.network} ref={ref => (el = ref)}>
-        <List/>
+      <div className={styles.network}>
+        <div className={styles.list} ref={ref => (listEl = ref)}/>
         <Details/>
       </div>
     )

@@ -3,4 +3,13 @@
     display: flex;
     flex-direction: row;
   }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .row {
+    color: #0f0;
+  }
 }

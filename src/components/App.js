@@ -10,6 +10,7 @@ const defaultHeight = 350;
  * Root app view
  */
 export default ({ id }) => {
+
   let height = defaultHeight;
 
   // DOM refs

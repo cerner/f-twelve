@@ -1,10 +1,11 @@
 /**
  * Expose readystatechange callbacks for all XMLHttpRequest requests by overriding `open` and `send`
+ * This is not a React hook
  */
 
 // Store original xhr open and send
-const open = XMLHttpRequest.prototype.open;
-const send = XMLHttpRequest.prototype.send;
+export const open = XMLHttpRequest.prototype.open;
+export const send = XMLHttpRequest.prototype.send;
 
 /**
  * Override `open` and `send` XHR functions
