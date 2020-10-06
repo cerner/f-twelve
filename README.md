@@ -6,9 +6,9 @@
   F-Twelve
 </h1>
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![js-standard-style](https://img.shields.io/badge/Code%20Style-Standard-brightgreen.svg)](http://standardjs.com)
-[![Framework](https://img.shields.io/badge/Framework-React-blue.svg)](https://reactjs.org/)
+[![Framework](https://img.shields.io/badge/Framework-Preact-purple.svg)](https://preactjs.com/)
 
 In-DOM dev tools for troubleshooting environments that do not have the usual F12 dev console. Currently supports a Console and Network tab. The tool is designed to be included in Production code. Features include: 
 

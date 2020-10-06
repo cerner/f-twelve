@@ -1,4 +1,4 @@
-import jsx from '../../utilities/jsx';
+import { h, Fragment } from 'preact';
 import styles from './Value.module.scss';
 
 /**

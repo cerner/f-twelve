@@ -1,4 +1,4 @@
-import jsx from '../../utilities/jsx';
+import { createRef, h, render } from 'preact';
 import styles from './Node.module.scss';
 import Value from './Value';
 import CopyButton from '../CopyButton';
@@ -6,13 +6,13 @@ import CopyButton from '../CopyButton';
 /**
  * A DOM element representing any JS value/object including its children.
  */
-const Node = ({ node, isOpen, key }) => {
+const Node = ({ node, isOpen, childKey }) => {
   // Meta DOM information to accompany the node data
   const meta = {
-    el: null,
+    ref: createRef(),
     node,
     isOpen,
-    key,
+    childKey,
   };
 
   // Convert objects to json and beautify it, return everything else as-is
@@ -20,33 +20,31 @@ const Node = ({ node, isOpen, key }) => {
     ? JSON.stringify(JSON.parse(node.toJson()), null, 2)
     : node.value;
 
-  const el = (
-    <div className={styles.domNode}>
+  return (
+    <div className={styles.domNode} ref={meta.ref}>
       <div className={styles.parent}>
         <div className={styles.copyButton}><CopyButton getText={getCopyText}/></div>
-        {key && <div className={styles.key}>{key}:</div>}
+        {childKey && <div className={styles.key}>{childKey}:</div>}
         <Value meta={meta} onClick={onClickNode.bind(null, meta)}/>
       </div>
       {isOpen && node.children.map(child => (
         <div className={`${styles.child} ${styles[child.type]}`}>
-          <Node key={child.key} node={child.node}/>
+          <Node childKey={child.key} node={child.getNode()}/>
         </div>
       ))}
     </div>
   );
-
-  // Add the element itself to the meta
-  meta.el = el;
-
-  return el;
 };
 
 /**
  * Replace clicked Node with an identical Node but toggle isOpen
  */
+// TODO: Use state vars instead of manual DOM manipulation
 const onClickNode = (meta) => {
-  const newNode = <Node isOpen={!meta.isOpen} key={meta.key} node={meta.node}/>;
-  meta.el.parentNode.replaceChild(newNode, meta.el);
+  const oldNode = meta.ref.current;
+  meta.ref = createRef();
+  const newNode = <Node ref={meta.ref} isOpen={!meta.isOpen} childKey={meta.childKey} node={meta.node}/>;
+  render(newNode, oldNode.parentNode, oldNode);
 };
 
 export default Node;

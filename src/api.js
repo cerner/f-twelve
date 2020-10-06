@@ -1,3 +1,4 @@
+import { createRef, h, render } from 'preact';
 import App from './components/App';
 import xhrHook from './utilities/hooks/xhrHook';
 import consoleHook from './utilities/hooks/consoleHook';
@@ -5,9 +6,9 @@ import consoleHook from './utilities/hooks/consoleHook';
 /**
  * Main F-Twelve API
  */
-
-const app = App({ id: 'f-twelve' });
-const el = app.el;
+const el = document.createElement('div');
+const ref = createRef();
+const app = <App id={'f-twelve'} ref={ref}/>;
 
 let customOnAttach;
 let customOnDetach;
@@ -37,8 +38,8 @@ const attach = () => {
   if (attached === true || active !== true) {
     return;
   }
-  const body = document.getElementsByTagName('body')[0];
-  body.appendChild(el);
+  document.body.appendChild(el);
+  render(app, document.body, el);
   attached = true;
   if (typeof customOnAttach === 'function') {
     customOnAttach();
@@ -49,7 +50,7 @@ const detach = () => {
   if (attached !== true) {
     return;
   }
-  el.parentNode.removeChild(el);
+  document.body.removeChild(ref.current.base);
   attached = false;
   if (typeof customOnDetach === 'function') {
     customOnDetach();
@@ -88,7 +89,7 @@ const onAttach = callback => (customOnAttach = callback);
 const onDetach = callback => (customOnDetach = callback);
 
 export {
-  el,
+  ref,
   attach,
   detach,
   disable,

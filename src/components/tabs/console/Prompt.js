@@ -1,4 +1,4 @@
-import jsx from '../../../utilities/jsx';
+import { h } from 'preact';
 import styles from './Prompt.module.scss';
 
 /**

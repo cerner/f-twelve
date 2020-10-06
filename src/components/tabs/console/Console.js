@@ -1,4 +1,4 @@
-import jsx from '../../../utilities/jsx';
+import { createRef, h } from 'preact';
 import styles from './Console.module.scss';
 import Output from './Output';
 import Prompt from './Prompt';
@@ -11,9 +11,12 @@ import consoleHook from '../../../utilities/hooks/consoleHook';
  */
 const historyKey = 'fTwelve.history';
 export default () => {
-  let output;
 
-  consoleHook.onConsole((...args) => output.append(...args));
+  const outputRef = createRef();
+
+  let append;
+  let toJson;
+  consoleHook.onConsole((...args) => append(...args));
 
   const getHistory = () => {
     return window.localStorage
@@ -41,18 +44,14 @@ export default () => {
 
   const execHistory = getHistory();
 
-  return {
-    exec,
-    getHistory,
-    setHistory,
-    el: (
-      <div className={styles.console}>
-        <Output ref={ref => (output = ref)}/>
-        <div className={styles.copyAllButton}>
-          <CopyButton getText={output.toJson} title="Copy all output"/>
-        </div>
-        <Prompt exec={exec} getHistory={getHistory}/>
+  // TODO: access to exec, getHistory, setHistory
+  return (
+    <div className={styles.console}>
+      <Output appendRef={ref => append = ref} toJsonRef={ref => toJson = ref} ref={outputRef}/>
+      <div className={styles.copyAllButton}>
+        <CopyButton getText={() => toJson()} title="Copy all output"/>
       </div>
-    )
-  };
+      <Prompt exec={exec} getHistory={getHistory}/>
+    </div>
+  );
 };

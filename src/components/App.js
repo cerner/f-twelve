@@ -1,4 +1,4 @@
-import jsx from '../utilities/jsx';
+import { createRef, h } from 'preact';
 import styles from './App.module.scss';
 import Icon from './Icon';
 import Console from './tabs/console/Console';
@@ -14,19 +14,25 @@ export default ({ id }) => {
   let height = defaultHeight;
 
   // DOM refs
-  let app;
-  let contentWrapper;
+  const appRef = createRef();
+  const consoleRef = createRef();
+  const networkRef = createRef();
+  const contentWrapperRef = createRef();
   let content;
 
   // Populate the main content area when changing tabs
-  const setContent = (el) => {
-    if (!el.isSameNode(content)) {
-      contentWrapper.replaceChild(el, content);
-      content = el;
+  const setContent = (ref) => {
+    const el = ref.current.base;
+    if (!content) {
+      contentWrapperRef.current.appendChild(el);
+    } else if (!el.isSameNode(content)) {
+      contentWrapperRef.current.replaceChild(el, content);
     }
+    content = el;
   };
 
   const toggleOpen = (e) => {
+    const app = appRef.current;
     if (app.classList.contains(styles.open)) {
       app.classList.remove(styles.open);
       app.style.height = '0px';
@@ -56,25 +62,19 @@ export default ({ id }) => {
     window.removeEventListener('mouseup', resizeMouseUp, false);
   };
 
-  const console = Console();
-  const network = Network();
-
-  // Default content to be Console
-  content = console.el;
-
-  return {
-    console,
-    network,
-    el: (
-      <div className={styles.fTwelve} id={id} ref={el => (app = el)}>
-        <div className={styles.resizer} onmousedown={resizeMouseDown}/>
-        <Icon className={styles.icon} onclick={toggleOpen} title="F-Twelve"/>
-        <div className={styles.tabBar}>
-          <div className={styles.tab} onclick={() => setContent(console.el)}>Console</div>
-          <div className={styles.tab} onclick={() => setContent(network.el)}>Network</div>
-        </div>
-        <div className={styles.content} ref={el => (contentWrapper = el)}>{content}</div>
+  // TODO: access to console, network
+  return (
+    <div className={styles.fTwelve} id={id} ref={appRef}>
+      <div className={styles.resizer} onMouseDown={resizeMouseDown}/>
+      <Icon className={styles.icon} onclick={toggleOpen} title="F-Twelve"/>
+      <div className={styles.tabBar}>
+        <div className={styles.tab} onClick={() => setContent(consoleRef)}>Console</div>
+        <div className={styles.tab} onClick={() => setContent(networkRef)}>Network</div>
       </div>
-    )
-  };
+      <div className={styles.content} ref={contentWrapperRef}>
+        <Console ref={consoleRef}/>
+        <Network ref={networkRef}/>
+      </div>
+    </div>
+  );
 };

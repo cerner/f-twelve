@@ -52,7 +52,7 @@ export const overrideWindowOnError = () => {
     if (typeof onError === 'function') {
       onError.call(this, message, source, lineNo, colNo, error);
     }
-    console.error(error);
+    window.console.error(error);
     return true;
   };
 };
@@ -61,8 +61,8 @@ export const restoreWindowOnError = () => {
   window.onerror = onError ? onError.bind({}) : null;
 };
 
-const enable = (callback) => {
-  overrideWindowConsole(callback);
+const enable = () => {
+  overrideWindowConsole();
   overrideWindowOnError();
 };
 

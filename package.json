@@ -84,5 +84,8 @@
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.7",
     "yargs-parser": ">=13.1.2"
+  },
+  "dependencies": {
+    "preact": "^10.5.3"
   }
 }

@@ -77,7 +77,10 @@ module.exports = (env, argv) => {
       }),
     ],
     resolve: {
-      extensions: ['.js', '.jsx']
+      extensions: ['.js', '.jsx'],
+      'alias': {
+        'preact': production ? 'preact' : 'preact/src/index',
+      },
     }
   };
 };

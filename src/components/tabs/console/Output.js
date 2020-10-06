@@ -1,6 +1,6 @@
-import jsx from '../../../utilities/jsx';
+import { h, createRef, render } from 'preact';
 import styles from './Output.module.scss';
-import Tree from '../../dataTree/Tree';
+import Tree, { getNode } from '../../dataTree/Tree';
 import getTimestamp from '../../../utilities/getTimestamp';
 import CopyButton from '../../CopyButton';
 
@@ -9,8 +9,9 @@ const outputData = [];
 /**
  * Console tab output
  */
-export default () => {
-  const el = <div className={styles.output}/>;
+// TODO: These ref functions
+export default ({ appendRef, toJsonRef }) => {
+  const ref = createRef();
 
   const append = ({ level = 'log', args, stack = [] }) => {
     const timestamp = getTimestamp();
@@ -25,7 +26,9 @@ export default () => {
       const arg = args[key];
       const isError = arg instanceof Error ||
         (arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1);
-      return <Tree data={isError ? (arg.stack || arg) : arg} ref={ref => treeData.push(ref.dataTree)}/>;
+      const dataTree = getNode(isError ? (arg.stack || arg) : arg);
+      treeData.push(dataTree);
+      return <Tree dataTree={dataTree}/>;
     });
 
     const stackString = stack.map(frame => frame.path).join('\n');
@@ -41,9 +44,11 @@ export default () => {
     );
 
     // Append do the DOM
-    el.appendChild(row);
-    if (row.scrollIntoView) {
-      row.scrollIntoView();
+    const el = document.createElement('div');
+    ref.current.appendChild(el);
+    render(row, el.parentNode, el);
+    if (el.scrollIntoView) {
+      el.scrollIntoView();
     }
 
     // Append to the data variable
@@ -68,9 +73,9 @@ export default () => {
     })
   });
 
-  return {
-    append,
-    toJson,
-    el
-  };
+  appendRef(append);
+  toJsonRef(toJson);
+
+  // TODO: access to append, toJson
+  return <div className={styles.output} ref={ref}/>;
 };
