@@ -1,10 +1,11 @@
 import { h } from 'preact';
 import styles from './Prompt.module.scss';
+import { exec, getHistory } from '../../../utilities/consoleCommands';
 
 /**
  * Console tab input
  */
-export default ({ inputRef, exec, getHistory } = {}) => {
+export default ({ inputRef } = {}) => {
   let historyPos = -1;
   let currentInput = '';
   let inputEl;
@@ -45,10 +46,10 @@ export default ({ inputRef, exec, getHistory } = {}) => {
     <div className={styles.prompt}>
       <div className={styles.promptChar}>&#8250;</div>
       <input className={styles.promptInput}
-             onchange={onChange}
-             oninput={onChange}
-             onkeydown={onKeyDown}
-             onpaste={onChange}
+             onChange={onChange}
+             onInput={onChange}
+             onKeyDown={onKeyDown}
+             onPaste={onChange}
              ref={el => (inputEl = el)}
       />
     </div>

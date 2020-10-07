@@ -3,43 +3,28 @@ import styles from './App.module.scss';
 import Icon from './Icon';
 import Console from './tabs/console/Console';
 import Network from './tabs/network/Network';
+import { useState } from 'preact/hooks';
 
 const defaultHeight = 350;
+
+const tabContents = {
+  console: <Console/>,
+  network: <Network/>
+};
 
 /**
  * Root app view
  */
 export default ({ id }) => {
 
-  let height = defaultHeight;
+  const ref = createRef();
+  const [isOpen, setOpen] = useState(false);
+  const [height, setHeight] = useState(defaultHeight);
+  const [activeTab, setActiveTab] = useState('console');
 
-  // DOM refs
-  const appRef = createRef();
-  const consoleRef = createRef();
-  const networkRef = createRef();
-  const contentWrapperRef = createRef();
-  let content;
-
-  // Populate the main content area when changing tabs
-  const setContent = (ref) => {
-    const el = ref.current.base;
-    if (!content) {
-      contentWrapperRef.current.appendChild(el);
-    } else if (!el.isSameNode(content)) {
-      contentWrapperRef.current.replaceChild(el, content);
-    }
-    content = el;
-  };
-
-  const toggleOpen = (e) => {
-    const app = appRef.current;
-    if (app.classList.contains(styles.open)) {
-      app.classList.remove(styles.open);
-      app.style.height = '0px';
-    } else {
-      app.classList.add(styles.open);
-      app.style.height = `${height}px`;
-    }
+  const toggleOpen = () => {
+    ref.current.style.height = isOpen ? '0px' : `${height}px`;
+    setOpen(!isOpen);
   };
 
   const resizeMouseDown = (event) => {
@@ -48,12 +33,12 @@ export default ({ id }) => {
   };
 
   const resizeMouseMove = (event) => {
-    height = Math.min(window.innerHeight, window.innerHeight - event.clientY);
-    app.style.height = `${height}px`;
+    const height = Math.min(window.innerHeight, window.innerHeight - event.clientY);
+    ref.current.style.height = `${height}px`;
     if (height < 20) {
       toggleOpen();
       resizeMouseUp();
-      height = defaultHeight;
+      setHeight(defaultHeight);
     }
   };
 
@@ -62,18 +47,18 @@ export default ({ id }) => {
     window.removeEventListener('mouseup', resizeMouseUp, false);
   };
 
-  // TODO: access to console, network
+  const onClickTab = (event) => setActiveTab(event.target.textContent.toLowerCase());
+
   return (
-    <div className={styles.fTwelve} id={id} ref={appRef}>
+    <div className={`${styles.fTwelve} ${isOpen ? styles.open : ''}`} id={id} ref={ref}>
       <div className={styles.resizer} onMouseDown={resizeMouseDown}/>
-      <Icon className={styles.icon} onclick={toggleOpen} title="F-Twelve"/>
+      <Icon className={styles.icon} onclick={toggleOpen} title={`${isOpen ? 'Hide' : 'Show'} F-Twelve`}/>
       <div className={styles.tabBar}>
-        <div className={styles.tab} onClick={() => setContent(consoleRef)}>Console</div>
-        <div className={styles.tab} onClick={() => setContent(networkRef)}>Network</div>
+        <div className={styles.tab} onClick={onClickTab}>Console</div>
+        <div className={styles.tab} onClick={onClickTab}>Network</div>
       </div>
-      <div className={styles.content} ref={contentWrapperRef}>
-        <Console ref={consoleRef}/>
-        <Network ref={networkRef}/>
+      <div className={styles.content}>
+        {tabContents[activeTab]}
       </div>
     </div>
   );

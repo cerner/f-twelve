@@ -1,6 +1,8 @@
 import assert from 'assert';
 import Output from './Output';
 
+// TODO: Move to Console.test.js
+
 describe('Output', function() {
   beforeEach(function() {
     this.el.innerHTML = '';
