@@ -52,7 +52,7 @@ export default ({ id }) => {
   return (
     <div className={`${styles.fTwelve} ${isOpen ? styles.open : ''}`} id={id} ref={ref}>
       <div className={styles.resizer} onMouseDown={resizeMouseDown}/>
-      <Icon className={styles.icon} onclick={toggleOpen} title={`${isOpen ? 'Hide' : 'Show'} F-Twelve`}/>
+      <Icon className={styles.icon} onClick={toggleOpen} title={`${isOpen ? 'Hide' : 'Show'} F-Twelve`}/>
       <div className={styles.tabBar}>
         <div className={styles.tab} onClick={onClickTab}>Console</div>
         <div className={styles.tab} onClick={onClickTab}>Network</div>

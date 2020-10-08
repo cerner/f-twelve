@@ -92,7 +92,7 @@ const toJson = (node) => {
       const circularAncestor = getCircularAncestor(node, childValue);
       const value = circularAncestor
         ? '"-circular-"' // End recursion
-        : child.node.toJson(); // Begin recursion
+        : child.getNode().toJson(); // Begin recursion
       return Array.isArray(node.value) ? value : `"${child.key}":${value}`;
     }).join(',');
 

@@ -10,9 +10,9 @@ export default ({ meta, onClick }) => {
   const dataTypeStyle = !meta.key && typeof node.value === 'string' ? '' : styles[node.dataType]; // Don't style parent strings
   return node.isObject ? (
     <>
-      <div className={styles.caretIcon} onclick={onClick}><i className={caretClass}/></div>
-      <div className={styles.objectType} onclick={onClick}>{node.objectType}</div>
-      <div className={styles.preview} onclick={onClick}>{getPreview(meta.key, node.value)}</div>
+      <div className={styles.caretIcon} onClick={onClick}><i className={caretClass}/></div>
+      <div className={styles.objectType} onClick={onClick}>{node.objectType}</div>
+      <div className={styles.preview} onClick={onClick}>{getPreview(meta.key, node.value)}</div>
     </>
   ) : (
     <div className={`${styles.value} ${dataTypeStyle}`}>{formatSimpleValue(meta)}</div>
