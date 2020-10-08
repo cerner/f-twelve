@@ -17,7 +17,6 @@ export default ({ data, dataTree }) => {
   // Generate a data tree or use the one provided
   const node = dataTree || getNode(data);
   // Use the data tree to populate the DOM tree
-  // TODO: access to dataTree
   return <Node node={node}/>;
 };
 

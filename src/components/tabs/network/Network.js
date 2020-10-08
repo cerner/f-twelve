@@ -6,8 +6,7 @@ import xhrHook from '../../../utilities/hooks/xhrHook';
 
 
 /**
- * The content of the Network tab
- * A list of network requests
+ * The content and logic for the Network tab
  */
 export default () => {
 

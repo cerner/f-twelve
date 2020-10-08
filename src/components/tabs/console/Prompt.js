@@ -1,11 +1,10 @@
 import { h } from 'preact';
 import styles from './Prompt.module.scss';
-import { exec, getHistory } from '../../../utilities/consoleCommands';
 
 /**
  * Console tab input
  */
-export default ({ inputRef } = {}) => {
+export default ({ inputRef, exec, getHistory } = {}) => {
   let historyPos = -1;
   let currentInput = '';
   let inputEl;
