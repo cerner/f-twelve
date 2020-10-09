@@ -1,9 +1,18 @@
 import assert from 'assert';
+import * as fTwelve from '../src/api';
 
 describe('api', function() {
   before(function() {
-    this.fTwelveAttached = () => this.isAttached(this.fTwelve.el);
+    this.fTwelve = fTwelve;
+    this.fTwelveAttached = () => document.body.contains(this.fTwelve.el);
   });
+
+  // Always start test enabled and hidden just like production
+  beforeEach(function() {
+    this.fTwelve.enable();
+    this.fTwelve.detach();
+  });
+
   describe('#enable()', function() {
     it("should attach to the DOM if 'show' is `true`", function() {
       this.fTwelve.disable();

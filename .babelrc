@@ -13,6 +13,12 @@
         "pragma": "h",
         "pragmaFrag": "Fragment"
       }
+    ],
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true
+      }
     ]
   ],
   "presets": [
