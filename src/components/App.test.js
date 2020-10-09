@@ -1,14 +1,22 @@
 import assert from 'assert';
+import App from './App';
+import { createRef, h, render } from 'preact';
 
 describe('App', function() {
   describe('#setContent()', function() {
-    it('should call setContent and toggle content visibility when a tab is clicked', function() {
-      const tabs = Array.from(this.fTwelve.el.getElementsByClassName('tab'));
-      tabs.forEach((tab) => {
+    it('should toggle content visibility when a tab is clicked', function() {
+      const ref = createRef();
+      const app = <App ref={ref}/>;
+      render(app, document.body);
+      const el = ref.current.base;
+      const tabs = Array.from(el.getElementsByClassName('tab'));
+      tabs.forEach(async (tab) => {
         const message = 'Clicked tab did not display content: ' + tab.textContent;
         tab.click();
-        const content = this.fTwelve.el.getElementsByClassName('content')[0];
-        assert.strictEqual(content.getElementsByClassName(tab.textContent.toLowerCase()).length, 1, message);
+        await waitFor(() => {
+          const content = el.getElementsByClassName('content')[0];
+          assert.strictEqual(content.getElementsByClassName(tab.textContent.toLowerCase()).length, 1, message);
+        });
       });
     });
   });

@@ -89,7 +89,7 @@ const onAttach = callback => (customOnAttach = callback);
 const onDetach = callback => (customOnDetach = callback);
 
 export {
-  ref,
+  el,
   attach,
   detach,
   disable,
