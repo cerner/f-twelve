@@ -79,7 +79,8 @@ module.exports = (env, argv) => {
     resolve: {
       extensions: ['.js', '.jsx'],
       'alias': {
-        'preact': production ? 'preact' : 'preact/src/index',
+        'preact$': production ? 'preact' : 'preact/src/index',
+        'preact/hooks$': production ? 'preact/hooks' : 'preact/hooks/src/index',
       },
     }
   };

@@ -7,13 +7,21 @@ import consoleHook, { console } from '../../../utilities/hooks/consoleHook';
 import getTimestamp from '../../../utilities/getTimestamp';
 import Tree, { getNode } from '../../dataTree/Tree';
 
+// Persistent cache between mounts
+const stateCache = {
+  rows: []
+};
+
 /**
  * The content and logic for the Console tab
  */
 export default () => {
 
-  // Store the data for every console call
-  const [rows, addRow] = useReducer((rows, row) => rows.concat(row), []);
+  // Every time console.log (or similar) is called, store the data
+  const [rows, addRow] = useReducer((rows, row) => {
+    stateCache.rows = rows.concat(row);
+    return stateCache.rows;
+  }, stateCache.rows);
   consoleHook.onConsole((...args) => addRow(parseConsoleArgs(...args)));
 
   // Scroll to the bottom on render
