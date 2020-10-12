@@ -2,6 +2,7 @@ import { h } from 'preact';
 import assert from 'assert';
 import Prompt from './Prompt';
 import Console from './Console';
+import { dispatchKeyboardEvent } from '../../../../test/utilities';
 
 describe('Prompt', function() {
   beforeEach(function() {
@@ -15,7 +16,7 @@ describe('Prompt', function() {
               getHistory={this.console.getHistory}
               inputRef={node => (this.inputBox = node)}/>
     );
-    this.pressKey = (key) => this.dispatchKeyboardEvent('keydown', key, this.inputBox);
+    this.pressKey = (key) => dispatchKeyboardEvent('keydown', key, this.inputBox);
   });
 
   describe('#onKeyDown()', function() {
