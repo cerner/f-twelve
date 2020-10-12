@@ -15,6 +15,7 @@ const sendTestXhr = () => {
 
 describe('xhrHook', function() {
   before(function() {
+    xhrHook.disable();
     this.oldXhrOpen = XMLHttpRequest.prototype.open;
     this.oldXhrSend = XMLHttpRequest.prototype.send;
   });
