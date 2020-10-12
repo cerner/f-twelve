@@ -1,21 +1,20 @@
 import { h } from 'preact';
 import assert from 'assert';
 import Prompt from './Prompt';
-import Console from './Console';
-import { dispatchKeyboardEvent } from '../../../../test/utilities';
+import Console, { exec, getHistory, setHistory } from './Console';
+import { dispatchKeyboardEvent, findByClassName, update } from '../../../../test/utilities';
+import { render, fireEvent } from '@testing-library/preact';
 
 describe('Prompt', function() {
-  beforeEach(function() {
-    this.console.setHistory(null, 0);
-  });
+  beforeEach(async function() {
+    setHistory(null, 0);
 
-  before(function() {
-    this.console = Console();
-    this.prompt = (
-      <Prompt exec={this.console.exec}
-              getHistory={this.console.getHistory}
+    const { container } = render(
+      <Prompt exec={exec}
+              getHistory={getHistory}
               inputRef={node => (this.inputBox = node)}/>
     );
+    this.inputBox = await findByClassName(container, 'promptInput');
     this.pressKey = (key) => dispatchKeyboardEvent('keydown', key, this.inputBox);
   });
 
@@ -29,13 +28,13 @@ describe('Prompt', function() {
     it('should append command to history on enter', function() {
       this.inputBox.value = "'enter1'";
       this.pressKey('Enter');
-      assert.deepStrictEqual(this.console.getHistory(), ["'enter1'"]);
+      assert.deepStrictEqual(getHistory(), ["'enter1'"]);
       this.inputBox.value = "'enter2'";
       this.pressKey('Enter');
-      assert.deepStrictEqual(this.console.getHistory(), ["'enter2'", "'enter1'"]);
+      assert.deepStrictEqual(getHistory(), ["'enter2'", "'enter1'"]);
       this.inputBox.value = "'enter3'";
       this.pressKey('Enter');
-      assert.deepStrictEqual(this.console.getHistory(), ["'enter3'", "'enter2'", "'enter1'"]);
+      assert.deepStrictEqual(getHistory(), ["'enter3'", "'enter2'", "'enter1'"]);
     });
 
     // Arrow keys
@@ -82,9 +81,9 @@ describe('Prompt', function() {
       this.pressKey('ArrowUp');
       assert.strictEqual(this.inputBox.value, "'history1'");
     });
-    it('should retrieve current unsubmitted text on arrow up and back down', function() {
+    it('should retrieve current unsubmitted text on arrow up and back down', async function() {
       this.inputBox.value = "'histo-'";
-      this.inputBox.onchange();
+      fireEvent.change(this.inputBox);
       this.pressKey('ArrowUp');
       this.pressKey('ArrowUp');
       this.pressKey('ArrowDown');
