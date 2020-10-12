@@ -6,7 +6,7 @@ import { waitFor } from '@testing-library/dom';
 export const setupError = 'Unable to complete test, prerequisite condition failed';
 
 /**
- * Wrap waitFor with but no callback argument
+ * Wrap waitFor but with no callback argument
  */
 export const update = async (options) => await waitFor(() => null, options);
 
