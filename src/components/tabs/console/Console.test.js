@@ -3,6 +3,8 @@ import assert from 'assert';
 import Console, { exec, getHistory, parseCommand, parseConsoleArgs, setHistory, stateCache, toJson } from './Console';
 import { stderr, stdout } from 'test-console';
 import { render } from '@testing-library/preact';
+import { findByTitle } from '@testing-library/dom';
+import { update } from '../../../../test/utilities';
 
 const testArgs = ['arg1', 'arg2'];
 const renderTestConsole = (level = 'log') => {
@@ -64,6 +66,31 @@ describe('Console', function() {
       const row = container.getElementsByClassName('row')[0];
       assert(row.classList.contains('error'));
     });
+  });
+
+  describe('copy', function() {
+    let lastExecCommand;
+
+    beforeEach(function() {
+      lastExecCommand = null;
+      global.document.execCommand = (command) => (lastExecCommand = command);
+    });
+
+    it('should call execCommand for stack', async function() {
+      const container = renderTestConsole();
+      const copyButton = await findByTitle(container, 'Copy stack');
+      copyButton.click();
+      await update();
+      assert.strictEqual(lastExecCommand, 'copy');
+    });
+
+    it('should call execCommand for all', async function() {
+      const container = renderTestConsole();
+      const copyButton = await findByTitle(container, 'Copy all output');
+      copyButton.click();
+      await update();
+      assert.strictEqual(lastExecCommand, 'copy');
+    })
   });
 
   describe('#parseConsoleArgs()', function() {
