@@ -7,8 +7,8 @@ import consoleHook, { console } from '../../../utilities/hooks/consoleHook';
 import getTimestamp from '../../../utilities/getTimestamp';
 import Tree, { getNode } from '../../dataTree/Tree';
 
-// Persistent cache between mounts
-const stateCache = {
+// Persistent state between mounts
+export const stateCache = {
   rows: []
 };
 
@@ -53,7 +53,7 @@ export default () => {
 };
 
 /**
- * Convert consoleHook data to row state data
+ * Add additional info to the console args provided by the consoleHook
  */
 export const parseConsoleArgs = ({ level = 'log', args, stack = [] }) => {
   const timestamp = getTimestamp();
@@ -81,7 +81,7 @@ export const parseConsoleArgs = ({ level = 'log', args, stack = [] }) => {
 };
 
 /**
- * Generate a json representation of everything in the component
+ * Generate a json representation of the console rows
  */
 export const toJson = (rows) => JSON.stringify({
   userAgent: navigator.userAgent,
@@ -156,6 +156,5 @@ export const parseCommand = (command) => {
 
 /**
  * Array of recently executed commands
- * Note: This is not a state variable
  */
 const history = getHistory();

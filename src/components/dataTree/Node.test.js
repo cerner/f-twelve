@@ -27,4 +27,29 @@ describe('Node', function() {
     node.querySelector('.caretIcon').click();
     assert.strictEqual(node.getElementsByClassName('value').length, 1);
   });
+
+  describe('#onClickExpandIcon()', function() {
+    // TODO: !!!!!!!!!!!!!!!!!!
+    it('should display children on click', function() {
+      this.output.append({ args: [{ key: 'value' }] });
+      const args = this.el.getElementsByClassName('consoleArgs');
+      assert.strictEqual(args.length, 1, this.setupError);
+      const arg = args[0];
+      assert.strictEqual(arg.getElementsByClassName('child').length, 0);
+      arg.getElementsByClassName('caret')[0].click();
+      assert(arg.getElementsByClassName('child').length > 0);
+    });
+    it('should remove children on click', function() {
+      this.output.append({ args: [{ key: 'value' }] });
+      const args = this.el.getElementsByClassName('consoleArgs');
+      assert.strictEqual(args.length, 1, this.setupError);
+      const arg = args[0];
+      assert(arg.getElementsByClassName('child').length === 0, this.setupError);
+      arg.getElementsByClassName('caret')[0].click();
+      assert(arg.getElementsByClassName('child').length > 0, this.setupError);
+      arg.getElementsByClassName('caret')[0].click();
+      assert(arg.getElementsByClassName('child').length === 0);
+    });
+  });
+
 });
