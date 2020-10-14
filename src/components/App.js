@@ -2,9 +2,10 @@ import { createRef, h } from 'preact';
 import styles from './App.module.scss';
 import Icon from './Icon';
 import Console, { prepConsoleData } from './tabs/console/Console';
-import Network from './tabs/network/Network';
+import Network, { networkReducer } from './tabs/network/Network';
 import { useReducer, useState } from 'preact/hooks';
 import consoleHook from '../utilities/hooks/consoleHook';
+import xhrHook from '../utilities/hooks/xhrHook';
 
 const defaultHeight = 350;
 
@@ -17,13 +18,20 @@ export default ({ id }) => {
   const [height, setHeight] = useState(defaultHeight);
   const [activeTab, setActiveTab] = useState('console');
   const [consoleData, addConsoleData] = useReducer((rows, row) => rows.concat(prepConsoleData(row)), []);
+  const [networkData, dispatchNetworkData] = useReducer(networkReducer, []);
 
   // Every time console.log (or similar) is called, store the data
   consoleHook.onConsole(addConsoleData);
 
+  // Every time an XHR readystatechange event occurs, store the data
+  xhrHook.onOpened((xhr) => dispatchNetworkData([XMLHttpRequest.OPENED, xhr]));
+  xhrHook.onHeadersReceived((xhr) => dispatchNetworkData([XMLHttpRequest.HEADERS_RECEIVED, xhr]));
+  xhrHook.onLoading((xhr) => dispatchNetworkData([XMLHttpRequest.LOADING, xhr]));
+  xhrHook.onDone((xhr) => dispatchNetworkData([XMLHttpRequest.DONE, xhr]));
+
   const tabContents = {
     console: <Console consoleData={consoleData}/>,
-    network: <Network/>
+    network: <Network networkData={networkData}/>
   };
 
   const toggleOpen = () => {

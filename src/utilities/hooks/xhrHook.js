@@ -35,7 +35,7 @@ const disable = () => {
 
 /**
  * https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
- * 0 = UNSET (hook not applicable)
+ * 0 = UNSET (hook not applicable and not implemented)
  * 1 = OPENED
  * 2 = HEADERS_RECEIVED
  * 3 = LOADING
