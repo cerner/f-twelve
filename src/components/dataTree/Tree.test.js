@@ -9,9 +9,9 @@ describe('Tree', function() {
       assert.strictEqual(tree.value, data);
       assert.strictEqual(tree.children.filter(child => child.type === 'member').length, 2);
       assert.strictEqual(tree.children[0].key, 'stringValue');
-      assert.strictEqual(tree.children[0].node.value, data.stringValue);
+      assert.strictEqual(tree.children[0].getNode().value, data.stringValue);
       assert.strictEqual(tree.children[1].key, 'arrayValue');
-      assert.strictEqual(tree.children[1].node.value, data.arrayValue);
+      assert.strictEqual(tree.children[1].getNode().value, data.arrayValue);
     });
 
     it('should handle circular references', function() {
@@ -21,9 +21,9 @@ describe('Tree', function() {
       assert.strictEqual(tree.value, data);
       assert.strictEqual(tree.children.filter(child => child.type === 'member').length, 1);
       assert.strictEqual(tree.children[0].key, 'circular');
-      assert.strictEqual(tree.children[0].node.value, data.circular);
-      assert.strictEqual(tree.children[0].node.children[0].key, 'circular');
-      assert.strictEqual(tree.children[0].node.children[0].node.value, data.circular);
+      assert.strictEqual(tree.children[0].getNode().value, data.circular);
+      assert.strictEqual(tree.children[0].getNode().children[0].key, 'circular');
+      assert.strictEqual(tree.children[0].getNode().children[0].getNode().value, data.circular);
     });
 
     it('should handle deep circular references', function() {
@@ -33,15 +33,15 @@ describe('Tree', function() {
       assert.strictEqual(tree.value, data);
       assert.strictEqual(tree.children.filter(child => child.type === 'member').length, 1);
       assert.strictEqual(tree.children[0].key, 'level1');
-      assert.strictEqual(tree.children[0].node.children[0].key, 'regularKey');
-      assert.strictEqual(tree.children[0].node.children[0].node.value, 'regularValue');
-      assert.strictEqual(tree.children[0].node.children[1].key, 'level2');
-      assert.strictEqual(tree.children[0].node.children[1].node.value, data.level1.level2);
-      assert.strictEqual(tree.children[0].node.children[1].node.children[0].key, 'level3');
-      assert.strictEqual(tree.children[0].node.children[1].node.children[0].node.value, data.level1.level2.level3);
-      assert.strictEqual(tree.children[0].node.children[1].node.children[0].node.children[0].key, 'circular');
-      assert.strictEqual(tree.children[0].node.children[1].node.children[0].node.children[0].node.value, data.level1);
-      assert.strictEqual(tree.children[0].node.children[1].node.children[0].node.children[0].node.value, data.level1.level2.level3.circular);
+      assert.strictEqual(tree.children[0].getNode().children[0].key, 'regularKey');
+      assert.strictEqual(tree.children[0].getNode().children[0].getNode().value, 'regularValue');
+      assert.strictEqual(tree.children[0].getNode().children[1].key, 'level2');
+      assert.strictEqual(tree.children[0].getNode().children[1].getNode().value, data.level1.level2);
+      assert.strictEqual(tree.children[0].getNode().children[1].getNode().children[0].key, 'level3');
+      assert.strictEqual(tree.children[0].getNode().children[1].getNode().children[0].getNode().value, data.level1.level2.level3);
+      assert.strictEqual(tree.children[0].getNode().children[1].getNode().children[0].getNode().children[0].key, 'circular');
+      assert.strictEqual(tree.children[0].getNode().children[1].getNode().children[0].getNode().children[0].getNode().value, data.level1);
+      assert.strictEqual(tree.children[0].getNode().children[1].getNode().children[0].getNode().children[0].getNode().value, data.level1.level2.level3.circular);
     });
   });
 

@@ -1,54 +1,68 @@
 import assert from 'assert';
+import App from './App';
+import { h } from 'preact';
+import { render } from '@testing-library/preact';
+import { findAllByClassName, findByClassName, setupError, update } from '../../test/utilities';
+
+const renderAndOpen = async () => {
+  const { container } = render(<App/>);
+  const icon = await findByClassName(container, 'icon');
+  const app = await findByClassName(container, 'fTwelve');
+  icon.click();
+  await update();
+  assert(app.classList.contains('open'), setupError);
+  return app;
+};
 
 describe('App', function() {
   describe('#setContent()', function() {
-    it('should call setContent and toggle content visibility when a tab is clicked', function() {
-      const tabs = Array.from(this.fTwelve.el.getElementsByClassName('tab'));
-      tabs.forEach((tab) => {
+    it('should toggle content visibility when a tab is clicked', async function() {
+      const { container } = render(<App/>);
+      const tabs = Array.from(container.getElementsByClassName('tab'));
+      for (const tab of tabs) {
         const message = 'Clicked tab did not display content: ' + tab.textContent;
         tab.click();
-        const content = this.fTwelve.el.getElementsByClassName('content')[0];
+        const contents = await findAllByClassName(container, 'content');
+        const content = contents[0];
         assert.strictEqual(content.getElementsByClassName(tab.textContent.toLowerCase()).length, 1, message);
-      });
-    });
-  });
-  describe('tabBar', function() {
-    it('should contain an array of only tab elements', function() {
-      const tabBar = Array.from(this.fTwelve.el.getElementsByClassName('tabBar'));
-      tabBar.forEach(child => assert.strictEqual(child.className, 'tab'));
+      }
     });
   });
   describe('icon', function() {
     describe('#toggleOpen', function() {
-      it('should open the tool if closed', function() {
-        const icon = this.fTwelve.el.getElementsByClassName('icon')[0];
-        assert(!this.fTwelve.el.classList.contains('open'), this.setupError);
+      it('should open the tool if closed', async function() {
+        const { container } = render(<App/>);
+        const icon = await findByClassName(container, 'icon');
+        const app = await findByClassName(container, 'fTwelve');
+        assert(!app.classList.contains('open'), setupError);
         icon.click();
-        assert(this.fTwelve.el.classList.contains('open'));
+        await update();
+        assert(app.classList.contains('open'));
       });
-      it('should close the tool if open', function() {
-        const icon = this.fTwelve.el.getElementsByClassName('icon')[0];
-        this.fTwelve.el.classList.add('open');
+      it('should close the tool if open', async function() {
+        const container = await renderAndOpen();
+        const icon = await findByClassName(container, 'icon');
         icon.click();
-        assert(!this.fTwelve.el.classList.contains('open'));
-        assert.strictEqual(this.fTwelve.el.style.height, '0px');
+        await update();
+        assert(!container.classList.contains('open'));
+        assert.strictEqual(container.style.height, '0px');
       });
     });
   });
   describe('resizer', function() {
-    it('should not resize above the top of the screen', function() {
-      this.fTwelve.el.classList.add('open');
-      const resizer = this.fTwelve.el.getElementsByClassName('resizer')[0];
+    it('should not resize above the top of the screen', async function() {
+      const container = await renderAndOpen();
+      const resizer = await findByClassName(container, 'resizer');
       resizer.dispatchEvent(new MouseEvent('mousedown'));
       window.dispatchEvent(new MouseEvent('mousemove', { clientY: -10 }));
-      assert.strictEqual(this.fTwelve.el.style.height, `${window.innerHeight}px`);
+      assert.strictEqual(container.style.height, `${window.innerHeight}px`);
     });
-    it('should "snap" closed if within 20 pixels', function() {
-      this.fTwelve.el.classList.add('open');
-      const resizer = this.fTwelve.el.getElementsByClassName('resizer')[0];
+    it('should "snap" closed if within 20 pixels', async function() {
+      const container = await renderAndOpen();
+      const resizer = await findByClassName(container, 'resizer');
       resizer.dispatchEvent(new MouseEvent('mousedown'));
       window.dispatchEvent(new MouseEvent('mousemove', { clientY: window.innerHeight - 19 }));
-      assert.strictEqual(this.fTwelve.el.style.height, '0px');
+      assert.strictEqual(container.style.height, '0px');
     });
   });
 });

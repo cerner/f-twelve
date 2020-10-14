@@ -1,19 +1,13 @@
-import jsx from '../../../utilities/jsx';
+import { h } from 'preact';
 import Details from './Details';
 import Tree from '../../dataTree/Tree';
 import styles from './Network.module.scss';
 import xhrHook from '../../../utilities/hooks/xhrHook';
 
-
 /**
- * The content of the Network tab
- * A list of network requests
+ * The content and logic for the Network tab
  */
 export default () => {
-
-  // DOM refs
-  let listEl;
-
   const Row = ({ request }) => (
     <div className={styles.row}>
       <div>Opened: <Tree data={request}/></div>
@@ -25,7 +19,7 @@ export default () => {
    */
   xhrHook.onOpened((xhr) => {
     xhr.el = <Row request={xhr}/>; // TODO: uhh
-    listEl.appendChild(xhr.el);
+    // listEl.appendChild(xhr.el);
   });
 
   /**
@@ -33,19 +27,16 @@ export default () => {
    */
   xhrHook.onDone((xhr) => {
     setTimeout(() => {
-      // TODO: Util function to do these 3 lines (replace node i.e. render)
-      const newNode = <div>Done</div>;
-      xhr.el.parentNode.replaceChild(newNode, xhr.el);
-      xhr.el = newNode;
+      // const newNode = <div>Done</div>;
+      // xhr.el.parentNode.replaceChild(newNode, xhr.el); //  TODO: Uhhh
+      // xhr.el = newNode;
     }, 1000);
   });
 
-  return {
-    el: (
-      <div className={styles.network}>
-        <div className={styles.list} ref={ref => (listEl = ref)}/>
-        <Details/>
-      </div>
-    )
-  };
+  return (
+    <div className={styles.network}>
+      <div className={styles.list}/>
+      <Details/>
+    </div>
+  );
 };

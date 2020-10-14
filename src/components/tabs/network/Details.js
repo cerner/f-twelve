@@ -1,12 +1,9 @@
-import jsx from '../../../utilities/jsx';
-import Tree from '../../dataTree/Tree';
+import { h } from 'preact';
 import styles from './Details.module.scss';
 
 /**
  * Request list
  */
 export default () => {
-  return {
-    el: <div className={styles.details}>Details</div>
-  };
+  return <div className={styles.details}>Details</div>;
 };

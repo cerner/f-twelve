@@ -12,7 +12,7 @@ describe('consoleHook', function() {
 
   describe('#overrideWindowConsole()', function() {
     it('should create a new function for the 4 levels', function() {
-      overrideWindowOnError();
+      overrideWindowConsole();
       assert.notDeepStrictEqual(this.oldWindowConsole.error, window.console.error);
       assert.notDeepStrictEqual(this.oldWindowConsole.info, window.console.info);
       assert.notDeepStrictEqual(this.oldWindowConsole.log, window.console.log);
