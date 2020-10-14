@@ -1,37 +1,29 @@
-import jsx from '../utilities/jsx';
+import { createRef, h } from 'preact';
 import styles from './App.module.scss';
 import Icon from './Icon';
 import Console from './tabs/console/Console';
+import Network from './tabs/network/Network';
+import { useState } from 'preact/hooks';
 
 const defaultHeight = 350;
+
+const tabContents = {
+  console: <Console/>,
+  network: <Network/>
+};
 
 /**
  * Root app view
  */
 export default ({ id }) => {
-  let top = window.innerHeight - defaultHeight;
+  const ref = createRef();
+  const [isOpen, setOpen] = useState(false);
+  const [height, setHeight] = useState(defaultHeight);
+  const [activeTab, setActiveTab] = useState('console');
 
-  // DOM refs
-  let app;
-  let contentWrapper;
-  let content;
-
-  // Populate the main content area when changing tabs
-  const setContent = (el) => {
-    // if (!el.isSameNode(content)) {
-    contentWrapper.replaceChild(el, content);
-    content = el;
-    // }
-  };
-
-  const toggleOpen = (e) => {
-    if (app.classList.contains(styles.open)) {
-      app.classList.remove(styles.open);
-      app.style.top = '100%';
-    } else {
-      app.classList.add(styles.open);
-      app.style.top = `${top}px`;
-    }
+  const toggleOpen = () => {
+    ref.current && (ref.current.style.height = isOpen ? '0px' : `${height}px`);
+    setOpen(!isOpen);
   };
 
   const resizeMouseDown = (event) => {
@@ -40,12 +32,12 @@ export default ({ id }) => {
   };
 
   const resizeMouseMove = (event) => {
-    top = Math.max(0, event.clientY);
-    app.style.top = `${top}px`;
-    if (top > window.innerHeight - 20) {
+    const height = Math.min(window.innerHeight, window.innerHeight - event.clientY);
+    ref.current && (ref.current.style.height = `${height}px`);
+    if (height < 20) {
       toggleOpen();
       resizeMouseUp();
-      top = window.innerHeight - defaultHeight;
+      setHeight(defaultHeight);
     }
   };
 
@@ -54,23 +46,19 @@ export default ({ id }) => {
     window.removeEventListener('mouseup', resizeMouseUp, false);
   };
 
-  const console = Console();
+  const onClickTab = (event) => setActiveTab(event.target.textContent.toLowerCase());
 
-  // Default content to be Console
-  content = console.el;
-
-  return {
-    console,
-    el: (
-      <div className={styles.fTwelve} id={id} ref={el => (app = el)}>
-        <div className={styles.resizer} onmousedown={resizeMouseDown}/>
-        <Icon className={styles.icon} onclick={toggleOpen} title="F-Twelve"/>
-        <div className={styles.tabBar}>
-          <div className={styles.tab} onclick={() => setContent(console.el)}>Console</div>
-          {/* <div className={styles.tab} onclick={() => setContent(<div>Network tab</div>)}>Network</div> */}
-        </div>
-        <div className={styles.content} ref={el => (contentWrapper = el)}>{content}</div>
+  return (
+    <div className={`${styles.fTwelve} ${isOpen ? styles.open : ''}`} id={id} ref={ref}>
+      <div className={styles.resizer} onMouseDown={resizeMouseDown}/>
+      <Icon className={styles.icon} onClick={toggleOpen} title={`${isOpen ? 'Hide' : 'Show'} F-Twelve`}/>
+      <div className={styles.tabBar}>
+        <div className={styles.tab} onClick={onClickTab}>Console</div>
+        <div className={styles.tab} onClick={onClickTab}>Network</div>
       </div>
-    )
-  };
+      <div className={styles.content}>
+        {tabContents[activeTab]}
+      </div>
+    </div>
+  );
 };

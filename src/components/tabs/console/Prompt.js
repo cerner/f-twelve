@@ -1,17 +1,18 @@
-import jsx from '../../../utilities/jsx';
+import { createRef, h } from 'preact';
 import styles from './Prompt.module.scss';
 
 /**
  * Console tab input
  */
-export default ({ inputRef, exec, getHistory } = {}) => {
+export default ({ exec, getHistory } = {}) => {
+  const inputEl = createRef();
+
   let historyPos = -1;
   let currentInput = '';
-  let inputEl;
 
   const onKeyDown = (event) => {
-    if (event.key === 'Enter' && inputEl.value) {
-      executeCommand(inputEl.value);
+    if (event.key === 'Enter' && inputEl.current.value) {
+      executeCommand(inputEl.current.value);
     } else if (event.key === 'ArrowUp' || event.key === 'Up') {
       retrieveHistory();
     } else if (event.key === 'ArrowDown' || event.key === 'Down') {
@@ -19,16 +20,16 @@ export default ({ inputRef, exec, getHistory } = {}) => {
     }
   };
 
-  const onChange = (_) => {
+  const onChange = (event) => {
     historyPos = -1;
-    currentInput = inputEl.value;
+    currentInput = inputEl.current.value;
   };
 
   const executeCommand = (command) => {
     exec(command);
     historyPos = -1;
     currentInput = '';
-    inputEl.value = '';
+    inputEl.current.value = '';
   };
 
   const retrieveHistory = (reverse = false) => {
@@ -38,22 +39,19 @@ export default ({ inputRef, exec, getHistory } = {}) => {
     } else {
       historyPos = Math.min(++historyPos, history.length - 1);
     }
-    inputEl.value = historyPos === -1 ? currentInput : history[historyPos] || '';
+    inputEl.current.value = historyPos === -1 ? currentInput : history[historyPos] || '';
   };
 
-  const Prompt = (
+  return (
     <div className={styles.prompt}>
       <div className={styles.promptChar}>&#8250;</div>
       <input className={styles.promptInput}
-             onchange={onChange}
-             oninput={onChange}
-             onkeydown={onKeyDown}
-             onpaste={onChange}
-             ref={el => (inputEl = el)}
+             onChange={onChange}
+             onInput={onChange}
+             onKeyDown={onKeyDown}
+             onPaste={onChange}
+             ref={inputEl}
       />
     </div>
   );
-  // Provide a ref to the input box
-  if (typeof inputRef === 'function') inputRef(inputEl);
-  return Prompt;
 };

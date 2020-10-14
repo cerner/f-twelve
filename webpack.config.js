@@ -32,6 +32,7 @@ module.exports = (env, argv) => {
       libraryTarget: 'var',
     },
     optimization: {
+      usedExports: true,
       minimizer: [
         new TerserPlugin({
           cache: true,
@@ -76,7 +77,11 @@ module.exports = (env, argv) => {
       }),
     ],
     resolve: {
-      extensions: ['.js', '.jsx']
+      extensions: ['.js', '.jsx'],
+      'alias': {
+        'preact$': production ? 'preact' : 'preact/src/index',
+        'preact/hooks$': production ? 'preact/hooks' : 'preact/hooks/src/index',
+      },
     }
   };
 };

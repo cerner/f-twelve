@@ -1,4 +1,4 @@
-import jsx from '../../utilities/jsx';
+import { h } from 'preact';
 import Node from './Node';
 import getDataType from '../../utilities/getDataType';
 
@@ -13,14 +13,11 @@ import getDataType from '../../utilities/getDataType';
  *   2. DOM Node component (uppercase 'N')
  *      Uses the data tree node to generate HTML elements that represent the tree
  */
-export default ({ data }) => {
-  // Generate a data tree
-  const dataTree = getNode(data);
+export default ({ data, dataTree }) => {
+  // Generate a data tree or use the one provided
+  const node = dataTree || getNode(data);
   // Use the data tree to populate the DOM tree
-  return {
-    dataTree,
-    el: <Node node={dataTree}/>
-  };
+  return <Node node={node}/>;
 };
 
 /**
@@ -67,7 +64,7 @@ const getChildren = (parent) => {
     return {
       key: child.key,
       type: child.type,
-      node: circularAncestor || getNode(value, parent) // End or begin recursion
+      getNode: () => circularAncestor || getNode(value, parent) // End or begin recursion
     };
   });
 };
@@ -95,7 +92,7 @@ const toJson = (node) => {
       const circularAncestor = getCircularAncestor(node, childValue);
       const value = circularAncestor
         ? '"-circular-"' // End recursion
-        : child.node.toJson(); // Begin recursion
+        : child.getNode().toJson(); // Begin recursion
       return Array.isArray(node.value) ? value : `"${child.key}":${value}`;
     }).join(',');
 

@@ -1,105 +1,159 @@
-/* eslint-disable no-console */
-import jsx from '../../../utilities/jsx';
+import { createRef, h } from 'preact';
+import { useEffect, useReducer } from 'preact/hooks';
 import styles from './Console.module.scss';
-import Output from './Output';
 import Prompt from './Prompt';
-import parseCommand from '../../../utilities/parseCommand';
-import parseStack from '../../../utilities/parseStack';
 import CopyButton from '../../CopyButton';
+import consoleHook from '../../../utilities/hooks/consoleHook';
+import getTimestamp from '../../../utilities/getTimestamp';
+import Tree, { getNode } from '../../dataTree/Tree';
+
+// Persistent state between mounts
+export const stateCache = {
+  rows: []
+};
 
 /**
- * The content of the Console tab
+ * The content and logic for the Console tab
  */
-const historyKey = 'fTwelve.history';
-const originalConsole = Object.assign({}, window.console);
-const originalOnError = window.onerror && typeof window.onerror === 'function' ? window.onerror.bind({}) : null;
 export default () => {
-  let output;
+  // Every time console.log (or similar) is called, store the data
+  const [rows, addRow] = useReducer((rows, row) => {
+    stateCache.rows = rows.concat(row);
+    return stateCache.rows;
+  }, stateCache.rows);
+  consoleHook.onConsole((...args) => addRow(parseConsoleArgs(...args)));
 
-  const getHistory = () => {
-    return window.localStorage
-      ? (JSON.parse(window.localStorage.getItem(historyKey)) || [])
-      : execHistory || [];
-  };
+  // Scroll to the bottom on render
+  const outputRef = createRef();
+  useEffect(() => (outputRef.current.scrollTop = outputRef.current.scrollHeight));
 
-  const setHistory = (command, maxSize = 50) => {
-    execHistory.unshift(command);
-    execHistory.splice(maxSize);
-    if (window.localStorage) {
-      window.localStorage.setItem(historyKey, JSON.stringify(execHistory));
-    }
-  };
+  return (
+    <div className={styles.console}>
+      <div className={styles.output} ref={outputRef}>
+        {rows.map(row => (
+          <div className={`${styles.row} ${styles[row.level]}`}>
+            <div className={styles.timestamp}>{row.timestamp.split(' ')[1]}</div>
+            <div className={styles.consoleArgs}>{
+              row.argData.map(dataTree => <Tree dataTree={dataTree}/>)
+            }</div>
+            <div className={styles.fileName}>
+              <CopyButton getText={() => row.stackString} title='Copy stack'/>
+              <span title={row.stackString}>{row.fileName}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className={styles.copyAllButton}>
+        <CopyButton getText={() => toJson(rows)} title="Copy all output"/>
+      </div>
+      <Prompt exec={exec} getHistory={getHistory}/>
+    </div>
+  );
+};
 
-  const overrideWindowConsole = () => {
-    const verbs = ['log', 'warn', 'error', 'info'];
-    verbs.forEach((verb) => {
-      window.console[verb] = (...args) => {
-        const isError = args.length === 1 && args[0] instanceof Error;
-        const stackPreFtwelve = getStack().split('\n').splice(3).join('\n');
-        const stack = parseStack(isError ? args[0].stack : stackPreFtwelve);
-        output.append({ verb, args, stack });
-        return originalConsole[verb] && originalConsole[verb].apply(window.console, args);
-      };
-    });
-  };
+/**
+ * Add additional info to the console args provided by the consoleHook
+ */
+export const parseConsoleArgs = ({ level = 'log', args, stack = [] }) => {
+  const timestamp = getTimestamp();
 
-  /**
-   * Only way to get a stack in IE is throw an actual error!
-   */
-  const getStack = () => {
-    try {
-      throw Error();
-    } catch (error) {
-      return error.stack || '';
-    }
-  };
+  const frame = (stack && stack[0]) || {};
+  const fileName = frame.fileName && frame.lineNumber
+    ? `${frame.fileName}:${frame.lineNumber}`
+    : frame.fileName || '';
 
-  const restoreWindowConsole = () => {
-    window.console = Object.assign({}, originalConsole);
-  };
-
-  const overrideWindowOnError = () => {
-    window.onerror = (message, source, lineNo, colNo, error) => {
-      if (originalOnError && typeof originalOnError === 'function') {
-        originalOnError.call(this, message, source, lineNo, colNo, error);
-      }
-      console.error(error);
-      return true;
-    };
-  };
-
-  const restoreWindowOnError = () => {
-    window.onerror = originalOnError ? originalOnError.bind({}) : null;
-  };
-
-  const exec = (command) => {
-    setHistory(command);
-    console.log(command);
-    try {
-      console.log(parseCommand(command));
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const execHistory = getHistory();
+  const argData = Object.keys(args).map((key) => {
+    const arg = args[key];
+    const isError = arg instanceof Error ||
+      (arg && arg.constructor && arg.constructor.name && arg.constructor.name.indexOf('Error') > -1);
+    return getNode(isError ? (arg.stack || arg) : arg);
+  });
 
   return {
-    exec,
-    getHistory,
-    overrideWindowConsole,
-    overrideWindowOnError,
-    restoreWindowConsole,
-    restoreWindowOnError,
-    setHistory,
-    el: (
-      <div className={styles.console}>
-        <Output ref={ref => (output = ref)}/>
-        <div className={styles.copyAllButton}>
-          <CopyButton getText={output.toJson} title="Copy all output"/>
-        </div>
-        <Prompt exec={exec} getHistory={getHistory}/>
-      </div>
-    )
+    argData,
+    fileName,
+    level,
+    stack,
+    stackString: stack.map(frame => frame.path).join('\n'),
+    timestamp,
   };
 };
+
+/**
+ * Generate a json representation of the console rows
+ */
+export const toJson = (rows) => JSON.stringify({
+  userAgent: navigator.userAgent,
+  href: window.location.href,
+  time: getTimestamp(),
+  consoleOutput: rows.map(row => {
+    const argData = row.argData.map(dataTree => JSON.parse(dataTree.toJson()));
+    return {
+      time: row.timestamp,
+      stack: row.stack,
+      output: argData
+    };
+  })
+});
+
+/**
+ * Local storage key for command history
+ */
+const historyKey = 'fTwelve.history';
+
+/**
+ * Push a command onto history and write to local storage
+ */
+export const setHistory = (command, maxSize = 50) => {
+  history.unshift(command);
+  history.splice(maxSize);
+  if (window.localStorage) {
+    window.localStorage.setItem(historyKey, JSON.stringify(history));
+  }
+};
+
+/**
+ * Retrieve all history items
+ */
+export const getHistory = () => window.localStorage
+  ? (JSON.parse(window.localStorage.getItem(historyKey)) || [])
+  : history || [];
+
+/**
+ * Push a console command onto the history array and execute it
+ */
+export const exec = (command) => {
+  setHistory(command);
+  window.console.log(command);
+  try {
+    window.console.log(parseCommand(command));
+  } catch (e) {
+    window.console.error(e);
+  }
+};
+
+/**
+ * Parse a string and safely evaluate it in JS (as opposed to `eval` or `Function`)
+ */
+export const parseCommand = (command) => {
+  command = command.trim();
+  if (command.match(/^".*"$/) || command.match(/^'.*'$/)) {
+    return command.slice(1, -1);
+  }
+  const expressions = command.split(/\s*=\s*/);
+  const firstExpression = expressions.shift();
+  return firstExpression.replace(/(?=\[)/g, '.').split('.').reduce((object, memberString, idx, array) => {
+    const bracketMatch = memberString.match(/^\[([^\]]*)]$/);
+    const memberName = bracketMatch ? bracketMatch[1].replace(/^["']|["']$/g, '') : memberString;
+    if (expressions.length > 0 && idx === array.length - 1) {
+      // If there are things to the right of the equals sign, assign it to the left
+      (object || {})[memberName] = parseCommand(expressions.join('='));
+    }
+    return (object || {})[memberName];
+  }, window);
+};
+
+/**
+ * Array of recently executed commands
+ */
+const history = getHistory();
