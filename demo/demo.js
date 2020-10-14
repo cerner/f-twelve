@@ -33,20 +33,20 @@ window.onload = () => {
       'phoneNumber': '(281) 330-8004',
       'id': 1
     },
-      {
-        'impact': '1',
-        'tenantId': 'NWJhMmFmMmIwNDU2ZGM1YzNmZGM5YjAy',
-        'summary': '123',
-        'description': '123',
-        'assignedGroupId': '5ba3ddddc40a384ad1bd45c8',
-        'containsPhi': true,
-        'firstName': 'Portal',
-        'lastName': 'Portal',
-        'userName': '4464007',
-        'email': 'pgross41@gmail.com',
-        'phoneNumber': '(281) 330-8004',
-        'id': 1
-      }],
+    {
+      'impact': '1',
+      'tenantId': 'NWJhMmFmMmIwNDU2ZGM1YzNmZGM5YjAy',
+      'summary': '123',
+      'description': '123',
+      'assignedGroupId': '5ba3ddddc40a384ad1bd45c8',
+      'containsPhi': true,
+      'firstName': 'Portal',
+      'lastName': 'Portal',
+      'userName': '4464007',
+      'email': 'pgross41@gmail.com',
+      'phoneNumber': '(281) 330-8004',
+      'id': 1
+    }],
     'configuration': {
       'id': 'undefined',
       'tenantId': '0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca',
@@ -71,5 +71,5 @@ window.onload = () => {
       }
     }
   }, "followup words after a small object followed by a large object with lots of words it's really long vertically but not very long horizontally need to see what it will look like");
-  iAmBadCode;
+  iAmBadCode; // eslint-disable-line
 };

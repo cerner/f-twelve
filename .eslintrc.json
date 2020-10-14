@@ -67,15 +67,17 @@
     // Use `myFunction()` instead of `myFunction ()`
     "space-before-function-paren": [
       "error",
-      "never"
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }
     ]
   },
   "settings": {
     "react": {
       // Matches the pragma in babel config
-      "pragma": "jsx",
-      // This is bogus but suppresses an error
-      "version": "15.0"
+      "pragma": "h"
     }
   }
 }

@@ -24,11 +24,11 @@ export const Node = ({ node, childKey }) => {
         <div className={styles.copyButton}><CopyButton getText={getCopyText}/></div>
         {childKey && <div className={styles.key}>{childKey}:</div>}
         {node.isObject ? (
-          <>
+          <Fragment>
             <div className={styles.caretIcon} onClick={toggleIsOpen}><i className={caretClass}/></div>
             <div className={styles.objectType} onClick={toggleIsOpen}>{node.objectType}</div>
             <div className={styles.preview} onClick={toggleIsOpen}>{getPreview(childKey, node.value)}</div>
-          </>
+          </Fragment>
         ) : (
           <div className={`${styles.value} ${dataTypeStyle}`}>{formatSimpleValue(node.value, childKey)}</div>
         )}

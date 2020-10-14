@@ -3,7 +3,7 @@ import { useEffect, useReducer } from 'preact/hooks';
 import styles from './Console.module.scss';
 import Prompt from './Prompt';
 import CopyButton from '../../CopyButton';
-import consoleHook, { console } from '../../../utilities/hooks/consoleHook';
+import consoleHook from '../../../utilities/hooks/consoleHook';
 import getTimestamp from '../../../utilities/getTimestamp';
 import Tree, { getNode } from '../../dataTree/Tree';
 
@@ -25,7 +25,7 @@ export default () => {
 
   // Scroll to the bottom on render
   const outputRef = createRef();
-  useEffect(() => outputRef.current.scrollTop = outputRef.current.scrollHeight);
+  useEffect(() => (outputRef.current.scrollTop = outputRef.current.scrollHeight));
 
   return (
     <div className={styles.console}>

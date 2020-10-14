@@ -1,8 +1,8 @@
 import { h } from 'preact';
 import assert from 'assert';
 import Prompt from './Prompt';
-import Console, { exec, getHistory, setHistory } from './Console';
-import { dispatchKeyboardEvent, findByClassName, update } from '../../../../test/utilities';
+import { exec, getHistory, setHistory } from './Console';
+import { dispatchKeyboardEvent, findByClassName } from '../../../../test/utilities';
 import { render, fireEvent } from '@testing-library/preact';
 
 describe('Prompt', function() {

@@ -8,7 +8,7 @@ export const setupError = 'Unable to complete test, prerequisite condition faile
 /**
  * Wrap waitFor but with no callback argument
  */
-export const update = async (options) => await waitFor(() => null, options);
+export const update = async (options) => waitFor(() => null, options);
 
 /**
  * Custom query function

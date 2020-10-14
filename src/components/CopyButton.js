@@ -1,4 +1,4 @@
-import { createRef, h, render } from 'preact';
+import { createRef, h } from 'preact';
 import styles from './CopyButton.module.scss';
 import { useState } from 'preact/hooks';
 

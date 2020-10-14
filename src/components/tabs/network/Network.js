@@ -8,9 +8,6 @@ import xhrHook from '../../../utilities/hooks/xhrHook';
  * The content and logic for the Network tab
  */
 export default () => {
-  // DOM refs
-  let listEl;
-
   const Row = ({ request }) => (
     <div className={styles.row}>
       <div>Opened: <Tree data={request}/></div>
@@ -30,7 +27,7 @@ export default () => {
    */
   xhrHook.onDone((xhr) => {
     setTimeout(() => {
-      const newNode = <div>Done</div>;
+      // const newNode = <div>Done</div>;
       // xhr.el.parentNode.replaceChild(newNode, xhr.el); //  TODO: Uhhh
       // xhr.el = newNode;
     }, 1000);
@@ -38,7 +35,7 @@ export default () => {
 
   return (
     <div className={styles.network}>
-      <div className={styles.list} ref={ref => (listEl = ref)}/>
+      <div className={styles.list}/>
       <Details/>
     </div>
   );
