@@ -1,16 +1,12 @@
 import { createRef, h } from 'preact';
 import styles from './App.module.scss';
 import Icon from './Icon';
-import Console from './tabs/console/Console';
+import Console, { prepConsoleData } from './tabs/console/Console';
 import Network from './tabs/network/Network';
-import { useState } from 'preact/hooks';
+import { useReducer, useState } from 'preact/hooks';
+import consoleHook from '../utilities/hooks/consoleHook';
 
 const defaultHeight = 350;
-
-const tabContents = {
-  console: <Console/>,
-  network: <Network/>
-};
 
 /**
  * Root app view
@@ -20,6 +16,15 @@ export default ({ id }) => {
   const [isOpen, setOpen] = useState(false);
   const [height, setHeight] = useState(defaultHeight);
   const [activeTab, setActiveTab] = useState('console');
+  const [consoleData, addConsoleData] = useReducer((rows, row) => rows.concat(prepConsoleData(row)), []);
+
+  // Every time console.log (or similar) is called, store the data
+  consoleHook.onConsole(addConsoleData);
+
+  const tabContents = {
+    console: <Console consoleData={consoleData}/>,
+    network: <Network/>
+  };
 
   const toggleOpen = () => {
     ref.current && (ref.current.style.height = isOpen ? '0px' : `${height}px`);

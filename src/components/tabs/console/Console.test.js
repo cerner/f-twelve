@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import assert from 'assert';
-import Console, { exec, getHistory, parseCommand, parseConsoleArgs, setHistory, stateCache, toJson } from './Console';
+import Console, { exec, getHistory, parseCommand, prepConsoleData, setHistory, toJson } from './Console';
 import { stderr, stdout } from 'test-console';
 import { render } from '@testing-library/preact';
 import { findByTitle } from '@testing-library/dom';
@@ -9,9 +9,8 @@ import { update } from '../../../../test/utilities';
 const testArgs = ['arg1', 'arg2'];
 const renderTestConsole = (level = 'log') => {
   const stack = [{ fileName: 'fileX', lineNumber: 42 }];
-  const rowData = parseConsoleArgs({ level, args: testArgs, stack });
-  stateCache.rows = [rowData];
-  const { container } = render(<Console/>);
+  const consoleData = [prepConsoleData({ level, args: testArgs, stack })];
+  const { container } = render(<Console consoleData={consoleData}/>);
   return container;
 };
 
@@ -24,10 +23,9 @@ describe('Console', function() {
     });
 
     it('should display timestamp without the date', function() {
-      const rowData = parseConsoleArgs({ args: [] });
-      rowData.timestamp = '2020-10-12 11:53:23';
-      stateCache.rows = [rowData];
-      const { container } = render(<Console/>);
+      const consoleData = prepConsoleData({ args: [] });
+      consoleData.timestamp = '2020-10-12 11:53:23';
+      const { container } = render(<Console consoleData={[consoleData]}/>);
       const timestamp = container.getElementsByClassName('timestamp')[0];
       assert.strictEqual(timestamp.textContent, '11:53:23');
     });
@@ -91,25 +89,25 @@ describe('Console', function() {
     });
   });
 
-  describe('#parseConsoleArgs()', function() {
+  describe('#prepConsoleData()', function() {
     it('should display filename and line number from top of stack', function() {
       const stack = [{ fileName: 'fileX', lineNumber: 42 }];
-      const parsed = parseConsoleArgs({ args: ['test'], stack: stack });
+      const parsed = prepConsoleData({ args: ['test'], stack: stack });
       assert.strictEqual(parsed.fileName, 'fileX:42');
     });
     it('should display filename only if no line number', function() {
       const stack = [{ fileName: 'fileX' }];
-      const parsed = parseConsoleArgs({ args: ['test'], stack: stack });
+      const parsed = prepConsoleData({ args: ['test'], stack: stack });
       assert.strictEqual(parsed.fileName, 'fileX');
     });
     it('should not display filename if not available ', function() {
       const stack = [{ lineNumber: 42 }];
-      const parsed = parseConsoleArgs({ args: ['test'], stack: stack });
+      const parsed = prepConsoleData({ args: ['test'], stack: stack });
       assert.strictEqual(parsed.fileName, '');
     });
     it('should create a data tree for each console arg', function() {
       const args = [1, 'two', { thr: 'ee' }];
-      const parsed = parseConsoleArgs({ args: args });
+      const parsed = prepConsoleData({ args: args });
       assert.strictEqual(parsed.argData.length, 3);
       assert.strictEqual(parsed.argData[0].value, args[0]);
       assert.strictEqual(parsed.argData[1].value, args[1]);
@@ -119,7 +117,7 @@ describe('Console', function() {
 
   describe('#toJson()', function() {
     it('should create json of all data', function() {
-      const rows = [parseConsoleArgs({ args: ['string', { key: 'value' }] })];
+      const rows = [prepConsoleData({ args: ['string', { key: 'value' }] })];
       const parsed = JSON.parse(toJson(rows));
       assert.strictEqual(parsed.userAgent, 'Mozilla/5.0 (win32) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/15.0.0');
       assert.strictEqual(parsed.href, 'http://localhost/');

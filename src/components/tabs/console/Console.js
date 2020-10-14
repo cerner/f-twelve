@@ -1,28 +1,15 @@
 import { createRef, h } from 'preact';
-import { useEffect, useReducer } from 'preact/hooks';
+import { useEffect } from 'preact/hooks';
 import styles from './Console.module.scss';
 import Prompt from './Prompt';
 import CopyButton from '../../CopyButton';
-import consoleHook from '../../../utilities/hooks/consoleHook';
 import getTimestamp from '../../../utilities/getTimestamp';
 import Tree, { getNode } from '../../dataTree/Tree';
-
-// Persistent state between mounts
-export const stateCache = {
-  rows: []
-};
 
 /**
  * The content and logic for the Console tab
  */
-export default () => {
-  // Every time console.log (or similar) is called, store the data
-  const [rows, addRow] = useReducer((rows, row) => {
-    stateCache.rows = rows.concat(row);
-    return stateCache.rows;
-  }, stateCache.rows);
-  consoleHook.onConsole((...args) => addRow(parseConsoleArgs(...args)));
-
+export default ({ consoleData }) => {
   // Scroll to the bottom on render
   const outputRef = createRef();
   useEffect(() => (outputRef.current.scrollTop = outputRef.current.scrollHeight));
@@ -30,7 +17,7 @@ export default () => {
   return (
     <div className={styles.console}>
       <div className={styles.output} ref={outputRef}>
-        {rows.map(row => (
+        {consoleData.map(row => (
           <div className={`${styles.row} ${styles[row.level]}`}>
             <div className={styles.timestamp}>{row.timestamp.split(' ')[1]}</div>
             <div className={styles.consoleArgs}>{
@@ -44,7 +31,7 @@ export default () => {
         ))}
       </div>
       <div className={styles.copyAllButton}>
-        <CopyButton getText={() => toJson(rows)} title="Copy all output"/>
+        <CopyButton getText={() => toJson(consoleData)} title="Copy all output"/>
       </div>
       <Prompt exec={exec} getHistory={getHistory}/>
     </div>
@@ -54,7 +41,7 @@ export default () => {
 /**
  * Add additional info to the console args provided by the consoleHook
  */
-export const parseConsoleArgs = ({ level = 'log', args, stack = [] }) => {
+export const prepConsoleData = ({ level = 'log', args, stack = [] }) => {
   const timestamp = getTimestamp();
 
   const frame = (stack && stack[0]) || {};
@@ -80,13 +67,13 @@ export const parseConsoleArgs = ({ level = 'log', args, stack = [] }) => {
 };
 
 /**
- * Generate a json representation of the console rows
+ * Generate a json representation of the console data
  */
-export const toJson = (rows) => JSON.stringify({
+export const toJson = (consoleData) => JSON.stringify({
   userAgent: navigator.userAgent,
   href: window.location.href,
   time: getTimestamp(),
-  consoleOutput: rows.map(row => {
+  consoleOutput: consoleData.map(row => {
     const argData = row.argData.map(dataTree => JSON.parse(dataTree.toJson()));
     return {
       time: row.timestamp,
