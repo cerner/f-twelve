@@ -40,10 +40,15 @@
   .tab {
     cursor: pointer;
     padding: 4px 14px;
+    border-bottom: 2px solid transparent;
   }
 
   .tab:hover {
     background-color: #eaeaea;
+  }
+
+  .activeTab {
+    border-color: #5c9a43;
   }
 
   .resizer {
@@ -63,7 +68,7 @@
     background-color: #f3f3f3;
     border-top: 1px solid #bbb;
     border-bottom: 1px solid #bbb;
-    padding-left: 42px;
+    padding-left: 45px;
     display: flex;
   }
 

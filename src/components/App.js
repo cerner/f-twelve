@@ -60,14 +60,15 @@ export default ({ id }) => {
   };
 
   const onClickTab = (event) => setActiveTab(event.target.textContent.toLowerCase());
+  const getTabClassName = (tabName) => `${styles.tab} ${activeTab === tabName ? styles.activeTab : ''}`.trim();
 
   return (
     <div className={`${styles.fTwelve} ${isOpen ? styles.open : ''}`} id={id} ref={ref}>
       <div className={styles.resizer} onMouseDown={resizeMouseDown}/>
       <Icon className={styles.icon} onClick={toggleOpen} title={`${isOpen ? 'Hide' : 'Show'} F-Twelve`}/>
       <div className={styles.tabBar}>
-        <div className={styles.tab} onClick={onClickTab}>Console</div>
-        <div className={styles.tab} onClick={onClickTab}>Network</div>
+        <div className={getTabClassName('console')} onClick={onClickTab}>Console</div>
+        <div className={getTabClassName('network')} onClick={onClickTab}>Network</div>
       </div>
       <div className={styles.content}>
         {tabContents[activeTab]}
