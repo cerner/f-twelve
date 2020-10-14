@@ -16,16 +16,16 @@ const renderAndOpen = async () => {
 
 describe('App', function() {
   describe('#setContent()', function() {
-    it('should toggle content visibility when a tab is clicked', function() {
+    it('should toggle content visibility when a tab is clicked', async function() {
       const { container } = render(<App/>);
       const tabs = Array.from(container.getElementsByClassName('tab'));
-      tabs.forEach(async (tab) => {
+      for (const tab of tabs) {
         const message = 'Clicked tab did not display content: ' + tab.textContent;
         tab.click();
         const contents = await findAllByClassName(container, 'content');
         const content = contents[0];
         assert.strictEqual(content.getElementsByClassName(tab.textContent.toLowerCase()).length, 1, message);
-      });
+      }
     });
   });
   describe('icon', function() {

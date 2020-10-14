@@ -22,7 +22,7 @@ export default ({ id }) => {
   const [activeTab, setActiveTab] = useState('console');
 
   const toggleOpen = () => {
-    ref.current.style.height = isOpen ? '0px' : `${height}px`;
+    ref.current && (ref.current.style.height = isOpen ? '0px' : `${height}px`);
     setOpen(!isOpen);
   };
 
@@ -33,7 +33,7 @@ export default ({ id }) => {
 
   const resizeMouseMove = (event) => {
     const height = Math.min(window.innerHeight, window.innerHeight - event.clientY);
-    ref.current.style.height = `${height}px`;
+    ref.current && (ref.current.style.height = `${height}px`);
     if (height < 20) {
       toggleOpen();
       resizeMouseUp();
