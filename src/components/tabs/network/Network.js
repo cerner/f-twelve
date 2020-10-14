@@ -4,12 +4,10 @@ import Tree from '../../dataTree/Tree';
 import styles from './Network.module.scss';
 import xhrHook from '../../../utilities/hooks/xhrHook';
 
-
 /**
  * The content and logic for the Network tab
  */
 export default () => {
-
   // DOM refs
   let listEl;
 

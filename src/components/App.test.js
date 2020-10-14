@@ -37,7 +37,7 @@ describe('App', function() {
         assert(!app.classList.contains('open'), setupError);
         icon.click();
         await update();
-        assert(app.classList.contains('open'))
+        assert(app.classList.contains('open'));
       });
       it('should close the tool if open', async function() {
         const container = await renderAndOpen();

@@ -16,9 +16,7 @@ const renderTestConsole = (level = 'log') => {
 };
 
 describe('Console', function() {
-
   describe('output', async function() {
-
     it('should add 1 row', function() {
       const container = renderTestConsole();
       const output = container.getElementsByClassName('output')[0];
@@ -90,7 +88,7 @@ describe('Console', function() {
       copyButton.click();
       await update();
       assert.strictEqual(lastExecCommand, 'copy');
-    })
+    });
   });
 
   describe('#parseConsoleArgs()', function() {
@@ -260,5 +258,4 @@ describe('Console', function() {
       assert.strictEqual(window.testObject.key1.key2, 'new');
     });
   });
-
 });

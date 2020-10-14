@@ -16,7 +16,6 @@ export const stateCache = {
  * The content and logic for the Console tab
  */
 export default () => {
-
   // Every time console.log (or similar) is called, store the data
   const [rows, addRow] = useReducer((rows, row) => {
     stateCache.rows = rows.concat(row);

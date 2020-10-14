@@ -16,7 +16,6 @@ const tabContents = {
  * Root app view
  */
 export default ({ id }) => {
-
   const ref = createRef();
   const [isOpen, setOpen] = useState(false);
   const [height, setHeight] = useState(defaultHeight);

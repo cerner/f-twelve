@@ -1,5 +1,4 @@
 window.onload = () => {
-
   /*******************************************************************************
    * Demo data for the Network tab
    *******************************************************************************/
@@ -73,5 +72,4 @@ window.onload = () => {
     }
   }, "followup words after a small object followed by a large object with lots of words it's really long vertically but not very long horizontally need to see what it will look like");
   iAmBadCode;
-
 };

@@ -8,7 +8,6 @@ import { useState } from 'preact/hooks';
  * The node prop has a specific format from getNode in the Tree component
  */
 export const Node = ({ node, childKey }) => {
-
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = () => setIsOpen(!isOpen);
 
@@ -49,7 +48,6 @@ export default Node;
  * Format display of non-object values
  */
 export const formatSimpleValue = (value, childKey) => {
-
   // Stringify null
   if (value === null) return 'null';
 
