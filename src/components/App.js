@@ -1,4 +1,4 @@
-import { createRef, h } from 'preact';
+import { createRef, h, Fragment } from 'preact';
 import styles from './App.module.scss';
 import Icon from './Icon';
 import Console, { prepConsoleData } from './tabs/console/Console';
@@ -57,22 +57,29 @@ export default ({ id }) => {
   const resizeMouseUp = (event) => {
     window.removeEventListener('mousemove', resizeMouseMove, false);
     window.removeEventListener('mouseup', resizeMouseUp, false);
+    setHeight(parseFloat(ref.current.style.height) || defaultHeight);
   };
 
   const onClickTab = (event) => setActiveTab(event.target.textContent.toLowerCase());
   const getTabClassName = (tabName) => `${styles.tab} ${activeTab === tabName ? styles.activeTab : ''}`.trim();
 
+  const icon = <Icon className={styles.icon} onClick={toggleOpen} title={`${isOpen ? 'Hide' : 'Show'} F-Twelve`}/>;
+
   return (
     <div className={`${styles.fTwelve} ${isOpen ? styles.open : ''}`} id={id} ref={ref}>
-      <div className={styles.resizer} onMouseDown={resizeMouseDown}/>
-      <Icon className={styles.icon} onClick={toggleOpen} title={`${isOpen ? 'Hide' : 'Show'} F-Twelve`}/>
-      <div className={styles.tabBar}>
-        <div className={getTabClassName('console')} onClick={onClickTab}>Console</div>
-        <div className={getTabClassName('network')} onClick={onClickTab}>Network</div>
-      </div>
-      <div className={styles.content}>
-        {tabContents[activeTab]}
-      </div>
+      {!isOpen ? icon : (
+        <Fragment>
+          <div className={styles.resizer} onMouseDown={resizeMouseDown}/>
+          {icon}
+          <div className={styles.tabBar}>
+            <div className={getTabClassName('console')} onClick={onClickTab}>Console</div>
+            <div className={getTabClassName('network')} onClick={onClickTab}>Network</div>
+          </div>
+          <div className={styles.content}>
+            {tabContents[activeTab]}
+          </div>
+        </Fragment>
+      )}
     </div>
   );
 };
