@@ -13,13 +13,13 @@ module.exports = (env, argv) => {
     mode: argv.mode,
     devtool: production ? 'source-map' : 'inline-source-map',
     devServer: {
-      publicPath: '/dist/',
+      publicPath: '/',
       open: true,
-      openPage: 'demo/index.html',
+      openPage: '/demo/index.html',
       proxy: {
-        '/f-twelve': {
+        '/dist': {
           target: 'http://localhost:8080',
-          pathRewrite: { '^/f-twelve': '' }
+          pathRewrite: { '^/dist': '' }
         }
       }
     },
@@ -53,7 +53,7 @@ module.exports = (env, argv) => {
           test: /\.(s?css)$/,
           use: [
             {
-              loader: production ? MiniCssExtractPlugin.loader : 'style-loader'
+              loader: MiniCssExtractPlugin.loader
             },
             {
               loader: 'css-loader',

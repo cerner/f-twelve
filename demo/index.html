@@ -5,21 +5,23 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
-    <link rel="stylesheet" type="text/css" media="screen" href="/f-twelve/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="https://engineering.cerner.com/f-twelve/assets/css/style.css">
 
-    <!-- #################### -->
-    <!--                      -->
-    <!-- Include the CSS file -->
-    <!--                      -->
-    <!-- #################### -->
-    <link rel="stylesheet" href="/f-twelve/dist/f-twelve.css"/>
+    <!-- ########################################################### -->
+    <!-- #                                                         # -->
+    <!-- #                  Include the CSS file                   # -->
+    <!-- #                                                         # -->
+    <!-- ########################################################### -->
+    <link rel="stylesheet" href="../dist/f-twelve.css"/>
 
-    <!-- ####################################################### -->
-    <!--                                                         -->
-    <!-- Include the JS file... And that's it, F-Twelve is ready -->
-    <!--                                                         -->
-    <!-- ####################################################### -->
-    <script src="/f-twelve/dist/f-twelve.js"></script>
+    <!-- ########################################################### -->
+    <!-- #                                                         # -->
+    <!-- #                   Include the JS file                   # -->
+    <!-- #            And that's it, F-Twelve is ready             # -->
+    <!-- #                                                         # -->
+    <!-- ########################################################### -->
+    <script src="../dist/f-twelve.js"></script>
 </head>
 <body>
 <div class="container-lg px-3 my-5 markdown-body">
@@ -58,7 +60,7 @@
     <p>Set a callback when showing the tool. Useful, for example, to use F-Twelve’s "debug hotkey" to enable additional
         "debug mode" features in the consuming application.</p>
     <pre><code>fTwelve.onShow(() => {
-alert("Showing F-Twelve");
+    alert("Showing F-Twelve");
 });</code></pre>
     <button onclick="fTwelve.onShow(function(){alert('Showing F-Twelve')})">Alert on show</button>
     <button onclick="fTwelve.onShow(function(){})">Do nothing on show</button>
@@ -67,11 +69,11 @@ alert("Showing F-Twelve");
     <p>Set a callback when removing from the DOM. Similarly as onShow, this can be used to disable the consuming
         application’s "debug mode" via keyboard shortcut.</p>
     <pre><code>fTwelve.onHide(() => {
-alert("Hiding F-Twelve");
+    alert("Hiding F-Twelve");
 });</code></pre>
     <button onclick="fTwelve.onHide(function(){alert('Hiding f-Twelve')})">Alert on hide</button>
     <button onclick="fTwelve.onHide(function(){})">Do nothing on hide</button>
 </div>
-<script src="/f-twelve/demo/demo.js"></script>
+<script src="demo.js"></script>
 </body>
 </html>
