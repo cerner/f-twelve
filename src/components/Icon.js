@@ -2,7 +2,7 @@ import { h } from 'preact';
 
 export default (props) => (
   <div {...props}>
-    <svg viewBox="23 32 53.5 37">
+    <svg viewBox="23 32 53.5 37" width="40">
       <rect fill="#f1f1f2" height="32.87" rx="1.79" width="48.8" x="25.55" y="33.78"/>
       <polygon fill="#5c9a43"
                points="39.05 51.88 31.92 44.75 36.09 44.75 43.22 51.88 36.14 58.96 31.97 58.96 39.05 51.88"/>

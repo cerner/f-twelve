@@ -13,9 +13,12 @@
     height: 0;
   }
 
-  .icon {
+  .icon > svg {
     width: 40px;
     height: 28px;
+  }
+
+  .icon {
     cursor: pointer;
     margin-left: 1px;
     position: absolute;
