@@ -4,30 +4,23 @@ import Icon from './Icon';
 import Console, { prepConsoleData } from './tabs/console/Console';
 import Network, { networkReducer } from './tabs/network/Network';
 import { useReducer, useState } from 'preact/hooks';
-import consoleHook from '../utilities/hooks/consoleHook';
-import xhrHook from '../utilities/hooks/xhrHook';
+import consoleHook from '../utilities/consoleHook';
+import xhrHook from '../utilities/xhrHook';
+import useConsoleData from '../hooks/useConsoleData';
+import useNetworkData from '../hooks/useNetworkData';
 
 const defaultHeight = 350;
 
 /**
  * Root app view
  */
-export default ({ id }) => {
+export default () => {
   const ref = createRef();
   const [isOpen, setOpen] = useState(false);
   const [height, setHeight] = useState(defaultHeight);
   const [activeTab, setActiveTab] = useState('console');
-  const [consoleData, addConsoleData] = useReducer((rows, row) => rows.concat(prepConsoleData(row)), []);
-  const [networkData, dispatchNetworkData] = useReducer(networkReducer, []);
-
-  // Every time console.log (or similar) is called, store the data
-  consoleHook.onConsole(addConsoleData);
-
-  // Every time an XHR readystatechange event occurs, store the data
-  xhrHook.onOpened((xhr) => dispatchNetworkData([XMLHttpRequest.OPENED, xhr]));
-  xhrHook.onHeadersReceived((xhr) => dispatchNetworkData([XMLHttpRequest.HEADERS_RECEIVED, xhr]));
-  xhrHook.onLoading((xhr) => dispatchNetworkData([XMLHttpRequest.LOADING, xhr]));
-  xhrHook.onDone((xhr) => dispatchNetworkData([XMLHttpRequest.DONE, xhr]));
+  const consoleData = useConsoleData();
+  const networkData = useNetworkData();
 
   const tabContents = {
     console: <Console consoleData={consoleData}/>,
@@ -66,7 +59,7 @@ export default ({ id }) => {
   const icon = <Icon className={styles.icon} onClick={toggleOpen} title={`${isOpen ? 'Hide' : 'Show'} F-Twelve`}/>;
 
   return (
-    <div className={`${styles.fTwelve} ${isOpen ? styles.open : ''}`} id={id} ref={ref}>
+    <div className={`${styles.app} ${isOpen ? styles.open : ''}`} ref={ref}>
       {!isOpen ? icon : (
         <Fragment>
           <div className={styles.resizer} onMouseDown={resizeMouseDown}/>

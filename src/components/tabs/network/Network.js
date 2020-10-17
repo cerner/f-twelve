@@ -20,22 +20,3 @@ export default ({ networkData }) => {
     </div>
   );
 };
-
-/**
- * Update the current requests (state) based on XHR readystatechange events
- */
-export const networkReducer = (state, action) => {
-  const [actionName, request] = action;
-  switch (actionName) {
-    case XMLHttpRequest.OPENED:
-      return state.concat(request);
-    case XMLHttpRequest.HEADERS_RECEIVED:
-    case XMLHttpRequest.LOADING:
-    case XMLHttpRequest.DONE:
-      // TOOD: Update state with appropriate values
-      // TOOD: Update state with appropriate values
-      return state;
-    default:
-      throw new Error('Unexpected actionType');
-  }
-};

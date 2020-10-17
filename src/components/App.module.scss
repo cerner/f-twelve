@@ -1,5 +1,5 @@
 :local {
-  .fTwelve {
+  .app {
     color: #333;
     position: fixed;
     left: 0;
@@ -32,7 +32,7 @@
 
   .open .icon {
     bottom: unset;
-    top: -5px;
+    top: -3px;
     box-shadow: none;
   }
 

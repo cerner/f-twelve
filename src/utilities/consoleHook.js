@@ -1,4 +1,4 @@
-import parseStack from '../parseStack';
+import parseStack from './parseStack';
 
 /**
  * Expose callbacks for when window console functions are used

@@ -1,14 +1,16 @@
-import { createRef, h, render } from 'preact';
+import { h, render } from 'preact';
 import App from './components/App';
-import xhrHook from './utilities/hooks/xhrHook';
-import consoleHook from './utilities/hooks/consoleHook';
+import xhrHook from './utilities/xhrHook';
+import consoleHook from './utilities/consoleHook';
 
 /**
  * Main F-Twelve API
  */
+
+// Render the app right away so it is functional even if it's not attached
 const el = document.createElement('div');
-const ref = createRef();
-const app = <App id={'f-twelve'} ref={ref}/>;
+el.id = 'f-twelve';
+render(<App/>, el);
 
 let customOnAttach;
 let customOnDetach;
@@ -39,7 +41,6 @@ const attach = () => {
     return;
   }
   document.body.appendChild(el);
-  render(app, document.body, el);
   attached = true;
   if (typeof customOnAttach === 'function') {
     customOnAttach();
@@ -50,7 +51,7 @@ const detach = () => {
   if (attached !== true) {
     return;
   }
-  document.body.removeChild(ref.current.base);
+  document.body.removeChild(el);
   attached = false;
   if (typeof customOnDetach === 'function') {
     customOnDetach();
