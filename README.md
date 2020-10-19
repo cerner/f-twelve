@@ -22,7 +22,7 @@ In-DOM dev tools for troubleshooting environments that do not have the usual F12
 npm install f-twelve --save-dev
 ```
 
-Include `dist/f-twelve.js`. and `dist/f-twelve.css` in your web application. To view the tool, press and hold `F`+`1`+`2` in that order (similar to the Windows salute `ctrl`+`alt`+`delete`) or call `fTwelve.show()` . A demo page with examples of the API can be found in `demo/index.html`. See it live at [https://engineering.cerner.com/f-twelve/demo/](https://engineering.cerner.com/f-twelve/demo/).
+Include `dist/f-twelve.js`. and `dist/f-twelve.css` in your web application. To view the tool, press and hold `F`+`1`+`2` in that order (similar to Windows' `ctrl`+`alt`+`delete`) or call `fTwelve.show()` . A demo page with examples of the API can be found in `demo/index.html`. See it live at [https://engineering.cerner.com/f-twelve/demo/](https://engineering.cerner.com/f-twelve/demo/).
 
 The tool can be enabled via [ES6 Import](#es6-import) or [HTML Tag](#html-tag):
 
