@@ -5,7 +5,7 @@ import Console from './tabs/console/Console';
 import Network from './tabs/network/Network';
 import { useState } from 'preact/hooks';
 import useConsoleData from '../hooks/useConsoleData';
-import useNetworkRequests from '../hooks/useRequestList';
+import useNetworkData from '../hooks/useNetworkData';
 
 const defaultHeight = 350;
 
@@ -18,11 +18,11 @@ export default () => {
   const [height, setHeight] = useState(defaultHeight);
   const [activeTab, setActiveTab] = useState('console');
   const consoleData = useConsoleData();
-  const requests = useNetworkRequests();
+  const networkData = useNetworkData();
 
   const tabContents = {
     console: <Console consoleData={consoleData}/>,
-    network: <Network requests={requests}/>
+    network: <Network networkData={networkData}/>
   };
 
   const toggleOpen = () => {
