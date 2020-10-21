@@ -42,10 +42,10 @@ const disable = () => {
  * 4 = DONE
  */
 const readyStateChangeCallbacks = {};
-const onOpened = callback => (readyStateChangeCallbacks[1] = callback);
-const onHeadersReceived = callback => (readyStateChangeCallbacks[2] = callback);
-const onLoading = callback => (readyStateChangeCallbacks[3] = callback);
-const onDone = callback => (readyStateChangeCallbacks[4] = callback);
+const onOpened = callback => (readyStateChangeCallbacks[XMLHttpRequest.OPENED] = callback);
+const onHeadersReceived = callback => (readyStateChangeCallbacks[XMLHttpRequest.HEADERS_RECEIVED] = callback);
+const onLoading = callback => (readyStateChangeCallbacks[XMLHttpRequest.LOADING] = callback);
+const onDone = callback => (readyStateChangeCallbacks[XMLHttpRequest.DONE] = callback);
 const onReadyStateChange = function() {
   const readyStateChangeCallback = readyStateChangeCallbacks[this.readyState];
   if (typeof readyStateChangeCallback === 'function') {

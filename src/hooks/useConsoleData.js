@@ -6,7 +6,7 @@ import { prepConsoleData } from '../components/tabs/console/Console';
  * Subscribe to the consoleHook and provide the latest prepped consoleHook data
  */
 export default () => {
-  const reducer = (rows, row) => rows.concat(prepConsoleData(row));
+  const reducer = (rows, row) => [...rows, prepConsoleData(row)];
   const [consoleData, addConsoleData] = useReducer(reducer, []);
 
   useEffect(() => {

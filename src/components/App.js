@@ -1,13 +1,11 @@
 import { createRef, h, Fragment } from 'preact';
 import styles from './App.module.scss';
 import Icon from './Icon';
-import Console, { prepConsoleData } from './tabs/console/Console';
-import Network, { networkReducer } from './tabs/network/Network';
-import { useReducer, useState } from 'preact/hooks';
-import consoleHook from '../utilities/consoleHook';
-import xhrHook from '../utilities/xhrHook';
+import Console from './tabs/console/Console';
+import Network from './tabs/network/Network';
+import { useState } from 'preact/hooks';
 import useConsoleData from '../hooks/useConsoleData';
-import useNetworkData from '../hooks/useNetworkData';
+import useNetworkRequests from '../hooks/useRequestList';
 
 const defaultHeight = 350;
 
@@ -20,11 +18,11 @@ export default () => {
   const [height, setHeight] = useState(defaultHeight);
   const [activeTab, setActiveTab] = useState('console');
   const consoleData = useConsoleData();
-  const networkData = useNetworkData();
+  const requests = useNetworkRequests();
 
   const tabContents = {
     console: <Console consoleData={consoleData}/>,
-    network: <Network networkData={networkData}/>
+    network: <Network requests={requests}/>
   };
 
   const toggleOpen = () => {
