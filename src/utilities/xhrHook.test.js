@@ -42,50 +42,32 @@ describe('xhrHook', function() {
       assert.deepStrictEqual(this.oldXhrSend, XMLHttpRequest.prototype.send);
     });
     it('should not call any custom callbacks', function() {
-      let opened = false;
-      let headersReceived = false;
-      let loading = false;
-      let done = false;
+      let callbackExecuted = false;
       xhrHook.enable();
       xhrHook.disable();
-      xhrHook.onOpened(() => (opened = true));
-      xhrHook.onHeadersReceived(() => (headersReceived = true));
-      xhrHook.onLoading(() => (loading = true));
-      xhrHook.onDone(() => (done = true));
+      xhrHook.onReadyStateChange(() => (callbackExecuted = true));
       return sendTestXhr()
         .then(response => {
-          assert.deepStrictEqual(opened, false);
-          assert.deepStrictEqual(headersReceived, false);
-          assert.deepStrictEqual(loading, false);
-          assert.deepStrictEqual(done, false);
+          assert.deepStrictEqual(callbackExecuted, false);
         });
     });
   });
   describe('hooks', function() {
     it('should execute on XHR call', function() {
-      let opened = false;
-      let headersReceived = false;
-      let loading = false;
-      let done = false;
+      let callbackExecuted = false;
       xhrHook.enable();
-      xhrHook.onOpened(() => (opened = true));
-      xhrHook.onHeadersReceived(() => (headersReceived = true));
-      xhrHook.onLoading(() => (loading = true));
-      xhrHook.onDone(() => (done = true));
+      xhrHook.onReadyStateChange(() => (callbackExecuted = true));
       return sendTestXhr()
         .then(response => {
-          assert.deepStrictEqual(opened, true);
-          assert.deepStrictEqual(headersReceived, true);
-          assert.deepStrictEqual(loading, true);
-          assert.deepStrictEqual(done, true);
+          assert.deepStrictEqual(callbackExecuted, true);
         });
     });
   });
-  describe('onDone', function() {
+  describe('onReadyStateChange', function() {
     it('should contain xhr data plus args from open and send', function() {
       xhrHook.enable();
       let hookData = false;
-      xhrHook.onDone((xhr) => (hookData = xhr));
+      xhrHook.onReadyStateChange((xhr) => (hookData = xhr));
       return sendTestXhr()
         .then(response => {
           assert.deepStrictEqual(JSON.parse(hookData.responseText), response);

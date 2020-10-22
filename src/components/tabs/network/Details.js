@@ -2,8 +2,14 @@ import { h } from 'preact';
 import styles from './Details.module.scss';
 
 /**
- * Request list
+ * Request details
  */
-export default () => {
-  return <div className={styles.details}>Details</div>;
+export default ({ request }) => {
+  return (
+    <div className={styles.details}>
+      <pre>
+        {JSON.stringify(request, null, 2)}
+      </pre>
+    </div>
+  );
 };
