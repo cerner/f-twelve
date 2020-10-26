@@ -27,12 +27,12 @@ const reducer = (requests, xhr) => {
   if (xhr.readyState === XMLHttpRequest.DONE) {
     request.endTime = new Date().getTime();
   }
-  request.status = xhr.status;
-  request.headersRaw = xhr._headers.toString(); // TODO: Convert object to string
   request.headers = xhr._headers;
-  request.responseHeadersRaw = xhr.getAllResponseHeaders();
-  request.responseHeaders = xhr.getAllResponseHeaders().replace(/\r/g, '').split('\n'); // TODO: Convert string to object
+  request.headersRaw = xhr._headers.toString(); // TODO: Convert object to string
   request.response = xhr.response;
+  request.responseHeaders = xhr.getAllResponseHeaders().replace(/\r/g, '').split('\n'); // TODO: Convert string to object
+  request.responseHeadersRaw = xhr.getAllResponseHeaders();
+  request.responseStatus = xhr.status;
   request.responseText = xhr.responseText;
   request.responseType = xhr.responseType;
 

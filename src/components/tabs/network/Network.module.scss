@@ -2,11 +2,13 @@
   .network {
     display: flex;
     flex-direction: row;
+    height: 100%;
   }
 
   .list {
     display: flex;
     flex-direction: column;
+    border-right: 1px solid #bbb;
   }
 
   .row {

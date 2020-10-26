@@ -1,7 +1,9 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
-import Details from './Details';
+import Details from './RequestDetails';
 import styles from './Network.module.scss';
+import cn from '../../../utilities/className';
+import ResponseStatus from './ResponseStatus';
 
 /**
  * The content and logic for the Network tab
@@ -19,10 +21,10 @@ export default ({ networkData }) => {
         {networkData
           .sort(request => request.startTime)
           .map(request => (
-            <div className={`${styles.row} ${request === selectedRequest ? styles.selected : ''}`}
+            <div className={cn([styles.row, request === selectedRequest && styles.selected])}
                  onClick={() => onSelectRequest(request)}
                  title={request.url}>
-              <div className={styles.status}>{request.status || '...'}</div>
+              <div className={styles.status}><ResponseStatus code={request.responseStatus}/></div>
               <div className={styles.url}>{request.url.split('/').pop()}</div>
             </div>
           ))}
