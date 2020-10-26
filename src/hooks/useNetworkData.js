@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from 'preact/hooks';
 import xhrHook from '../utilities/xhrHook';
+import { console } from '../utilities/consoleHook';
 
 /**
  * Subscribe to xhrHook to maintain a list of request instances as they occur
@@ -8,7 +9,7 @@ export default () => {
   const [requests, updateRequest] = useReducer(reducer, []);
 
   useEffect(() => {
-    xhrHook.onReadyStateChange(xhr => updateRequest(xhr));
+    xhrHook.onChange(xhr => updateRequest(xhr));
   }, []);
 
   return requests;
@@ -22,28 +23,18 @@ const reducer = (requests, xhr) => {
   // Remove the old one
   if (index > -1) requests.splice(index, 1);
 
-  // Populate fields that change on readystatechange
-  request.status = xhr.status;
-
-  if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
-    request.headersRaw = xhr._headers.toString(); // TODO: Convert object to object
-    request.headers = xhr._headers;
-  }
-
+  // Populate fields that change
   if (xhr.readyState === XMLHttpRequest.DONE) {
     request.endTime = new Date().getTime();
-    request.responseHeadersRaw = xhr.getAllResponseHeaders();
-    request.responseHeaders = xhr.getAllResponseHeaders().replace(/\r/g, '').split('\n'); // TODO: Convert string to object
   }
-
-  /*
-  TODO: Some fields to grab
-  response: "{"message":"https:\/\/images.dog.ceo\/breeds\/ridgeback-rhodesian\/n02087394_1336.jpg","status":"success"}"
-  responseText: "{"message":"https:\/\/images.dog.ceo\/breeds\/ridgeback-rhodesian\/n02087394_1336.jpg","status":"success"}"
-  responseType: ""
-  responseURL: "https://dog.ceo/api/breeds/image/random"
-  responseXML: null
-  */
+  request.status = xhr.status;
+  request.headersRaw = xhr._headers.toString(); // TODO: Convert object to string
+  request.headers = xhr._headers;
+  request.responseHeadersRaw = xhr.getAllResponseHeaders();
+  request.responseHeaders = xhr.getAllResponseHeaders().replace(/\r/g, '').split('\n'); // TODO: Convert string to object
+  request.response = xhr.response;
+  request.responseText = xhr.responseText;
+  request.responseType = xhr.responseType;
 
   // Add this new/updated one to the list
   return [...requests, request];

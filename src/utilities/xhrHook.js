@@ -19,8 +19,13 @@ const enable = () => {
     // Provide a place for setRequestHeader to store request headers
     this._headers = {};
 
-    // Execute our callback whenever the readystatechange event fires
-    this.addEventListener('readystatechange', readyStateChange, false);
+    // Execute our callback whenever an event fires
+    this.addEventListener('abort', onChange, false);
+    this.addEventListener('load', onChange, false);
+    this.addEventListener('loadStart', onChange, false);
+    this.addEventListener('progress', onChange, false);
+    this.addEventListener('readystatechange', onChange, false);
+    this.addEventListener('timeout', onChange, false);
 
     // Call the normal `open` function
     open.call(this, _method, _url, _async, _user, _password);
@@ -54,19 +59,18 @@ const disable = () => {
 };
 
 /**
- * Always execute readyStateChange, using the custom callback if set
+ * Always execute onChange, using the custom callback if set
  */
-let customCallback;
-const onReadyStateChange = callback => (customCallback = callback);
-const readyStateChange = function() {
-  if (typeof customCallback === 'function') {
-    // Provide `this` to the callbacks with all XHR info including the added info from the custom prototype functins
-    customCallback(this);
+let customOnChange;
+const onChange = function() {
+  if (typeof customOnChange === 'function') {
+    // Provide `this` to the callbacks with all XHR info including the added info from the custom prototype functions
+    customOnChange(this);
   }
 };
 
 export default {
   enable,
   disable,
-  onReadyStateChange
+  onChange: callback => (customOnChange = callback),
 };
