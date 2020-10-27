@@ -8,16 +8,18 @@ export default () => {
   const [requests, updateRequest] = useReducer(reducer, []);
 
   useEffect(() => {
-    xhrHook.onChange(xhr => updateRequest(xhr));
+    xhrHook.onChange((event, xhr) => updateRequest([event, xhr]));
   }, []);
 
   return requests;
 };
 
-const reducer = (requests, xhr) => {
+const reducer = (requests, args) => {
+  const [event, xhr] = args;
+
   // If we know about this request use it, otherwise create a new one
   const index = requests.map(request => request.xhr).indexOf(xhr);
-  const request = index > -1 ? requests[index] : createRequest(xhr);
+  const request = index > -1 ? requests[index] : createRequest(event, xhr);
 
   // Remove the old one
   if (index > -1) requests.splice(index, 1);
@@ -25,6 +27,7 @@ const reducer = (requests, xhr) => {
   // Populate fields that change
   if (xhr.readyState === XMLHttpRequest.DONE && !request.endTime) {
     request.endTime = new Date().getTime();
+    request.endTimeStamp = event.timeStamp;
   }
   request.headers = xhr._headers;
   request.headersRaw = Object.keys(xhr._headers)
@@ -40,7 +43,7 @@ const reducer = (requests, xhr) => {
       return headers;
     }, {});
   request.responseHeadersRaw = xhr.getAllResponseHeaders();
-  request.responseStatus = xhr.status;
+  request.responseStatus = (event.type === 'error' || request.responseStatus === -1) ? -1 : xhr.status;
   request.responseText = xhr.responseText;
   request.responseType = xhr.responseType;
 
@@ -48,9 +51,10 @@ const reducer = (requests, xhr) => {
   return [...requests, request];
 };
 
-const createRequest = (xhr) => {
+const createRequest = (event, xhr) => {
   return {
     startTime: new Date().getTime(),
+    startTimeStamp: event.timeStamp,
     endTime: null,
     method: xhr._method,
     url: xhr._url,

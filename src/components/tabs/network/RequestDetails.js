@@ -12,6 +12,7 @@ const noneDiv = <div className={styles.none}>(none)</div>;
 export default ({ request }) => {
   if (!request) return;
   const formatTime = epoch => new Date(epoch).toISOString().replace('T', ' ');
+  const elapsed = Math.round(request.endTimeStamp - request.startTimeStamp);
   return (
     <div className={styles.details}>
       <div className={styles.header}>Request</div>
@@ -23,7 +24,7 @@ export default ({ request }) => {
       <hr/>
       <div className={styles.header}>Response</div>
       <NameValue name="Status" value={<ResponseStatus code={request.responseStatus}/>}/>
-      <NameValue name="Time" value={`${formatTime(request.endTime)} (${request.endTime - request.startTime}ms)`}/>
+      <NameValue name="Time" value={`${formatTime(request.endTime)} (${elapsed}ms)`}/>
       <Headers parsed={request.responseHeaders} raw={request.responseHeadersRaw}/>
       <Data data={request.response} raw={request.responseText}/>
     </div>

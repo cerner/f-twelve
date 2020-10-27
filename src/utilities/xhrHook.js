@@ -21,6 +21,7 @@ const enable = () => {
 
     // Execute our callback whenever an event fires
     this.addEventListener('abort', onChange, false);
+    this.addEventListener('error', onChange, false);
     this.addEventListener('load', onChange, false);
     this.addEventListener('loadStart', onChange, false);
     this.addEventListener('progress', onChange, false);
@@ -62,10 +63,10 @@ const disable = () => {
  * Always execute onChange, using the custom callback if set
  */
 let customOnChange;
-const onChange = function() {
+const onChange = function(event) {
   if (typeof customOnChange === 'function') {
     // Provide `this` to the callbacks with all XHR info including the added info from the custom prototype functions
-    customOnChange(this);
+    customOnChange(event, this);
   }
 };
 
