@@ -1,13 +1,18 @@
 :local {
-
   .details {
     padding: 4px;
+    width: 100%;
+    overflow-x: auto;
   }
 
   .header {
     font-weight: bold;
     font-size: 1.3em;
     color: #888;
+  }
+
+  .none {
+    color: #91918e;
   }
 
   .child {

@@ -3,5 +3,5 @@
  */
 export default (expressions) =>
   expressions
-    .filter(expression => !!expression)
+    .filter(Boolean)
     .join(' ');

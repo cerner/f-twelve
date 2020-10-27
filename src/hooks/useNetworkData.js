@@ -1,6 +1,5 @@
 import { useEffect, useReducer } from 'preact/hooks';
 import xhrHook from '../utilities/xhrHook';
-import { console } from '../utilities/consoleHook';
 
 /**
  * Subscribe to xhrHook to maintain a list of request instances as they occur
@@ -28,9 +27,18 @@ const reducer = (requests, xhr) => {
     request.endTime = new Date().getTime();
   }
   request.headers = xhr._headers;
-  request.headersRaw = xhr._headers.toString(); // TODO: Convert object to string
+  request.headersRaw = Object.keys(xhr._headers)
+    .reduce((string, key) => `${string}\n${key}:${xhr._headers[key].join(',')}`, '');
   request.response = xhr.response;
-  request.responseHeaders = xhr.getAllResponseHeaders().replace(/\r/g, '').split('\n'); // TODO: Convert string to object
+  request.responseHeaders = xhr
+    .getAllResponseHeaders()
+    .split('\r\n')
+    .filter(Boolean)
+    .reduce((headers, headerString) => {
+      const parts = headerString.split(': ');
+      headers[parts[0]] = parts[1];
+      return headers;
+    }, {});
   request.responseHeadersRaw = xhr.getAllResponseHeaders();
   request.responseStatus = xhr.status;
   request.responseText = xhr.responseText;
