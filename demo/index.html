@@ -35,8 +35,8 @@
 
     <h2>Console</h2>
     <p>All console output such as calls to <code>console.log</code> will be displayed on the Console tab, just like the
-    regular web browser's console. The input prompt is able to evaluate simple JS expressions (e.g. <code>window.location.href</code>).
-    It will read simple expressions but for security reasons it does not execute arbitrary code. </p>
+        regular web browser's console. The input prompt is able to evaluate simple JS expressions (e.g. <code>window.location.href</code>).
+        It will read simple expressions but for security reasons it does not execute arbitrary code. </p>
 
     <p>Open the Console tab in F-Twelve and click <code>Run Console Demo</code> see examples written out.</p>
 
@@ -104,7 +104,7 @@
               }, { 'value': '2', 'text': 'Significant/Large' }, { 'value': '3', 'text': 'Extensive/Widespread' }]
             }
           }
-        }, "followup words after a small object followed by a large object with lots of words it's really long vertically but not very long horizontally need to see what it will look like");
+        }, "long string of words after several objects to preview how the Console handles wrapping long string of words after several objects to preview how the Console handles wrapping long string of words after several objects to preview how the Console handles wrapping");
         iAmBadCode; // eslint-disable-line
       }
     </script>
@@ -129,7 +129,9 @@
           }
         };
         request.open('GET', 'https://dog.ceo/api/breeds/image/random', true);
-        request.send();
+        setTimeout(function() {
+          request.send();
+        }, 500);
       }
     </script>
 

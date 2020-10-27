@@ -11,16 +11,19 @@ const noneDiv = <div className={styles.none}>(none)</div>;
  */
 export default ({ request }) => {
   if (!request) return;
+  const formatTime = epoch => new Date(epoch).toISOString().replace('T', ' ');
   return (
     <div className={styles.details}>
       <div className={styles.header}>Request</div>
       <NameValue name="Method" value={request.method}/>
       <NameValue name="URL" value={request.url}/>
+      <NameValue name="Time" value={formatTime(request.startTime)}/>
       <Headers parsed={request.headers} raw={request.headersRaw}/>
       <Data data={request.data} raw={request.data}/>
       <hr/>
       <div className={styles.header}>Response</div>
       <NameValue name="Status" value={<ResponseStatus code={request.responseStatus}/>}/>
+      <NameValue name="Time" value={`${formatTime(request.endTime)} (${request.endTime - request.startTime}ms)`}/>
       <Headers parsed={request.responseHeaders} raw={request.responseHeadersRaw}/>
       <Data data={request.response} raw={request.responseText}/>
     </div>

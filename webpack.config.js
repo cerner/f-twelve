@@ -15,7 +15,7 @@ module.exports = (env, argv) => {
     devServer: {
       publicPath: '/',
       open: true,
-      openPage: '/demo/index.html',
+      openPage: 'demo/index.html',
       proxy: {
         '/dist': {
           target: 'http://localhost:8080',

@@ -16,14 +16,14 @@ export default () => {
 
 const reducer = (requests, xhr) => {
   // If we know about this request use it, otherwise create a new one
-  const index = requests.findIndex(request => request.xhr === xhr);
+  const index = requests.map(request => request.xhr).indexOf(xhr);
   const request = index > -1 ? requests[index] : createRequest(xhr);
 
   // Remove the old one
   if (index > -1) requests.splice(index, 1);
 
   // Populate fields that change
-  if (xhr.readyState === XMLHttpRequest.DONE) {
+  if (xhr.readyState === XMLHttpRequest.DONE && !request.endTime) {
     request.endTime = new Date().getTime();
   }
   request.headers = xhr._headers;

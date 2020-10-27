@@ -3,7 +3,6 @@
   "version": "2.1.0",
   "description": "Render console output to the DOM and provide an input console for troubleshooting environments that do not have the usual F12 dev console.",
   "main": "lib/main.js",
-  "sideEffects": false,
   "scripts": {
     "build": "npm run compile && npm run pack",
     "compile": "babel src --out-dir lib --ignore **/*.test.js --copy-files --no-copy-ignored --delete-dir-on-start",

@@ -22,6 +22,8 @@
     display: inline-block;
     padding-right: 5px;
     vertical-align: top;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   .app dt::after {
