@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>F-Twelve Demo</title>
@@ -33,17 +34,17 @@
         left hand corner. Click the icon to view the dev tools.
 
     <h2>Console</h2>
-    All console output such as calls to <code>console.log</code> will be displayed on the Console tab, just like the
+    <p>All console output such as calls to <code>console.log</code> will be displayed on the Console tab, just like the
     regular web browser's console. The input prompt is able to evaluate simple JS expressions (e.g. <code>window.location.href</code>).
     It will read simple expressions but for security reasons it does not execute arbitrary code. </p>
 
     <p>Open the Console tab in F-Twelve and click <code>Run Console Demo</code> see examples written out.</p>
 
     <p>
-        <button onclick="consoleDemo();">Run Console Demo</button>
+        <button onclick="runConsoleDemo();">Run Console Demo</button>
     </p>
     <script>
-      function consoleDemo() {
+      function runConsoleDemo() {
         console.log('log message');
         console.warn('warn message');
         console.error('error message');
@@ -115,21 +116,20 @@
     possible but not currently implemented.
 
     <p>Open the Network tab in F-Twelve and click <code>Load Dog</code> to see the request written out.</p>
-
     <p>
-        <button onclick="networkDemo();">Load Dog</button>
+        <button onclick="loadDog();">Load Dog</button>
     </p>
     <p><img width="150px;" id="network-demo-image"/></p>
     <script>
-      function networkDemo() {
+      function loadDog() {
         const request = new XMLHttpRequest();
-        request.open('GET', 'https://dog.ceo/api/breeds/image/random', true);
-        request.send();
         request.onreadystatechange = function() {
           if (request.readyState === XMLHttpRequest.DONE) {
             document.getElementById('network-demo-image').src = JSON.parse(request.responseText).message;
           }
         };
+        request.open('GET', 'https://dog.ceo/api/breeds/image/random', true);
+        request.send();
       }
     </script>
 

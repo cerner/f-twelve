@@ -42,7 +42,7 @@ const NameValue = ({ name, value, child }) => (
  * A NameValue with child NameValues for each header
  */
 const Headers = ({ parsed, raw }) => {
-  const [isParsed, toggleParsedButton] = useToggleParsedButton();
+  const [isParsed, toggleParsedButton] = useToggleParsedButton(true);
   const isEmpty = typeof parsed !== 'object' || !Object.keys(parsed).length;
   const value = isEmpty ? noneDiv : toggleParsedButton;
   const child = !isParsed ? <pre>{raw}</pre> : Object.keys(parsed)
@@ -56,7 +56,7 @@ const Headers = ({ parsed, raw }) => {
 const Data = ({ data, raw }) => {
   const [isParsed, toggleParsedButton] = useToggleParsedButton();
   const parsed = typeof data === 'object' ? data : (parse(data) || parse(raw));
-  const value = isParsed ? <Tree data={parsed}/> : <pre>{raw}</pre>;
+  const value = isParsed ? <Tree data={parsed}/> : (raw && <pre>{raw}</pre>);
   const toggleButton = parsed && toggleParsedButton;
   return <NameValue child={value} name="Data" value={value ? toggleButton : noneDiv}/>;
 };
@@ -64,8 +64,8 @@ const Data = ({ data, raw }) => {
 /**
  * Provide a toggle button and the toggle state
  */
-const useToggleParsedButton = () => {
-  const [isParsed, setIsParsed] = useState(false);
+const useToggleParsedButton = (initialIsParsed = false) => {
+  const [isParsed, setIsParsed] = useState(initialIsParsed);
   const toggleParsedButton = (
     <div className={styles.toggleParsedButton} onClick={() => setIsParsed(!isParsed)}>
       {isParsed ? 'view raw' : 'view parsed'}
