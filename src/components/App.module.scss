@@ -31,8 +31,9 @@
   }
 
   .app dd {
-    display: inline-block;
+    display: inline;
     font-family: monospace;
+    margin: 0;
   }
 
   .icon > svg {

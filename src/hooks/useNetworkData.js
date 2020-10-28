@@ -44,7 +44,7 @@ const reducer = (requests, args) => {
     }, {});
   request.responseHeadersRaw = xhr.getAllResponseHeaders();
   request.responseStatus = (event.type === 'error' || request.responseStatus === -1) ? -1 : xhr.status;
-  request.responseText = xhr.responseText;
+  request.responseText = (xhr.responseType === '' || xhr.responseType === 'text') ? xhr.responseText : null;
   request.responseType = xhr.responseType;
 
   // Add this new/updated one to the list
