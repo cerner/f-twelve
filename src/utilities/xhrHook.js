@@ -63,10 +63,9 @@ const disable = () => {
  * Always execute onChange, using the custom callback if set
  */
 let customOnChange;
-const onChange = function(event) {
+const onChange = (event) => {
   if (typeof customOnChange === 'function') {
-    // Provide `this` to the callbacks with all XHR info including the added info from the custom prototype functions
-    customOnChange(event, this);
+    customOnChange(event);
   }
 };
 

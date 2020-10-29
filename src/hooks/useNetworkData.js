@@ -8,14 +8,14 @@ export default () => {
   const [requests, updateRequest] = useReducer(reducer, []);
 
   useEffect(() => {
-    xhrHook.onChange((event, xhr) => updateRequest([event, xhr]));
+    xhrHook.onChange(updateRequest);
   }, []);
 
   return requests;
 };
 
-const reducer = (requests, args) => {
-  const [event, xhr] = args;
+const reducer = (requests, event) => {
+  const xhr = event.target;
 
   // If we know about this request use it, otherwise create a new one
   const index = requests.map(request => request.xhr).indexOf(xhr);
