@@ -31,7 +31,7 @@ const reducer = (requests, event) => {
   }
   request.headers = xhr._headers;
   request.headersRaw = Object.keys(xhr._headers)
-    .reduce((string, key) => `${string}\n${key}:${xhr._headers[key].join(',')}`, '');
+    .reduce((string, key) => `${string}\n${key}:${xhr._headers[key].join(',')}`, '').trim();
   request.response = xhr.response;
   request.responseHeaders = xhr
     .getAllResponseHeaders()
@@ -42,7 +42,7 @@ const reducer = (requests, event) => {
       headers[parts[0]] = parts[1];
       return headers;
     }, {});
-  request.responseHeadersRaw = xhr.getAllResponseHeaders();
+  request.responseHeadersRaw = xhr.getAllResponseHeaders().trim();
   request.responseStatus = (event.type === 'error' || request.responseStatus === -1) ? -1 : xhr.status;
   request.responseText = (xhr.responseType === '' || xhr.responseType === 'text') ? xhr.responseText : null;
   request.responseType = xhr.responseType;

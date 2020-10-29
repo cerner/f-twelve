@@ -4,8 +4,8 @@ import Icon from './Icon';
 import Console from './tabs/console/Console';
 import Network from './tabs/network/Network';
 import { useState } from 'preact/hooks';
-import useConsoleData from '../hooks/useConsoleData';
-import useNetworkData from '../hooks/useNetworkData';
+import useConsoleData from './useConsoleData';
+import useNetworkData from './useNetworkData';
 
 const defaultHeight = 350;
 

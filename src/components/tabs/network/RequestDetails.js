@@ -3,6 +3,7 @@ import styles from './RequestDetails.module.scss';
 import ResponseStatus from './ResponseStatus';
 import Tree from '../../dataTree/Tree';
 import { useState } from 'preact/hooks';
+import useParsedData from './useParsedData';
 
 const noneDiv = <div className={styles.none}>(none)</div>;
 
@@ -59,9 +60,9 @@ const Headers = ({ parsed, raw }) => {
  */
 const Data = ({ data, raw }) => {
   const [isParsed, toggleParsedButton] = useToggleParsedButton();
-  const parsed = useParsedData(data, raw);
-  const value = isParsed ? <Tree data={parsed}/> : (raw && <pre>{raw}</pre>);
-  const toggleButton = parsed && toggleParsedButton;
+  const [object, string] = useParsedData(data, raw);
+  const value = isParsed ? <Tree data={object}/> : (string && <pre>{string}</pre>);
+  const toggleButton = object && toggleParsedButton;
   return <NameValue child={value} name="Data" value={value ? toggleButton : noneDiv}/>;
 };
 
@@ -76,38 +77,4 @@ const useToggleParsedButton = (initialIsParsed = false) => {
     </div>
   );
   return [isParsed, toggleParsedButton];
-};
-
-/**
- * Attempt to parse whatever this is and return a JS object
- */
-const useParsedData = (data, raw) => {
-  // Use state for async reads e.g. blobs
-  const [parsed, setParsed] = useState(data);
-
-  // If it's a json blob read it as a string
-  if (parsed instanceof Blob && parsed.type === 'application/json') {
-    const reader = new FileReader();
-    reader.onload = (event) => setParsed(event.target.result);
-    reader.readAsText(parsed);
-  }
-
-  // If it's a string try parsing it
-  if (typeof parsed === 'string') {
-    setParsed(parse(parsed) || parse(raw));
-  }
-
-  // Return an object if we managed to get an object
-  return typeof parsed === 'object' ? parsed : null;
-};
-
-/**
- * Attempt to parse JSON data
- */
-const parse = (data) => {
-  try {
-    return JSON.parse(data);
-  } catch (error) {
-    return null;
-  }
 };
