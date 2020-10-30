@@ -4,7 +4,8 @@
   "description": "Render console output to the DOM and provide an input console for troubleshooting environments that do not have the usual F12 dev console.",
   "main": "lib/main.js",
   "scripts": {
-    "build": "npm run compile && npm run pack",
+    "bookmarklet": "node ./build/createBookmarklet.js",
+    "build": "npm run compile && npm run pack && npm run bookmarklet",
     "compile": "babel src --out-dir lib --ignore **/*.test.js --copy-files --no-copy-ignored --delete-dir-on-start",
     "dev": "webpack-dev-server --mode development",
     "eslint": "eslint --ext .js .",

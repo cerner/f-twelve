@@ -15,13 +15,7 @@ module.exports = (env, argv) => {
     devServer: {
       publicPath: '/',
       open: true,
-      openPage: 'demo/index.html',
-      proxy: {
-        '/dist': {
-          target: 'http://localhost:8080',
-          pathRewrite: { '^/dist': '' }
-        }
-      }
+      openPage: 'demo/index.html'
     },
     entry: path.join(__dirname, 'src', 'main.js'),
     output: {
@@ -32,7 +26,6 @@ module.exports = (env, argv) => {
       libraryTarget: 'var',
     },
     optimization: {
-      usedExports: true,
       minimizer: [
         new TerserPlugin({
           cache: true,
