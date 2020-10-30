@@ -10,7 +10,7 @@
     flex-direction: column;
     border-right: 1px solid #bbb;
     overflow-x: auto;
-    flex: 300px;
+    flex: 400px;
   }
 
   .row {
@@ -38,9 +38,6 @@
   .status {
     text-align: center;
     width: 35px;
-  }
-
-  .url {
-    width: 194px;
+    flex: none;
   }
 }
