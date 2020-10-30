@@ -1,25 +1,26 @@
 <html>
 <head>
     <title>F-Twelve Demo</title>
-    <link rel="shortcut icon" href="/f-twelve/icon/F-Twelve 48.png"/>
+    <link rel="shortcut icon" href="../icon/F-Twelve 48.png"/>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
-    <link rel="stylesheet" type="text/css" media="screen" href="/f-twelve/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="https://engineering.cerner.com/f-twelve/assets/css/style.css">
 
     <!-- #################### -->
     <!--                      -->
     <!-- Include the CSS file -->
     <!--                      -->
     <!-- #################### -->
-    <link rel="stylesheet" href="/f-twelve/dist/f-twelve.css"/>
+    <link rel="stylesheet" href="../dist/f-twelve.css"/>
 
     <!-- ####################################################### -->
     <!--                                                         -->
     <!-- Include the JS file... And that's it, F-Twelve is ready -->
     <!--                                                         -->
     <!-- ####################################################### -->
-    <script src="/f-twelve/dist/f-twelve.js"></script>
+    <script src="../dist/f-twelve.js"></script>
 </head>
 <body>
 <div class="container-lg px-3 my-5 markdown-body">
@@ -28,6 +29,9 @@
     <p>F-Twelve requires no configuration, just include the JS file and CSS file. Press and hold
         <code>F</code>+<code>1</code>+<code>2</code> in that order to display the collapsed tab below. All console
         output including regular <code>console.log</code> calls will be displayed there. </p>
+
+    <p>To launch the tool from any website (as opposed to this demo page) use the bookmarklet:
+        <a href="../dist/bookmarklet.html">dist/bookmarklet.html</a></p>
 
     <h2>API</h2>
     <p>Optionally control the tool using JS via the API. The API is available on the global <code>fTwelve</code> object.
