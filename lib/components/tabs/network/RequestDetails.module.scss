@@ -1,0 +1,31 @@
+:local {
+  .details {
+    padding: 4px;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .header {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: #888;
+  }
+
+  .none {
+    color: #91918e;
+  }
+
+  .child {
+    margin-left: 10px;
+    overflow-x: auto;
+  }
+
+  .toggleParsedButton {
+    font-family: verdana, sans-serif;
+    font-size: 0.9em;
+    cursor: pointer;
+    color: #91918e;
+    margin: 0 10px;
+    display: inline-block;
+  }
+}

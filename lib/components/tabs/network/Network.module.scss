@@ -1,0 +1,43 @@
+:local {
+  .network {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #bbb;
+    overflow-x: auto;
+    flex: 400px;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    padding: 4px 2px;
+  }
+
+  .row:hover {
+    background-color: #F1F6FD;
+  }
+
+  .row.selected {
+    background-color: #1A73E8;
+    color: #fff;
+  }
+
+  .row > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .status {
+    text-align: center;
+    width: 35px;
+    flex: none;
+  }
+}

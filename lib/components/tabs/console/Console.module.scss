@@ -1,4 +1,9 @@
 :local {
+  .console {
+    display: flex;
+    flex-direction: column;
+  }
+
   .row {
     display: flex;
     border-color: #f0f0f0;
@@ -34,7 +39,9 @@
     top: 0;
     bottom: 20px;
     overflow-y: auto;
-    width: 100%;
+    overflow-x: hidden;
+    min-width: 100%;
+    max-width: 100%;
   }
 
   .timestamp {
@@ -48,6 +55,7 @@
     white-space: pre-wrap;
     flex: auto;
     overflow-x: hidden;
+    max-width: 100%;
   }
 
   .fileName {
@@ -67,5 +75,14 @@
     background-color: inherit;
     padding: 0 5px;
     color: #808080;
+  }
+
+  .copyAllButton {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .copyAllButton > div {
+    margin: 2px 4px;
   }
 }
