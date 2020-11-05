@@ -183,5 +183,12 @@
     <button onclick="fTwelve.onHide(function(){alert('Hiding f-Twelve')})">Alert on hide</button>
     <button onclick="fTwelve.onHide(function(){})">Do nothing on hide</button>
 </div>
+<script>
+  if (window.location.search.indexOf('dev') !== -1) {
+    // Automatically open the tool for development
+    fTwelve.show();
+    document.getElementById('f-twelve').firstChild.firstChild.click();
+  }
+</script>
 </body>
 </html>

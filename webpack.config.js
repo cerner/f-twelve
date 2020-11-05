@@ -15,7 +15,14 @@ module.exports = (env, argv) => {
     devServer: {
       publicPath: '/',
       open: true,
-      openPage: 'demo/index.html'
+      openPage: 'demo/index.html?dev',
+      proxy: {
+        // Serve dist from memory (not disk)
+        '/dist': {
+          target: 'http://localhost:8080',
+          pathRewrite: { '^/dist': '' }
+        }
+      }
     },
     entry: path.join(__dirname, 'src', 'main.js'),
     output: {
@@ -64,7 +71,7 @@ module.exports = (env, argv) => {
       ]
     },
     plugins: [
-      new CleanWebpackPlugin(),
+      production ? new CleanWebpackPlugin() : () => null, // Do not clean dist when running dev-server
       new MiniCssExtractPlugin({
         filename: `${packageName}.css`,
       }),
