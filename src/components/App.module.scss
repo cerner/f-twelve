@@ -15,11 +15,12 @@
 
   .app dl {
     margin: 5px 0;
+    display: flex;
+    flex-flow: row wrap;
   }
 
   .app dt {
     font-weight: bold;
-    display: inline-block;
     padding-right: 5px;
     vertical-align: top;
     -ms-user-select: none;
@@ -31,9 +32,10 @@
   }
 
   .app dd {
-    display: inline-block;
     font-family: monospace;
     margin: 0;
+    overflow-x: auto;
+    word-break: break-all;
   }
 
   .icon > svg {

@@ -18,6 +18,12 @@
   .child {
     margin-left: 10px;
     overflow-x: auto;
+    flex-basis: 100%;
+  }
+
+  .child > pre {
+    white-space: pre-wrap;
+    word-break: break-all;
   }
 
   .toggleParsedButton {

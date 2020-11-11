@@ -26,9 +26,10 @@ const reducer = (requests, event) => {
 
   // Populate fields that change
   if (xhr.readyState === XMLHttpRequest.DONE && !request.endTime) {
-    request.endTime = new Date().getTime();
     request.endTimeStamp = event.timeStamp;
+    request.endTime = request.startTime + (request.endTimeStamp - request.startTimeStamp);
   }
+  request.data = xhr._data;
   request.headers = xhr._headers;
   request.headersRaw = Object.keys(xhr._headers)
     .reduce((string, key) => `${string}\n${key}:${xhr._headers[key].join(',')}`, '').trim();
@@ -58,7 +59,7 @@ const createRequest = (event, xhr) => {
     endTime: null,
     method: xhr._method,
     url: xhr._url,
-    data: xhr._data,
+    data: null,
     status: null,
     xhr: xhr,
   };
