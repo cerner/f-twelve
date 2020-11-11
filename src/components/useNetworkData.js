@@ -32,20 +32,20 @@ const reducer = (requests, event) => {
   request.data = xhr._data;
   request.headers = xhr._headers;
   request.headersRaw = Object.keys(xhr._headers)
-    .reduce((string, key) => `${string}\n${key}:${xhr._headers[key].join(',')}`, '').trim();
-  request.response = xhr.response;
-  request.responseHeaders = xhr
-    .getAllResponseHeaders()
+    .reduce((string, key) => `${string}\n${key}:${xhr._headers[key].join(',')}`, '')
+    .trim();
+  request.responseHeadersRaw = xhr.getAllResponseHeaders().trim();
+  request.responseHeaders = request.responseHeadersRaw
     .split('\r\n')
     .filter(Boolean)
     .reduce((headers, headerString) => {
-      const parts = headerString.split(': ');
-      headers[parts[0]] = parts[1];
+      const [key, value] = headerString.split(': ');
+      headers[key] = value;
       return headers;
     }, {});
-  request.responseHeadersRaw = xhr.getAllResponseHeaders().trim();
-  request.responseStatus = (event.type === 'error' || request.responseStatus === -1) ? -1 : xhr.status;
+  request.response = xhr.response;
   request.responseText = (xhr.responseType === '' || xhr.responseType === 'text') ? xhr.responseText : null;
+  request.responseStatus = (event.type === 'error' || request.responseStatus === -1) ? -1 : xhr.status;
   request.responseType = xhr.responseType;
 
   // Add this new/updated one to the list
