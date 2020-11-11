@@ -80,19 +80,6 @@
     border-color: #5c9a43;
   }
 
-  .resizer {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 4px;
-    cursor: ns-resize;
-  }
-
-  .resizer:hover,
-  .resizer:active {
-    background-color: #ddd;
-  }
-
   .tabBar {
     background-color: #f3f3f3;
     border-top: 1px solid #bbb;

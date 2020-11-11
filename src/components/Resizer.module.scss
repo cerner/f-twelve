@@ -1,0 +1,14 @@
+:local {
+  .resizer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+    cursor: ns-resize;
+  }
+
+  .resizer:hover,
+  .resizer:active {
+    background-color: #ddd;
+  }
+}
