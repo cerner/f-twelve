@@ -8,8 +8,6 @@ import useConsoleData from './useConsoleData';
 import useNetworkData from './useNetworkData';
 import useResizer from './useResizer';
 
-const defaultHeight = 350;
-
 /**
  * Root app view
  */
@@ -19,15 +17,16 @@ export default () => {
   const [activeTab, setActiveTab] = useState('console');
   const consoleData = useConsoleData();
   const networkData = useNetworkData();
-  const toggleOpen = () => {
-    ref.current && (ref.current.style.height = isOpen ? '0px' : `${height}px`);
-    setOpen(!isOpen);
-  };
-  const [resizer, height] = useResizer({ close: toggleOpen, defaultHeight, targetRef: ref });
+  const [resizer, height] = useResizer({ defaultSize: 350, targetRef: ref });
 
   const tabContents = {
     console: <Console consoleData={consoleData}/>,
     network: <Network networkData={networkData}/>
+  };
+
+  const toggleOpen = () => {
+    ref.current && (ref.current.style.height = isOpen ? '0px' : `${height}px`);
+    setOpen(!isOpen);
   };
 
   const onClickTab = (event) => setActiveTab(event.target.textContent.toLowerCase());
