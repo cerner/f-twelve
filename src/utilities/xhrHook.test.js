@@ -45,7 +45,7 @@ describe('xhrHook', function() {
       let callbackExecuted = false;
       xhrHook.enable();
       xhrHook.disable();
-      xhrHook.onReadyStateChange(() => (callbackExecuted = true));
+      xhrHook.onChange(() => (callbackExecuted = true));
       return sendTestXhr()
         .then(response => {
           assert.deepStrictEqual(callbackExecuted, false);
@@ -56,18 +56,18 @@ describe('xhrHook', function() {
     it('should execute on XHR call', function() {
       let callbackExecuted = false;
       xhrHook.enable();
-      xhrHook.onReadyStateChange(() => (callbackExecuted = true));
+      xhrHook.onChange(() => (callbackExecuted = true));
       return sendTestXhr()
         .then(response => {
           assert.deepStrictEqual(callbackExecuted, true);
         });
     });
   });
-  describe('onReadyStateChange', function() {
+  describe('onChange', function() {
     it('should contain xhr data plus args from open and send', function() {
       xhrHook.enable();
       let hookData = false;
-      xhrHook.onReadyStateChange((xhr) => (hookData = xhr));
+      xhrHook.onChange((event) => (hookData = event.target));
       return sendTestXhr()
         .then(response => {
           assert.deepStrictEqual(JSON.parse(hookData.responseText), response);

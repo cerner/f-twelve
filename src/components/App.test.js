@@ -7,7 +7,7 @@ import { findAllByClassName, findByClassName, setupError, update } from '../../t
 const renderAndOpen = async () => {
   const { container } = render(<App/>);
   const icon = await findByClassName(container, 'icon');
-  const app = await findByClassName(container, 'fTwelve');
+  const app = await findByClassName(container, 'app');
   icon.click();
   await update();
   assert(app.classList.contains('open'), setupError);
@@ -33,7 +33,7 @@ describe('App', function() {
       it('should open the tool if closed', async function() {
         const { container } = render(<App/>);
         const icon = await findByClassName(container, 'icon');
-        const app = await findByClassName(container, 'fTwelve');
+        const app = await findByClassName(container, 'app');
         assert(!app.classList.contains('open'), setupError);
         icon.click();
         await update();
@@ -56,13 +56,6 @@ describe('App', function() {
       resizer.dispatchEvent(new MouseEvent('mousedown'));
       window.dispatchEvent(new MouseEvent('mousemove', { clientY: -10 }));
       assert.strictEqual(container.style.height, `${window.innerHeight}px`);
-    });
-    it('should "snap" closed if within 20 pixels', async function() {
-      const container = await renderAndOpen();
-      const resizer = await findByClassName(container, 'resizer');
-      resizer.dispatchEvent(new MouseEvent('mousedown'));
-      window.dispatchEvent(new MouseEvent('mousemove', { clientY: window.innerHeight - 19 }));
-      assert.strictEqual(container.style.height, '0px');
     });
   });
 });
