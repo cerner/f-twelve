@@ -32,7 +32,7 @@ const reducer = (requests, event) => {
   request.data = xhr._data;
   request.headers = xhr._headers;
   request.headersRaw = Object.keys(xhr._headers)
-    .reduce((string, key) => `${string}\n${key}:${xhr._headers[key].join(',')}`, '')
+    .reduce((string, key) => `${string}\n${key}: ${xhr._headers[key].join(',')}`, '')
     .trim();
   request.responseHeadersRaw = xhr.getAllResponseHeaders().trim();
   request.responseHeaders = request.responseHeadersRaw

@@ -25,6 +25,7 @@
     vertical-align: top;
     -ms-user-select: none;
     user-select: none;
+    flex: 0 0 auto;
   }
 
   .app dt::after {
@@ -34,8 +35,10 @@
   .app dd {
     font-family: monospace;
     margin: 0;
-    overflow-x: auto;
-    word-break: break-all;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex: 1 1;
   }
 
   .icon > svg {

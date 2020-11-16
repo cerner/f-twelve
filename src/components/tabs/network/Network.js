@@ -15,8 +15,9 @@ export default ({ networkData }) => {
   const [resizer, width] = useResizer({ defaultSize: 350, targetRef: ref, resizeWidth: true });
 
   const onSelectRequest = (request) => {
-    ref.current && (ref.current.style['flex-basis'] = selectedRequest ? '100%' : `${width}px`);
-    request === selectedRequest ? setSelectedRequest(null) : setSelectedRequest(request);
+    const selectedSelected = request === selectedRequest;
+    ref.current && (ref.current.style['flex-basis'] = selectedSelected ? '100%' : `${width}px`);
+    selectedSelected ? setSelectedRequest(null) : setSelectedRequest(request);
   };
 
   const RequestSummary = ({ request }) => {
