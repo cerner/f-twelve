@@ -10,11 +10,6 @@ import cn from '../utilities/className';
 export default ({ defaultSize, targetRef, resizeWidth = false }) => {
   const [size, setSize] = useState(defaultSize);
 
-  const resizeMouseDown = (event) => {
-    window.addEventListener('mousemove', resizeMouseMove, false);
-    window.addEventListener('mouseup', resizeMouseUp, false);
-  };
-
   const getSizeStyleProperty = () => {
     if (targetRef.current.parentElement && getComputedStyle(targetRef.current.parentElement).display === 'flex') {
       return 'flex-basis';
@@ -23,7 +18,12 @@ export default ({ defaultSize, targetRef, resizeWidth = false }) => {
     }
   };
 
-  const resizeMouseMove = (event) => {
+  const onMouseDown = (event) => {
+    window.addEventListener('mousemove', onMouseMove, false);
+    window.addEventListener('mouseup', onMouseUp, false);
+  };
+
+  const onMouseMove = (event) => {
     const maxSize = resizeWidth
       ? Math.min(window.innerWidth - 20, event.clientX)
       : Math.min(window.innerHeight, window.innerHeight - event.clientY);
@@ -31,14 +31,14 @@ export default ({ defaultSize, targetRef, resizeWidth = false }) => {
     targetRef.current && (targetRef.current.style[getSizeStyleProperty()] = size);
   };
 
-  const resizeMouseUp = (event) => {
-    window.removeEventListener('mousemove', resizeMouseMove, false);
-    window.removeEventListener('mouseup', resizeMouseUp, false);
+  const onMouseUp = (event) => {
+    window.removeEventListener('mousemove', onMouseMove, false);
+    window.removeEventListener('mouseup', onMouseUp, false);
     setSize(parseFloat(targetRef.current.style[getSizeStyleProperty()]) || defaultSize);
   };
 
   const classname = cn(styles.resizer, resizeWidth ? styles.widthMode : styles.heightMode);
-  const resizer = <div className={classname} onMouseDown={resizeMouseDown}/>;
+  const resizer = <div className={classname} onMouseDown={onMouseDown}/>;
 
   return [
     resizer,
