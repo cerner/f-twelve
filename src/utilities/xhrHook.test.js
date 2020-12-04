@@ -5,6 +5,7 @@ const sendTestXhr = () => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://jsonplaceholder.typicode.com/users/1');
+    xhr.setRequestHeader('accept', 'application/json');
     xhr.onload = function() {
       resolve(JSON.parse(this.responseText));
     };
@@ -17,13 +18,15 @@ describe('xhrHook', function() {
   before(function() {
     xhrHook.disable();
     this.oldXhrOpen = XMLHttpRequest.prototype.open;
+    this.oldSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
     this.oldXhrSend = XMLHttpRequest.prototype.send;
   });
 
   describe('#enable()', function() {
-    it('should create a new function for `open` and `send`', function() {
+    it('should create a new function for `open`, `setRequestHeader`, and `send`', function() {
       xhrHook.enable();
       assert.notDeepStrictEqual(this.oldXhrOpen, XMLHttpRequest.prototype.open);
+      assert.notDeepStrictEqual(this.oldSetRequestHeader, XMLHttpRequest.prototype.setRequestHeader);
       assert.notDeepStrictEqual(this.oldXhrSend, XMLHttpRequest.prototype.send);
     });
     it('should not break the standard XMLHttpRequest functionality', function() {
@@ -35,10 +38,11 @@ describe('xhrHook', function() {
     });
   });
   describe('#disable()', function() {
-    it('should restore original `open` and `send` functions', function() {
+    it('should restore original `open`, `setRequestHeader`, and `send` functions', function() {
       xhrHook.enable();
       xhrHook.disable();
       assert.deepStrictEqual(this.oldXhrOpen, XMLHttpRequest.prototype.open);
+      assert.deepStrictEqual(this.oldSetRequestHeader, XMLHttpRequest.prototype.setRequestHeader);
       assert.deepStrictEqual(this.oldXhrSend, XMLHttpRequest.prototype.send);
     });
     it('should not call any custom callbacks', function() {

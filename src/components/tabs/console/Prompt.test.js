@@ -91,4 +91,19 @@ describe('Prompt', function() {
       assert.strictEqual(this.inputBox.value, "'histo-'");
     });
   });
+
+  describe('#onChange()', function() {
+    it('should reset histoory on change', function() {
+      // TODO: this
+      this.inputBox.dispatchEvent(new Event('change'));
+    });
+    it('should reset histoory on input', function() {
+      // TODO: this
+      this.inputBox.dispatchEvent(new Event('change'));
+    });
+    it('should reset histoory on paste', function() {
+      // TODO: this
+      this.inputBox.dispatchEvent(new Event('change'));
+    });
+  });
 });

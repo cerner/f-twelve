@@ -55,6 +55,7 @@ describe('App', function() {
       const resizer = await findByClassName(container, 'resizer');
       resizer.dispatchEvent(new MouseEvent('mousedown'));
       window.dispatchEvent(new MouseEvent('mousemove', { clientY: -10 }));
+      window.dispatchEvent(new MouseEvent('mouseup'));
       assert.strictEqual(container.style.height, `${window.innerHeight}px`);
     });
   });

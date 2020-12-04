@@ -23,7 +23,7 @@ const request = {
 };
 
 describe('RequestDetails', function() {
-  it('Should render successfully', function() {
+  it('should render successfully', function() {
     const { container } = render(<RequestDetails request={request}/>);
     assert(container.childNodes[0].classList.contains('details'));
   });

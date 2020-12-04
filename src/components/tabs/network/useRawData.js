@@ -9,7 +9,7 @@ export default (raw) => {
 
   // If it's a text or json blob convert it to a string
   if (data instanceof Blob && (data.type === 'application/json' || data.type === 'text/plain')) {
-    const reader = new FileReader();
+    const reader = new window.FileReader();
     reader.onload = (event) => {
       setData(event.target.result);
     };
