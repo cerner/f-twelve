@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import assert from 'assert';
 import { renderHook } from '@testing-library/preact-hooks';
 import useNetworkData from './useNetworkData';

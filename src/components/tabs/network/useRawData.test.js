@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import assert from 'assert';
 import useRawData from './useRawData';
 import { renderHook } from '@testing-library/preact-hooks';

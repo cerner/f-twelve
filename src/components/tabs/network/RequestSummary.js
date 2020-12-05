@@ -7,12 +7,11 @@ import cn from '../../../utilities/className';
 /**
  * Request summary - A single row in the request list
  */
-export default ({ request, onSelect, selectedRequest }) => {
-
+export default ({ request, onSelect, isSelected }) => {
   const ref = createRef();
 
   useEffect(() => {
-    request === selectedRequest && ref.current.focus();
+    isSelected && ref.current.focus();
   });
 
   const onKeyDown = (event, request) => {
@@ -28,7 +27,7 @@ export default ({ request, onSelect, selectedRequest }) => {
   };
 
   return (
-    <div className={cn(styles.requestSummary, request === selectedRequest && styles.selected)}
+    <div className={cn(styles.requestSummary, isSelected && styles.selected)}
          onClick={(event) => onSelect(event, request)}
          onKeyDown={(event) => onKeyDown(event, request)}
          ref={ref}

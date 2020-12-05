@@ -18,14 +18,15 @@ export default ({ networkData }) => {
     ref.current && (ref.current.style['flex-basis'] = selectedSelected ? '100%' : `${width}px`);
     selectedSelected ? setSelectedRequest(null) : setSelectedRequest(request);
   };
+
   return (
     <div className={styles.network}>
       <div className={styles.list} ref={ref}>
         {networkData
           .sort(request => request.startTime)
-          .map(request => <RequestSummary onSelect={onSelectRequest}
-                                          request={request}
-                                          selectedRequest={selectedRequest}/>)
+          .map(request => <RequestSummary isSelected={request === selectedRequest}
+                                          onSelect={onSelectRequest}
+                                          request={request}/>)
         }
       </div>
       <div>{resizer}</div>

@@ -31,10 +31,10 @@ describe('Network', function() {
   it('should display details and select row on click', async function() {
     const { container } = render(<Network networkData={networkData}/>);
     assert(container.getElementsByClassName('details').length === 0);
-    container.getElementsByClassName('row')[0].click();
+    container.getElementsByClassName('requestSummary')[0].click();
     await update();
     assert(container.getElementsByClassName('details').length === 1);
-    assert(container.getElementsByClassName('row')[0].classList.contains('selected'));
+    assert(container.getElementsByClassName('requestSummary')[0].classList.contains('selected'));
   });
   describe('resizer', function() {
     it('should resize to a minimum of 4px', async function() {
