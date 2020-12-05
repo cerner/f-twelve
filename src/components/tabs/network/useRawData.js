@@ -16,11 +16,6 @@ export default (raw) => {
     reader.readAsText(data);
   }
 
-  // if it's a Document return the HTML
-  if (data && Object.getPrototypeOf(data).constructor.name === 'HTMLDocument') {
-    setData(data.documentElement.outerHTML);
-  }
-
   // Return a string only if we managed to get one
   return typeof data === 'string' ? data : null;
 };

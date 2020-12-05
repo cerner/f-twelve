@@ -93,17 +93,28 @@ describe('Prompt', function() {
   });
 
   describe('#onChange()', function() {
-    it('should reset histoory on change', function() {
-      // TODO: this
-      this.inputBox.dispatchEvent(new Event('change'));
+    before(function() {
+      this.testOnChangeHandler = function(eventType) {
+        this.inputBox.value = "'history1'";
+        this.pressKey('Enter');
+        this.inputBox.value = "'history2'";
+        this.pressKey('Enter');
+        this.inputBox.value = "'history3'";
+        this.pressKey('Enter');
+        this.pressKey('ArrowUp'); // history3
+        this.pressKey('ArrowUp'); // history2
+        this.pressKey('ArrowUp'); // history1
+        this.inputBox.dispatchEvent(new Event(eventType));
+        this.pressKey('ArrowUp'); // history3
+        assert.strictEqual(this.inputBox.value, "'history3'");
+      };
     });
-    it('should reset histoory on input', function() {
-      // TODO: this
-      this.inputBox.dispatchEvent(new Event('change'));
+    it('should reset history pointer to beginning on change', function() {
+      this.testOnChangeHandler('change');
     });
-    it('should reset histoory on paste', function() {
-      // TODO: this
-      this.inputBox.dispatchEvent(new Event('change'));
+    it('should reset history pointer to beginning on input', function() {
+      this.testOnChangeHandler('input');
     });
   });
-});
+})
+;
