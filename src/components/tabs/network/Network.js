@@ -1,5 +1,5 @@
 import { createRef, h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import RequestDetails from './RequestDetails';
 import styles from './Network.module.scss';
 import RequestSummary from './RequestSummary';
@@ -18,6 +18,8 @@ export default ({ networkData }) => {
     ref.current && (ref.current.style['flex-basis'] = selectedSelected ? '100%' : `${width}px`);
     selectedSelected ? setSelectedRequest(null) : setSelectedRequest(request);
   };
+
+  useEffect(() => ref.current && (ref.current.style['flex-basis'] = '100%'), []);
 
   return (
     <div className={styles.network}>

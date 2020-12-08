@@ -49,4 +49,8 @@ import "f-twelve";
 ### Initialization
 Once the JS script is included, no further configuration is required. It will be hidden and waiting for the `F`+`1`+`2` keyboard shortcut. There is also a global `fTwelve` object available with an API.  
 
-See [Demo Page](https://engineering.cerner.com/f-twelve/demo/) for demo and full API. 
+### Demo Page
+The [Demo Page](https://engineering.cerner.com/f-twelve/demo/) demonstrates the tool's functionality and contains the documentation for the API. The following URL can be used to load the demo for any branch (`dist` files must be built and pushed). Replace `BRANCH_NAME` with the desired branch name: 
+```
+https://combinatronics.com/cerner/f-twelve/BRANCH_NAME/demo/index.html
+```
