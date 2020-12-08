@@ -62,7 +62,7 @@ const Data = ({ raw }) => {
   const string = useRawData(raw);
   const parsed = parse(string);
   const [isParsed, toggleParsedButton] = useToggleParsedButton();
-  const value = parsed && isParsed ? <Tree data={parsed}/> : (string && <pre>{string}</pre>);
+  const value = parsed && isParsed ? <Tree data={parsed} withProto={false}/> : (string && <pre>{string}</pre>);
   const toggleButton = parsed && toggleParsedButton;
   return <NameValue child={value} name="Data" value={value ? toggleButton : noneDiv}/>;
 };
