@@ -1,4 +1,7 @@
 :local {
+
+  $light-gray: #91918e;
+
   .domNode {
     margin-left: 4px;
     overflow-x: hidden;
@@ -32,5 +35,80 @@
 
   .parent:hover .copyButton {
     visibility: visible;
+  }
+
+  .caretIcon, .objectType, .size, .preview {
+    cursor: pointer;
+  }
+
+  .objectType, .index {
+    padding-left: 6px;
+  }
+
+  .objectType {
+    color: #444444;
+    font-style: italic;
+    flex: 0 0 auto;
+  }
+
+  .preview {
+    font-style: italic;
+    color: $light-gray;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 2px;
+  }
+
+  .number {
+    color: #1c00cf;
+  }
+
+  .boolean {
+    color: #0d22aa;
+  }
+
+  .string {
+    color: #c41a16;
+  }
+
+  .undefined {
+    color: $light-gray;
+  }
+
+  .function {
+    font-style: italic;
+    color: $light-gray;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .value {
+    max-width: 100%;
+  }
+
+  .caretIcon {
+    width: 6px;
+    text-align: right;
+  }
+
+  .caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    margin-top: 2px;
+  }
+
+  .caretDown {
+    border-width: 6px 5px 0 5px;
+    border-color: #808080 transparent;
+    margin-top: 4px;
+  }
+
+  .caretRight {
+    border-width: 5px 0 5px 6px;
+    border-color: transparent transparent transparent #808080;
   }
 }
