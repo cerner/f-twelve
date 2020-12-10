@@ -1,4 +1,4 @@
-import jsx from '../../utilities/jsx';
+import { h } from 'preact';
 import Node from './Node';
 import getDataType from '../../utilities/getDataType';
 
@@ -13,23 +13,22 @@ import getDataType from '../../utilities/getDataType';
  *   2. DOM Node component (uppercase 'N')
  *      Uses the data tree node to generate HTML elements that represent the tree
  */
-export default ({ data }) => {
-  // Generate a data tree
-  const dataTree = getNode(data);
+export default ({ data, dataTree, withProto = true }) => {
+  // Generate a data tree or use the one provided
+  const node = dataTree || getNode(data, null, withProto);
   // Use the data tree to populate the DOM tree
-  return {
-    dataTree,
-    el: <Node node={dataTree}/>
-  };
+  return <Node node={node}/>;
 };
 
 /**
  * Node that recursively builds a tree that represents JS data
  *   and provides a toJson function that handles circular references
  */
-export const getNode = (value, parent = null) => {
-  const node = { value, parent };
-  node.children = getChildren(node);
+export const getNode = (value, parent = null, withProto = true) => {
+  const node = {};
+  node.value = value;
+  node.parent = parent;
+  node.children = getChildren(node, withProto);
   node.toJson = toJson.bind(null, node);
   node.isObject = typeof value === 'object' && value !== null;
   node.size = node.isObject && (
@@ -45,7 +44,7 @@ export const getNode = (value, parent = null) => {
 /**
  * Retrieve all fields that exist on an object and return an array of their meta info (key, type, node)
  */
-const getChildren = (parent) => {
+const getChildren = (parent, withProto) => {
   // Null would make more sense for non-objects but an empty array is easier to work with
   if (parent.value == null || typeof parent.value !== 'object') return [];
 
@@ -55,7 +54,8 @@ const getChildren = (parent) => {
   const properties = Object.getOwnPropertyNames(parent.value)
     .filter(key => keys.indexOf(key) === -1)
     .map(key => ({ key, type: 'property', }));
-  const children = [...members, ...properties, { key: '__proto__', type: 'property' }]
+  const proto = withProto ? [{ key: '__proto__', type: 'property' }] : [];
+  const children = [...members, ...properties, ...proto]
     .filter(child => canRead(parent.value, child.key));
 
   // Return an array of objects with metadata for each child including the child's node
@@ -67,7 +67,8 @@ const getChildren = (parent) => {
     return {
       key: child.key,
       type: child.type,
-      node: circularAncestor || getNode(value, parent) // End or begin recursion
+      // Provide this `getNode` for anyone to use later
+      getNode: () => circularAncestor || getNode(value, parent, withProto) // End or begin recursion
     };
   });
 };
@@ -95,7 +96,7 @@ const toJson = (node) => {
       const circularAncestor = getCircularAncestor(node, childValue);
       const value = circularAncestor
         ? '"-circular-"' // End recursion
-        : child.node.toJson(); // Begin recursion
+        : child.getNode().toJson(); // Begin recursion
       return Array.isArray(node.value) ? value : `"${child.key}":${value}`;
     }).join(',');
 

@@ -1,11 +1,16 @@
+import { h, render } from 'preact';
 import App from './components/App';
+import xhrHook from './utilities/xhrHook';
+import consoleHook from './utilities/consoleHook';
 
 /**
  * Main F-Twelve API
  */
 
-const app = App({ id: 'f-twelve' });
-const el = app.el;
+// Render the app right away so it is functional even if it's not attached
+const el = document.createElement('div');
+el.id = 'f-twelve';
+render(<App/>, el);
 
 let customOnAttach;
 let customOnDetach;
@@ -19,24 +24,23 @@ const enable = ({ show = true } = {}) => {
     attach();
   }
   enableKeyboardTrigger();
-  app.console.overrideWindowConsole();
-  app.console.overrideWindowOnError();
+  consoleHook.enable();
+  xhrHook.enable();
 };
 
 const disable = () => {
   active = false;
   detach();
   disableKeyboardTrigger();
-  app.console.restoreWindowConsole();
-  app.console.restoreWindowOnError();
+  consoleHook.disable();
+  xhrHook.disable();
 };
 
 const attach = () => {
   if (attached === true || active !== true) {
     return;
   }
-  const body = document.getElementsByTagName('body')[0];
-  body.appendChild(el);
+  document.body.appendChild(el);
   attached = true;
   if (typeof customOnAttach === 'function') {
     customOnAttach();
@@ -47,7 +51,7 @@ const detach = () => {
   if (attached !== true) {
     return;
   }
-  el.parentNode.removeChild(el);
+  document.body.removeChild(el);
   attached = false;
   if (typeof customOnDetach === 'function') {
     customOnDetach();

@@ -9,15 +9,15 @@ const css = fs.readFileSync(path.join(__dirname, '..', 'dist', 'f-twelve.css'), 
 const js = fs.readFileSync(path.join(__dirname, '..', 'dist', 'f-twelve.js'), 'utf8');
 
 const bookmarkletJavaScript = `
+${js.split('\n')[0]}
+if(window.fTwelve){window.fTwelve.disable();}
+var css='${css}';
 var style=document.createElement('style');
 style.setAttribute('type', 'text/css');
-if ('textContent' in style) {
-  style.textContent='${css}';
-} else {
-  style.styleSheet.cssText='${css}';
-}
+'textContent' in style
+  ? style.textContent=css
+  : style.styleSheet.cssText=css;
 document.getElementsByTagName('head')[0].appendChild(style);
-${js.split('\n')[0]}
 fTwelve.show();`
   .replace(/\n/g, '')
   .replace(/"/g, '&quot;');

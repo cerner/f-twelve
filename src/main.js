@@ -2,9 +2,13 @@ import './polyfills/index';
 import { attach, detach, disable, enable, onAttach, onDetach } from './api';
 
 /**
- * Enable F-Twelve and return public API
+ * Initialize F-Twelve
  */
 enable({ show: false });
+
+/**
+ * Expose public API
+ */
 export default Object.freeze({
   enable,
   disable,
