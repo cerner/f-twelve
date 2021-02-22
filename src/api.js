@@ -71,7 +71,7 @@ const disableKeyboardTrigger = () => {
 
 const onKeyDown = (event) => {
   keyDownStack += event.key;
-  if (event.key === 'F12' || keyDownStack.toUpperCase() !== 'F12') {
+  if ((event.ctrl && event.key === 'F12') || keyDownStack.toUpperCase() !== 'CONTROLF12') {
     return;
   }
   if (attached) {

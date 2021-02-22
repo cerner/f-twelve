@@ -82,17 +82,15 @@ describe('api', function() {
       dispatchKeyboardEvent('keydown', 'C');
       assert.strictEqual(this.fTwelve.getKeyDownStack(), 'ABC');
     });
-    it('should recognize F12 and attach', function() {
-      dispatchKeyboardEvent('keydown', 'F');
-      dispatchKeyboardEvent('keydown', '1');
-      dispatchKeyboardEvent('keydown', '2');
+    it('should recognize CONTROLF12 and attach', function() {
+      dispatchKeyboardEvent('keydown', 'CONTROL');
+      dispatchKeyboardEvent('keydown', 'F12');
       assert(this.fTwelveAttached());
     });
-    it('should recognize F12 and detach', function() {
+    it('should recognize CONTROLF12 and detach', function() {
       this.fTwelve.attach();
-      dispatchKeyboardEvent('keydown', 'F');
-      dispatchKeyboardEvent('keydown', '1');
-      dispatchKeyboardEvent('keydown', '2');
+      dispatchKeyboardEvent('keydown', 'CONTROL');
+      dispatchKeyboardEvent('keydown', 'F12');
       assert(!this.fTwelveAttached());
     });
     it('should not attach on keypress of single F12 key', function() {
