@@ -22,7 +22,7 @@ In-DOM dev tools for troubleshooting environments that do not have the usual F12
 npm install f-twelve --save-dev
 ```
 
-Include `dist/f-twelve.js`. and `dist/f-twelve.css` in your web application. To view the tool, press and hold `F`+`1`+`2` in that order (similar to Windows' `ctrl`+`alt`+`delete`) or call `fTwelve.show()` . A demo page with examples of the API can be found in `demo/index.html`. See it live at [https://engineering.cerner.com/f-twelve/demo/](https://engineering.cerner.com/f-twelve/demo/).
+Include `dist/f-twelve.js`. and `dist/f-twelve.css` in your web application. To view the tool, press `Ctrl`+`F12` or call `fTwelve.show()`. A demo page with examples of the API can be found in `demo/index.html`. See it live at [https://engineering.cerner.com/f-twelve/demo/](https://engineering.cerner.com/f-twelve/demo/).
 
 The tool can be enabled via [ES6 Import](#es6-import) or [HTML Tag](#html-tag):
 
@@ -47,7 +47,7 @@ import "f-twelve";
 ```
 
 ### Initialization
-Once the JS script is included, no further configuration is required. It will be hidden and waiting for the `F`+`1`+`2` keyboard shortcut. There is also a global `fTwelve` object available with an API.  
+Once the JS script is included, no further configuration is required. It will be hidden and waiting for the `Ctrl`+`F12` keyboard shortcut. There is also a global `fTwelve` object available with an API.  
 
 ### Demo Page
 The [Demo Page](https://engineering.cerner.com/f-twelve/demo/) demonstrates the tool's functionality and contains the documentation for the API. The following URL can be used to load the demo for any branch (`dist` files must be built and pushed). Replace `BRANCH_NAME` with the desired branch name: 
