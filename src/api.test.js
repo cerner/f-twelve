@@ -95,6 +95,17 @@ describe('api', function() {
       dispatchKeyboardEvent('keydown', '2');
       assert(!this.fTwelveAttached());
     });
+    it('should recognize CONTROLF12 and attach', function() {
+      dispatchKeyboardEvent('keydown', 'CONTROL');
+      dispatchKeyboardEvent('keydown', 'F12');
+      assert(this.fTwelveAttached());
+    });
+    it('should recognize CONTROLF12 and detach', function() {
+      this.fTwelve.attach();
+      dispatchKeyboardEvent('keydown', 'CONTROL');
+      dispatchKeyboardEvent('keydown', 'F12');
+      assert(!this.fTwelveAttached());
+    });
     it('should not attach on keypress of single F12 key', function() {
       dispatchKeyboardEvent('keydown', 'F12');
       assert(!this.fTwelveAttached());
