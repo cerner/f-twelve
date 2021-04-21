@@ -77,7 +77,7 @@
     "node-forge": ">=0.10.0",
     "node-sass": "^4.14.1",
     "nyc": "^14.1.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
     "sass-loader": "^8.0.2",
     "serialize-javascript": ">=3.1.0",
     "style-loader": "^0.23.1",
@@ -85,7 +85,7 @@
     "test-console": "^1.1.0",
     "webpack": "^4.12.2",
     "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.7",
+    "webpack-dev-server": "^3.11.2",
     "yargs-parser": ">=13.1.2"
   },
   "dependencies": {
