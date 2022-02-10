@@ -75,7 +75,7 @@
     "mocha": "^6.1.4",
     "mock-css-modules": "^1.0.0",
     "node-forge": ">=0.10.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "nyc": "^14.1.1",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "sass-loader": "^8.0.2",
