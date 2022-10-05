@@ -12,9 +12,6 @@
   "globals": {
     "__dirname": true
   },
-  "extends": [
-    "standard"
-  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
