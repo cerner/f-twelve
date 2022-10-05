@@ -7,7 +7,7 @@ import consoleHook from './utilities/consoleHook';
  * Main F-Twelve API
  */
 
-// Render the app right away so it is functional even if it's not attached
+// Render the app right away, so it is functional even if it's not attached
 const el = document.createElement('div');
 el.id = 'f-twelve';
 render(<App/>, el);
